@@ -51,6 +51,26 @@
 
     .container { width: min(1120px, 92%); margin: auto; }
 
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      background: #000;
+      color: var(--gold-light);
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transform: translateY(-120%);
+      transition: transform 0.18s ease;
+      z-index: 1200;
+    }
+    .skip-link:focus { transform: translateY(0); outline: none; }
+
+    /* Focus-visible styles for accessibility */
+    :focus { outline: none; }
+    a:focus-visible, button:focus-visible { outline: 3px solid rgba(245,215,110,0.22); box-shadow: 0 0 0 4px rgba(245,215,110,0.08); border-radius: 8px; }
+
     /* HEADER */
     header {
       position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
@@ -196,6 +216,8 @@
 
 <body>
 
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <!-- HEADER -->
   <header>
     <div class="container nav">
@@ -218,7 +240,7 @@
   </header>
 
   <!-- HERO -->
-  <main>
+  <main id="main-content">
     <section class="hero" id="home">
       <div class="container">
         <div class="hero-content">
@@ -252,7 +274,7 @@
           <div class="group-title">
             <div>
               <div class="status-title">
-                <span class="status-dot"></span>
+                <span class="status-dot" aria-hidden="true"></span>
                 <h3>Closed Testing</h3>
               </div>
             </div>
@@ -264,14 +286,14 @@
             <!-- SWIFT SLIDER Z -->
             <article class="app-card">
               <div class="app-top">
-                <div class="app-icon">S</div>
+                <div class="app-icon" aria-hidden="true">S</div>
                 <div class="app-info">
                   <h4>Swift Slider Z</h4>
                   <div class="package">com.swiftsliderz</div>
                 </div>
               </div>
 
-              <span class="status closed">CLOSED TESTING</span>
+              <span class="status closed" role="status" aria-label="Closed testing">CLOSED TESTING</span>
 
               <p>Swift Slider Z is currently available through our Google Play closed testing program.</p>
 
@@ -284,14 +306,14 @@
             <!-- CHATSTASH -->
             <article class="app-card">
               <div class="app-top">
-                <div class="app-icon">C</div>
+                <div class="app-icon" aria-hidden="true">C</div>
                 <div class="app-info">
                   <h4>ChatStash Status Vault</h4>
                   <div class="package">com.xtremeagapps.statusvault</div>
                 </div>
               </div>
 
-              <span class="status closed">CLOSED TESTING</span>
+              <span class="status closed" role="status" aria-label="Closed testing">CLOSED TESTING</span>
 
               <p>ChatStash Status Vault is currently available through our Google Play closed testing program.</p>
 
@@ -308,7 +330,7 @@
           <div class="group-title">
             <div>
               <div class="status-title">
-                <span class="status-dot dev"></span>
+                <span class="status-dot dev" aria-hidden="true"></span>
                 <h3>In Development</h3>
               </div>
             </div>
@@ -319,14 +341,14 @@
 
             <article class="app-card">
               <div class="app-top">
-                <div class="app-icon">A</div>
+                <div class="app-icon" aria-hidden="true">A</div>
                 <div class="app-info">
                   <h4>Arrow Path Master</h4>
                   <div class="package">com.aggames.arrowpath...</div>
                 </div>
               </div>
 
-              <span class="status development">IN DEVELOPMENT</span>
+              <span class="status development" aria-label="In development">IN DEVELOPMENT</span>
 
               <p>An upcoming application currently under active development. More information will be available as development progresses.</p>
 
@@ -337,14 +359,14 @@
 
             <article class="app-card">
               <div class="app-top">
-                <div class="app-icon">M</div>
+                <div class="app-icon" aria-hidden="true">M</div>
                 <div class="app-info">
                   <h4>Math X</h4>
                   <div class="package">com.aggames.mathx...</div>
                 </div>
               </div>
 
-              <span class="status development">IN DEVELOPMENT</span>
+              <span class="status development" aria-label="In development">IN DEVELOPMENT</span>
 
               <p>An upcoming application currently under active development. More information will be available as development progresses.</p>
 
