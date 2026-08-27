@@ -4,12 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Xtreme AG Apps | Innovative Mobile Apps</title>
+  <title>Xtreme AG Apps | Innovative Mobile Applications</title>
 
-  <meta
-    name="description"
-    content="Xtreme AG Apps creates innovative, useful and user-focused mobile applications. Explore our apps, join closed testing and discover what's coming next."
-  >
+  <meta name="description" content="Xtreme AG Apps creates innovative, useful and user-focused mobile applications. Explore our apps and join our Google Play closed testing program.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://xtremeagapps.in/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Xtreme AG Apps | Innovative Mobile Applications">
+  <meta property="og:description" content="Xtreme AG Apps creates innovative, useful and user-focused mobile applications. Explore our apps and join our Google Play closed testing program.">
+  <meta property="og:url" content="https://xtremeagapps.in/">
+  <meta property="og:type" content="website">
 
   <meta name="theme-color" content="#000000">
 
@@ -29,15 +34,9 @@
       --blue: #65a8ff;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--black);
@@ -47,619 +46,149 @@
       overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; }
 
-    button {
-      font-family: inherit;
-    }
-
-    .container {
-      width: min(1120px, 92%);
-      margin: auto;
-    }
+    .container { width: min(1120px, 92%); margin: auto; }
 
     /* HEADER */
-
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.90);
-      backdrop-filter: blur(14px);
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      background: rgba(0,0,0,0.90); backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
 
-    .nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
+    .nav { min-height: 72px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 19px;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-    }
+    .logo { display:flex; align-items:center; gap:10px; font-size:19px; font-weight:800; letter-spacing:0.3px; }
+    .logo-mark { width:38px; height:38px; border:2px solid var(--gold); border-radius:10px; display:grid; place-items:center; color:var(--gold-light); font-weight:900; box-shadow:0 0 20px rgba(212,175,55,0.16); }
+    .logo span { color:var(--gold-light); }
 
-    .logo-mark {
-      width: 38px;
-      height: 38px;
-      border: 2px solid var(--gold);
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      color: var(--gold-light);
-      font-weight: 900;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.16);
-    }
+    nav { display:flex; align-items:center; gap:28px; }
+    nav a { color:#cccccc; font-size:14px; transition:0.25s ease; }
+    nav a:hover { color:var(--gold-light); }
 
-    .logo span {
-      color: var(--gold-light);
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-
-    nav a {
-      color: #cccccc;
-      font-size: 14px;
-      transition: 0.25s ease;
-    }
-
-    nav a:hover {
-      color: var(--gold-light);
-    }
-
-    .menu-btn {
-      display: none;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: white;
-      padding: 8px 11px;
-      border-radius: 8px;
-      font-size: 20px;
-      cursor: pointer;
-    }
+    .menu-btn { display:none; background:transparent; border:1px solid var(--border); color:white; padding:8px 11px; border-radius:8px; font-size:20px; cursor:pointer; }
 
     /* HERO */
+    .hero { min-height:100vh; display:flex; align-items:center; position:relative; padding:130px 0 80px; background: radial-gradient(circle at 50% 35%, rgba(212,175,55,0.12), transparent 34%), #000000; }
 
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      position: relative;
-      padding: 130px 0 80px;
+    .hero-content { max-width:850px; margin:auto; text-align:center; }
+    .badge { display:inline-block; padding:7px 16px; border:1px solid var(--border); border-radius:50px; color:var(--gold-light); background:rgba(212,175,55,0.05); font-size:13px; margin-bottom:25px; }
 
-      background:
-        radial-gradient(
-          circle at 50% 35%,
-          rgba(212, 175, 55, 0.12),
-          transparent 34%
-        ),
-        #000000;
-    }
+    .hero h1 { font-size:clamp(45px,8vw,84px); line-height:1.04; font-weight:900; letter-spacing:-3px; margin-bottom:24px; }
+    .hero h1 span { color:var(--gold-light); text-shadow:0 0 40px rgba(212,175,55,0.22); }
 
-    .hero-content {
-      max-width: 850px;
-      margin: auto;
-      text-align: center;
-    }
+    .hero p { max-width:680px; margin:auto; color:var(--gray); font-size:18px; }
 
-    .badge {
-      display: inline-block;
-      padding: 7px 16px;
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      color: var(--gold-light);
-      background: rgba(212, 175, 55, 0.05);
-      font-size: 13px;
-      margin-bottom: 25px;
-    }
+    .hero-buttons { margin-top:36px; display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
 
-    .hero h1 {
-      font-size: clamp(45px, 8vw, 84px);
-      line-height: 1.04;
-      font-weight: 900;
-      letter-spacing: -3px;
-      margin-bottom: 24px;
-    }
-
-    .hero h1 span {
-      color: var(--gold-light);
-      text-shadow: 0 0 40px rgba(212, 175, 55, 0.22);
-    }
-
-    .hero p {
-      max-width: 680px;
-      margin: auto;
-      color: var(--gray);
-      font-size: 18px;
-    }
-
-    .hero-buttons {
-      margin-top: 36px;
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0 24px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      transition: 0.25s ease;
-    }
-
-    .btn-primary {
-      background: var(--gold);
-      color: #000000;
-      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.16);
-    }
-
-    .btn-primary:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      border: 1px solid var(--border);
-      color: white;
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold-light);
-      transform: translateY(-2px);
-    }
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 24px; border-radius:10px; font-weight:700; font-size:14px; transition:0.25s ease; }
+    .btn-primary { background:var(--gold); color:#000000; box-shadow:0 8px 30px rgba(212,175,55,0.16); }
+    .btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
+    .btn-outline { border:1px solid var(--border); color:white; background:rgba(255,255,255,0.02); }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold-light); transform:translateY(-2px); }
 
     /* GENERAL SECTIONS */
-
-    section {
-      padding: 100px 0;
-    }
-
-    .section-heading {
-      text-align: center;
-      margin-bottom: 55px;
-    }
-
-    .section-heading .small {
-      color: var(--gold);
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-    }
-
-    .section-heading h2 {
-      font-size: clamp(30px, 5vw, 46px);
-      margin-bottom: 12px;
-    }
-
-    .section-heading p {
-      color: var(--gray);
-      max-width: 680px;
-      margin: auto;
-    }
+    section { padding:100px 0; }
+    .section-heading { text-align:center; margin-bottom:55px; }
+    .section-heading .small { color:var(--gold); text-transform:uppercase; font-size:12px; font-weight:800; letter-spacing:2px; margin-bottom:10px; }
+    .section-heading h2 { font-size:clamp(30px,5vw,46px); margin-bottom:12px; }
+    .section-heading p { color:var(--gray); max-width:680px; margin:auto; }
 
     /* APPS */
+    .apps { background:var(--surface); }
+    .app-group { margin-bottom:60px; }
+    .group-title { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:20px; flex-wrap:wrap; }
+    .group-title h3 { font-size:24px; }
+    .group-title p { color:var(--gray); font-size:13px; }
 
-    .apps {
-      background: var(--surface);
-    }
+    .status-title { display:inline-flex; align-items:center; gap:8px; }
+    .status-dot { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 12px rgba(99,214,154,0.55); }
+    .status-dot.dev { background:var(--gold); box-shadow:0 0 12px rgba(212,175,55,0.55); }
 
-    .app-group {
-      margin-bottom: 60px;
-    }
+    .app-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
 
-    .app-group:last-child {
-      margin-bottom: 0;
-    }
+    .app-card { padding:28px; background:#030303; border:1px solid var(--border); border-radius:20px; transition:0.3s ease; position:relative; overflow:hidden; }
+    .app-card::before { content:""; position:absolute; width:180px; height:180px; top:-100px; right:-100px; background:rgba(212,175,55,0.07); border-radius:50%; filter:blur(25px); }
+    .app-card:hover { transform:translateY(-5px); border-color:rgba(212,175,55,0.48); box-shadow:0 18px 50px rgba(0,0,0,0.55); }
 
-    .group-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
+    .app-top { display:flex; align-items:flex-start; gap:17px; margin-bottom:20px; }
+    .app-icon { width:70px; height:70px; min-width:70px; border-radius:17px; border:1px solid var(--border); display:grid; place-items:center; color:var(--gold-light); font-size:28px; font-weight:900; background: linear-gradient(145deg, rgba(212,175,55,0.13), rgba(255,255,255,0.02)); }
+    .app-info { flex:1; }
+    .app-info h4 { font-size:20px; margin-bottom:5px; }
+    .package { color:#777777; font-size:11px; word-break:break-all; }
 
-    .group-title h3 {
-      font-size: 24px;
-    }
+    .status { display:inline-flex; padding:5px 10px; border-radius:50px; font-size:11px; font-weight:800; margin-bottom:15px; letter-spacing:0.3px; }
+    .status.testing { color:var(--green); border:1px solid rgba(99,214,154,0.25); background:rgba(99,214,154,0.07); }
+    .status.development { color:var(--gold-light); border:1px solid var(--border); background:rgba(212,175,55,0.07); }
+    /* Closed testing badge - gold outlined */
+    .status.closed { color:var(--gold-light); border:1px solid var(--gold); background:rgba(212,175,55,0.03); }
 
-    .group-title p {
-      color: var(--gray);
-      font-size: 13px;
-    }
-
-    .status-title {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .status-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 12px rgba(99, 214, 154, 0.55);
-    }
-
-    .status-dot.dev {
-      background: var(--gold);
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.55);
-    }
-
-    .app-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .app-card {
-      padding: 28px;
-      background: #030303;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      transition: 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .app-card::before {
-      content: "";
-      position: absolute;
-      width: 180px;
-      height: 180px;
-      top: -100px;
-      right: -100px;
-      background: rgba(212, 175, 55, 0.07);
-      border-radius: 50%;
-      filter: blur(25px);
-    }
-
-    .app-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(212, 175, 55, 0.48);
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
-    }
-
-    .app-top {
-      display: flex;
-      align-items: flex-start;
-      gap: 17px;
-      margin-bottom: 20px;
-    }
-
-    .app-icon {
-      width: 70px;
-      height: 70px;
-      min-width: 70px;
-      border-radius: 17px;
-      border: 1px solid var(--border);
-      display: grid;
-      place-items: center;
-      color: var(--gold-light);
-      font-size: 28px;
-      font-weight: 900;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(212, 175, 55, 0.13),
-          rgba(255, 255, 255, 0.02)
-        );
-    }
-
-    .app-info {
-      flex: 1;
-    }
-
-    .app-info h4 {
-      font-size: 20px;
-      margin-bottom: 5px;
-    }
-
-    .package {
-      color: #777777;
-      font-size: 11px;
-      word-break: break-all;
-    }
-
-    .status {
-      display: inline-flex;
-      padding: 5px 10px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 800;
-      margin-bottom: 15px;
-      letter-spacing: 0.3px;
-    }
-
-    .status.testing {
-      color: var(--green);
-      border: 1px solid rgba(99, 214, 154, 0.25);
-      background: rgba(99, 214, 154, 0.07);
-    }
-
-    .status.development {
-      color: var(--gold-light);
-      border: 1px solid var(--border);
-      background: rgba(212, 175, 55, 0.07);
-    }
-
-    .app-card p {
-      color: var(--gray);
-      font-size: 14px;
-      margin-bottom: 22px;
-    }
-
-    .app-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .small-btn {
-      min-height: 40px;
-      padding: 0 16px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .small-btn.gold {
-      background: var(--gold);
-      color: #000000;
-    }
-
-    .small-btn.dark {
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #dddddd;
-    }
-
-    .small-btn.dark:hover {
-      border-color: var(--gold);
-      color: var(--gold-light);
-    }
+    .app-card p { color:var(--gray); font-size:14px; margin-bottom:22px; }
+    .app-actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .small-btn { min-height:40px; padding:0 16px; border-radius:8px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; }
+    .small-btn.gold { background:var(--gold); color:#000000; }
+    .small-btn.dark { border:1px solid rgba(255,255,255,0.12); color:#dddddd; }
+    .small-btn.dark:hover { border-color:var(--gold); color:var(--gold-light); }
 
     /* ABOUT */
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+    .about h2 { font-size:clamp(30px,5vw,46px); margin-bottom:20px; }
+    .about h2 span { color:var(--gold-light); }
+    .about p { color:var(--gray); margin-bottom:16px; }
 
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .about h2 {
-      font-size: clamp(30px, 5vw, 46px);
-      margin-bottom: 20px;
-    }
-
-    .about h2 span {
-      color: var(--gold-light);
-    }
-
-    .about p {
-      color: var(--gray);
-      margin-bottom: 16px;
-    }
-
-    .feature-list {
-      display: grid;
-      gap: 15px;
-    }
-
-    .feature {
-      padding: 19px;
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      background: var(--surface);
-    }
-
-    .feature strong {
-      display: block;
-      color: var(--gold-light);
-      margin-bottom: 4px;
-    }
-
-    .feature span {
-      color: var(--gray);
-      font-size: 14px;
-    }
+    .feature-list { display:grid; gap:15px; }
+    .feature { padding:19px; border:1px solid var(--border); border-radius:13px; background:var(--surface); }
+    .feature strong { display:block; color:var(--gold-light); margin-bottom:4px; }
+    .feature span { color:var(--gray); font-size:14px; }
 
     /* TESTER */
+    .tester { background: radial-gradient(circle at 50% 50%, rgba(212,175,55,0.09), transparent 42%), var(--surface); }
+    .tester-box { max-width:1100px; margin:auto; padding:50px; border:1px solid var(--border); border-radius:24px; background:#030303; }
+    .tester-inner { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+    .tester-card { padding:20px; border:1px solid var(--border); border-radius:16px; background:#050505; }
+    .tester-card h3 { margin-bottom:8px; color:var(--gold-light); }
+    .tester-card p { color:var(--gray); font-size:14px; margin-bottom:14px; }
+    .tester-card .btn { min-width:220px; }
 
-    .tester {
-      background:
-        radial-gradient(
-          circle at 50% 50%,
-          rgba(212, 175, 55, 0.09),
-          transparent 42%
-        ),
-        var(--surface);
-    }
-
-    .tester-box {
-      max-width: 850px;
-      margin: auto;
-      text-align: center;
-      padding: 65px 30px;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      background: #030303;
-    }
-
-    .tester-box h2 {
-      font-size: clamp(30px, 5vw, 48px);
-      margin-bottom: 15px;
-    }
-
-    .tester-box h2 span {
-      color: var(--gold-light);
-    }
-
-    .tester-box p {
-      max-width: 650px;
-      margin: 0 auto 28px;
-      color: var(--gray);
-    }
+    .tester-steps { margin-top:28px; text-align:left; color:var(--gray); }
+    .tester-steps ol { margin-left:18px; }
+    .tester-note { margin-top:12px; color:var(--gray); font-size:13px; }
 
     /* SUPPORT */
-
-    .support {
-      text-align: center;
-    }
-
-    .support-content {
-      max-width: 700px;
-      margin: auto;
-    }
-
-    .support-content p {
-      color: var(--gray);
-      margin-bottom: 25px;
-    }
+    .support { text-align:center; }
+    .support-content { max-width:700px; margin:auto; }
+    .support-content p { color:var(--gray); margin-bottom:25px; }
 
     /* FOOTER */
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 45px 0 25px;
-      background: #000000;
-    }
-
-    .footer-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 30px;
-      flex-wrap: wrap;
-      margin-bottom: 35px;
-    }
-
-    .footer-brand {
-      max-width: 360px;
-    }
-
-    .footer-brand p {
-      color: var(--gray);
-      font-size: 14px;
-      margin-top: 12px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 22px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .footer-links a {
-      color: #999999;
-      font-size: 13px;
-    }
-
-    .footer-links a:hover {
-      color: var(--gold-light);
-    }
-
-    .copyright {
-      padding-top: 22px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      text-align: center;
-      color: #555555;
-      font-size: 12px;
-    }
+    footer { border-top:1px solid var(--border); padding:45px 0 25px; background:#000000; }
+    .footer-top { display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; margin-bottom:35px; }
+    .footer-brand { max-width:360px; }
+    .footer-brand p { color:var(--gray); font-size:14px; margin-top:12px; }
+    .footer-links { display:flex; gap:22px; flex-wrap:wrap; align-items:center; }
+    .footer-links a { color:#999999; font-size:13px; }
+    .footer-links a:hover { color:var(--gold-light); }
+    .copyright { padding-top:22px; border-top:1px solid rgba(255,255,255,0.06); text-align:center; color:#555555; font-size:12px; }
 
     /* MOBILE */
-
     @media (max-width: 800px) {
-
-      nav {
-        display: none;
-        position: absolute;
-        top: 72px;
-        left: 0;
-        width: 100%;
-        padding: 20px;
-        flex-direction: column;
-        align-items: flex-start;
-        background: #050505;
-        border-bottom: 1px solid var(--border);
-      }
-
-      nav.active {
-        display: flex;
-      }
-
-      .menu-btn {
-        display: block;
-      }
-
-      .app-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 35px;
-      }
-
-      section {
-        padding: 75px 0;
-      }
-
-      .hero {
-        padding-top: 120px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .hero h1 {
-        letter-spacing: -2px;
-      }
-
-      .footer-top {
-        flex-direction: column;
-      }
-
-      .group-title {
-        align-items: flex-start;
-      }
-
-      .app-card {
-        padding: 23px;
-      }
-
+      nav { display:none; position:absolute; top:72px; left:0; width:100%; padding:20px; flex-direction:column; align-items:flex-start; background:#050505; border-bottom:1px solid var(--border); }
+      nav.active { display:flex; }
+      .menu-btn { display:block; }
+      .app-grid { grid-template-columns:1fr; }
+      .about-grid { grid-template-columns:1fr; gap:35px; }
+      section { padding:75px 0; }
+      .hero { padding-top:120px; }
+      .hero p { font-size:16px; }
+      .hero h1 { letter-spacing:-2px; }
+      .footer-top { flex-direction:column; }
+      .group-title { align-items:flex-start; }
+      .app-card { padding:23px; }
+      .tester-box { padding:28px; }
+      .tester-inner { grid-template-columns:1fr; }
+      .hero-buttons { flex-direction:column; gap:12px; }
+      .hero-buttons .btn { width:100%; min-width:0; }
     }
 
   </style>
@@ -668,524 +197,301 @@
 <body>
 
   <!-- HEADER -->
-
   <header>
-
     <div class="container nav">
-
-      <a href="#home" class="logo">
-        <div class="logo-mark">X</div>
+      <a href="#home" class="logo" aria-label="Xtreme AG Apps home">
+        <div class="logo-mark" aria-hidden="true">X</div>
         <div>Xtreme <span>AG Apps</span></div>
       </a>
 
-      <button
-        class="menu-btn"
-        onclick="toggleMenu()"
-        aria-label="Open menu"
-      >
-        ☰
-      </button>
+      <button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-expanded="false" aria-controls="navigation" aria-label="Open menu">☰</button>
 
       <nav id="navigation">
-
         <a href="#home" onclick="closeMenu()">Home</a>
-
         <a href="#apps" onclick="closeMenu()">Apps</a>
-
         <a href="#about" onclick="closeMenu()">About</a>
-
-        <a href="#tester" onclick="closeMenu()">
-          Become a Tester
-        </a>
-
+        <a href="#tester" onclick="closeMenu()">Become a Tester</a>
         <a href="#support" onclick="closeMenu()">Support</a>
-
       </nav>
 
     </div>
-
   </header>
 
-
   <!-- HERO -->
-
   <main>
-
     <section class="hero" id="home">
-
       <div class="container">
-
         <div class="hero-content">
 
-          <div class="badge">
-            Technology • Innovation • Apps
-          </div>
+          <div class="badge">Technology • Innovation • Apps</div>
 
-          <h1>
-            We Build <span>Apps</span><br>
-            That Matter.
-          </h1>
+          <h1>We Build <span>Apps</span><br>That Matter.</h1>
 
-          <p>
-            Xtreme AG Apps creates innovative, useful and
-            user-focused applications designed to make everyday
-            digital experiences better.
-          </p>
+          <p>Xtreme AG Apps creates innovative, useful and user-focused applications designed to make everyday digital experiences better.</p>
 
           <div class="hero-buttons">
-
-            <a href="#apps" class="btn btn-primary">
-              Explore Our Apps
-            </a>
-
-            <a href="https://play.google.com/apps/testing/com.swiftsliderz"
-   class="btn btn-primary"
-   target="_blank">
-  Test Swift Slider Z
-</a>
-
-<a href="https://play.google.com/apps/testing/com.xtremeagapps.statusvault"
-   class="btn btn-outline"
-   target="_blank">
-  Test ChatStash Status Vault
-</a>
-
+            <a href="#apps" class="btn btn-primary" aria-label="Explore Our Apps">Explore Our Apps</a>
+            <a href="#tester" class="btn btn-outline" aria-label="Become a Tester">Become a Tester</a>
           </div>
 
         </div>
-
       </div>
-
     </section>
-
 
     <!-- APPS -->
-
     <section class="apps" id="apps">
-
       <div class="container">
-
         <div class="section-heading">
-
           <div class="small">Our Products</div>
-
           <h2>Our Apps</h2>
-
-          <p>
-            Explore apps currently being tested and products
-            currently under development at Xtreme AG Apps.
-          </p>
-
+          <p>Explore apps currently being tested and products currently under development at Xtreme AG Apps.</p>
         </div>
-
 
         <!-- CLOSED TESTING -->
-
         <div class="app-group">
-
           <div class="group-title">
-
             <div>
-
               <div class="status-title">
-
                 <span class="status-dot"></span>
-
                 <h3>Closed Testing</h3>
-
               </div>
-
             </div>
-
-            <p>
-              Early access apps currently being tested.
-            </p>
-
+            <p>Early access apps currently being tested.</p>
           </div>
-
 
           <div class="app-grid">
 
+            <!-- SWIFT SLIDER Z -->
+            <article class="app-card">
+              <div class="app-top">
+                <div class="app-icon">S</div>
+                <div class="app-info">
+                  <h4>Swift Slider Z</h4>
+                  <div class="package">com.swiftsliderz</div>
+                </div>
+              </div>
+
+              <span class="status closed">CLOSED TESTING</span>
+
+              <p>Swift Slider Z is currently available through our Google Play closed testing program.</p>
+
+              <div class="app-actions">
+                <a class="small-btn gold" href="https://play.google.com/apps/testing/com.swiftsliderz" target="_blank" rel="noopener noreferrer">Join Testing</a>
+                <a class="small-btn dark" href="https://play.google.com/apps/testing/com.swiftsliderz" target="_blank" rel="noopener noreferrer">View on Google Play</a>
+              </div>
+            </article>
 
             <!-- CHATSTASH -->
-
             <article class="app-card">
-
               <div class="app-top">
-
-                <div class="app-icon">
-                  C
-                </div>
-
+                <div class="app-icon">C</div>
                 <div class="app-info">
-
-                  <h4>ChatStash Status Saver</h4>
-
-                  <div class="package">
-                    com.xtremeagapps.status...
-                  </div>
-
+                  <h4>ChatStash Status Vault</h4>
+                  <div class="package">com.xtremeagapps.statusvault</div>
                 </div>
-
               </div>
 
-              <span class="status testing">
-                CLOSED TESTING
-              </span>
+              <span class="status closed">CLOSED TESTING</span>
 
-              <p>
-                A useful application currently being improved
-                through closed testing. Join the testing program
-                to get early access and help us improve the app.
-              </p>
+              <p>ChatStash Status Vault is currently available through our Google Play closed testing program.</p>
 
               <div class="app-actions">
-
-                <a
-                  href="#tester"
-                  class="small-btn gold"
-                >
-                  Join Testing
-                </a>
-
-                <a
-                  href="#support"
-                  class="small-btn dark"
-                >
-                  Support
-                </a>
-
+                <a class="small-btn gold" href="https://play.google.com/apps/testing/com.xtremeagapps.statusvault" target="_blank" rel="noopener noreferrer">Join Testing</a>
               </div>
-
             </article>
-
-
-            <!-- SWIFT SLIDER -->
-
-            <article class="app-card">
-
-              <div class="app-top">
-
-                <div class="app-icon">
-                  S
-                </div>
-
-                <div class="app-info">
-
-                  <h4>Swift Slider Z</h4>
-
-                  <div class="package">
-                    com.swiftsliderz
-                  </div>
-
-                </div>
-
-              </div>
-
-              <span class="status testing">
-                CLOSED TESTING
-              </span>
-
-              <p>
-                A fast and engaging mobile application currently
-                available through our closed testing program.
-                Help us test, improve and refine the experience.
-              </p>
-
-              <div class="app-actions">
-
-                <a
-                  href="#tester"
-                  class="small-btn gold"
-                >
-                  Join Testing
-                </a>
-
-                <a
-                  href="#support"
-                  class="small-btn dark"
-                >
-                  Support
-                </a>
-
-              </div>
-
-            </article>
-
 
           </div>
-
         </div>
 
-
         <!-- DEVELOPMENT -->
-
         <div class="app-group">
-
           <div class="group-title">
-
             <div>
-
               <div class="status-title">
-
                 <span class="status-dot dev"></span>
-
                 <h3>In Development</h3>
+              </div>
+            </div>
+            <p>Upcoming applications currently being developed.</p>
+          </div>
 
+          <div class="app-grid">
+
+            <article class="app-card">
+              <div class="app-top">
+                <div class="app-icon">A</div>
+                <div class="app-info">
+                  <h4>Arrow Path Master</h4>
+                  <div class="package">com.aggames.arrowpath...</div>
+                </div>
+              </div>
+
+              <span class="status development">IN DEVELOPMENT</span>
+
+              <p>An upcoming application currently under active development. More information will be available as development progresses.</p>
+
+              <div class="app-actions">
+                <a href="#support" class="small-btn dark" onclick="closeMenu()">Stay Updated</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-top">
+                <div class="app-icon">M</div>
+                <div class="app-info">
+                  <h4>Math X</h4>
+                  <div class="package">com.aggames.mathx...</div>
+                </div>
+              </div>
+
+              <span class="status development">IN DEVELOPMENT</span>
+
+              <p>An upcoming application currently under active development. More information will be available as development progresses.</p>
+
+              <div class="app-actions">
+                <a href="#support" class="small-btn dark" onclick="closeMenu()">Stay Updated</a>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <h2>Built with <span>Purpose.</span></h2>
+            <p>Xtreme AG Apps is focused on creating applications that are useful, reliable and enjoyable to use.</p>
+            <p>We believe good technology should solve real problems and be accessible to everyone.</p>
+          </div>
+
+          <div>
+            <div class="feature-list">
+              <div class="feature"><strong>Focus on Quality</strong><span>Careful testing and user feedback guide our releases.</span></div>
+              <div class="feature"><strong>User-Centered</strong><span>We design with accessibility and clarity in mind.</span></div>
+              <div class="feature"><strong>Lightweight</strong><span>Small, fast apps that respect device resources.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TESTER SECTION -->
+        <div class="tester" id="tester" style="margin-top:48px;">
+          <div class="tester-box">
+            <div class="section-heading" style="margin-bottom:18px; text-align:center;">
+              <div class="small">Early Access</div>
+              <h2>Become a <span>Tester</span></h2>
+              <p>Join our Google Play closed testing program and help us improve our apps before public release.</p>
+            </div>
+
+            <div class="tester-inner" role="list">
+
+              <div class="tester-card" role="listitem">
+                <h3>Swift Slider Z</h3>
+                <p>Help us test Swift Slider Z and provide feedback before its public release.</p>
+                <a class="btn btn-primary" href="https://play.google.com/apps/testing/com.swiftsliderz" target="_blank" rel="noopener noreferrer">Join Swift Slider Z Testing</a>
+              </div>
+
+              <div class="tester-card" role="listitem">
+                <h3>ChatStash Status Vault</h3>
+                <p>Help us test ChatStash Status Vault and provide feedback before its public release.</p>
+                <a class="btn btn-primary" href="https://play.google.com/apps/testing/com.xtremeagapps.statusvault" target="_blank" rel="noopener noreferrer">Join ChatStash Status Vault Testing</a>
               </div>
 
             </div>
 
-            <p>
-              Upcoming applications currently being developed.
-            </p>
+            <div class="tester-steps">
+              <h4 style="color:var(--gold-light); margin-top:20px;">How to Join the Test</h4>
+              <ol>
+                <li>Send us your Google account email.</li>
+                <li>Wait until your email is added to the closed testing program.</li>
+                <li>Open the testing link above using the same Google account and tap "Join the test."</li>
+              </ol>
+
+              <p class="tester-note"><strong>Important:</strong> Your Google account email must be added to the tester list before you can join the test. Use the same Google account that was added to the tester list.</p>
+
+              <p class="tester-note">If you see a message that the app is unavailable or you are not eligible to test, make sure your Google account has been added to the tester list.</p>
+            </div>
 
           </div>
-
-
-          <div class="app-grid">
-
-
-            <!-- ARROW PATH -->
-
-            <article class="app-card">
-
-              <div class="app-top">
-
-                <div class="app-icon">
-                  A
-                </div>
-
-                <div class="app-info">
-
-                  <h4>Arrow Path Master</h4>
-
-                  <div class="package">
-                    com.aggames.arrowpath...
-                  </div>
-
-                </div>
-
-              </div>
-
-              <span class="status development">
-                IN DEVELOPMENT
-              </span>
-
-              <p>
-                An upcoming application currently under active
-                development. More information will be available
-                as development progresses.
-              </p>
-
-              <div class="app-actions">
-
-                <a
-                  href="#support"
-                  class="small-btn dark"
-                >
-                  Stay Updated
-                </a>
-
-              </div>
-
-            </article>
-
-
-            <!-- MATH X -->
-
-            <article class="app-card">
-
-              <div class="app-top">
-
-                <div class="app-icon">
-                  M
-                </div>
-
-                <div class="app-info">
-
-                  <h4>Math X Core Defense</h4>
-
-                  <div class="package">
-                    com.xtremeagapps.math...
-                  </div>
-
-                </div>
-
-              </div>
-
-              <span class="status development">
-                IN DEVELOPMENT
-              </span>
-
-              <p>
-                An upcoming application being developed by
-                Xtreme AG Apps. Follow us for future testing
-                opportunities and release information.
-              </p>
-
-              <div class="app-actions">
-
-                <a
-                  href="#support"
-                  class="small-btn dark"
-                >
-                  Stay Updated
-                </a>
-
-              </div>
-
-            </article>
-
-
-          </div>
-
         </div>
 
       </div>
-
     </section>
-
-
-    <!-- ABOUT -->
-
-    <section class="about" id="about">
-
-      <div class="container">
-
-        <div class="about-grid">
-
-          <div>
-
-            <h2>
-              Built with <span>Purpose.</span>
-            </h2>
-
-            <p>
-              Xtreme AG Apps is focused on creating applications
-              that are useful, reliable and enjoyable to use.
-            </p>
-
-            <p>
-              We believe good technology should solve real proa        <div class="tester-box">
-
-          <div class="section-heading" style="margin-bottom: 0;">
-
-            <div class="small">Early Access</div>
-
-            <h2>
-              Become a <span>Tester</span>
-            </h2>
-
-            <p>
-              Help us improve our applications before they reach
-              everyone. Join our testing program and get early access
-              to upcoming apps.
-            </p>
-
-            <a href="#" class="btn btn-primary">
-              Become a Tester
-            </a>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
 
     <!-- Support -->
-
     <section class="support" id="support">
-
       <div class="container">
-
         <div class="section-heading">
-
           <div class="small">Need Help?</div>
-
           <h2>Support</h2>
-
-          <p>
-            Have a question, found a problem or want to contact
-            Xtreme AG Apps? Our support section will be available here.
-          </p>
-
+          <p>Have a question, found a problem, or need help with one of our apps? Contact Xtreme AG Apps.</p>
         </div>
 
         <div class="support-content">
-
-          <a href="mailto:support@xtremeagapps.in" class="btn btn-outline">
-            Contact Support
-          </a>
-
+          <p>For testing related issues, please mention the app name and the Google account email used for testing.</p>
+          <a href="mailto:support@xtremeagapps.in" class="btn btn-outline">Contact Support</a>
         </div>
 
       </div>
-
     </section>
 
   </main>
 
-
   <!-- Footer -->
-
   <footer>
-
     <div class="container">
-
       <div class="footer-top">
-
         <div class="footer-brand">
-
-          <a href="#home" class="logo">
-            <div class="logo-mark">X</div>
+          <a href="#home" class="logo" aria-label="Xtreme AG Apps home">
+            <div class="logo-mark" aria-hidden="true">X</div>
             <div>Xtreme <span>AG Apps</span></div>
           </a>
-
-          <p>
-            Building useful, innovative and user-focused applications.
-          </p>
-
+          <p>Building useful, innovative and user-focused applications.</p>
         </div>
 
-
         <div class="footer-links">
-
           <a href="#home">Home</a>
           <a href="#apps">Apps</a>
           <a href="#about">About</a>
-          <a href="#tester">Tester</a>
+          <a href="#tester">Become a Tester</a>
           <a href="#support">Support</a>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms</a>
-
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
         </div>
-
       </div>
 
-
-      <div class="copyright">
-        © 2026 Xtreme AG Apps. All rights reserved.
-      </div>
-
+      <div class="copyright">© 2026 Xtreme AG Apps. All rights reserved.</div>
     </div>
-
   </footer>
 
-
   <script>
-
     function toggleMenu() {
-      document.getElementById("navigation").classList.toggle("active");
+      var nav = document.getElementById('navigation');
+      var btn = document.getElementById('menuBtn');
+      nav.classList.toggle('active');
+      var expanded = nav.classList.contains('active');
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
     }
 
     function closeMenu() {
-      document.getElementById("navigation").classList.remove("active");
+      var nav = document.getElementById('navigation');
+      var btn = document.getElementById('menuBtn');
+      nav.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
     }
 
+    // Close mobile menu when clicking a link (in case JS-driven navigation is used)
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('#navigation a').forEach(function(el) {
+        el.addEventListener('click', function() {
+          closeMenu();
+        });
+      });
+    });
   </script>
 
 </body>
