@@ -1,1 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Xtreme AG Apps | Innovative Apps</title>
+  <meta name="description" content="Xtreme AG Apps creates innovative, useful and user-focused mobile applications. Explore our apps and become a tester.">
+  <meta name="theme-color" content="#000000">
+
+  <style>
+    :root {
+      --black: #000000;
+      --surface: #080808;
+      --surface-2: #101010;
+      --gold: #d4af37;
+      --gold-light: #f4d76a;
+      --white: #ffffff;
+      --gray: #a8a8a8;
+      --border: rgba(212, 175, 55, 0.18);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
+
+    /* Header */
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: var(--gold-light);
+      font-weight: 900;
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.18);
+    }
+
+    .logo span {
+      color: var(--gold-light);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav a {
+      color: #d0d0d0;
+      font-size: 14px;
+      transition: 0.25s ease;
+    }
+
+    nav a:hover {
+      color: var(--gold-light);
+    }
+
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--white);
+      padding: 8px 11px;
+      border-radius: 8px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Hero */
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 130px 0 80px;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(212, 175, 55, 0.11), transparent 32%),
+        #000000;
+    }
+
+    .hero-content {
+      max-width: 820px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 15px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--gold-light);
+      background: rgba(212, 175, 55, 0.05);
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(44px, 8vw, 82px);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+      color: var(--gold-light);
+      text-shadow: 0 0 35px rgba(212, 175, 55, 0.2);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: var(--gray);
+      font-size: 18px;
+    }
+
+    .hero-buttons {
+      margin-top: 34px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #000000;
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.16);
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* Sections */
+
+    section {
+      padding: 100px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 55px;
+    }
+
+    .section-heading .small {
+      color: var(--gold);
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(30px, 5vw, 46px);
+      margin-bottom: 12px;
+    }
+
+    .section-heading p {
+      color: var(--gray);
+      max-width: 650px;
+      margin: auto;
+    }
+
+    /* Apps */
+
+    .apps {
+      background: var(--surface);
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .app-card {
+      padding: 30px;
+      background: #050505;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      transition: 0.3s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212, 175, 55, 0.5);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      color: var(--gold-light);
+      font-size: 26px;
+      margin-bottom: 22px;
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .app-card h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .app-card p {
+      color: var(--gray);
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .app-link {
+      color: var(--gold-light);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* About */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about h2 {
+      font-size: clamp(30px, 5vw, 46px);
+      margin-bottom: 20px;
+    }
+
+    .about h2 span {
+      color: var(--gold-light);
+    }
+
+    .about p {
+      color: var(--gray);
+      margin-bottom: 16px;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .feature {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+    }
+
+    .feature strong {
+      display: block;
+      color: var(--gold-light);
+      margin-bottom: 4px;
+    }
+
+    .feature span {
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    /* Tester */
+
+    .tester {
+      background:
+        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08), transparent 40%),
+        var(--surface);
+    }
+
+    .tester-box {
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+      padding: 65px 30px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: #050505;
+    }
+
+    .tester-box h2 {
+      font-size: clamp(30px, 5vw, 48px);
+      margin-bottom: 15px;
+    }
+
+    .tester-box h2 span {
+      color: var(--gold-light);
+    }
+
+    .tester-box p {
+      max-width: 620px;
+      margin: 0 auto 28px;
+      color: var(--gray);
+    }
+
+    /* Support */
+
+    .support {
+      text-align: center;
+    }
+
+    .support-content {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .support-content p {
+      color: var(--gray);
+      margin-bottom: 25px;
+    }
+
+    /* Footer */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 45px 0 25px;
+      background: #000000;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-bottom: 35px;
+    }
+
+    .footer-brand {
+      max-width: 360px;
+    }
+
+    .footer-brand p {
+      color: var(--gray);
+      font-size: 14px;
+      margin-top: 12px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .footer-links a {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold-light);
+    }
+
+    .copyright {
+      padding-top: 22px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+    }
+
+    /* Mobile */
+
+    @media (max-width: 800px) {
+      nav {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        background: #050505;
+        border-bottom: 1px solid var(--border);
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .app-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+      }
+
+      section {
+        padding: 75px 0;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .footer-top {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+
+  <header>
+    <div class="container nav">
+
+      <a href="#home" class="logo">
+        <div class="logo-mark">X</div>
+        <div>Xtreme <span>AG Apps</span></div>
+      </a>
+
+      <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">
+        ☰
+      </button>
+
+      <nav id="navigation">
+        <a href="#home" onclick="closeMenu()">Home</a>
+        <a href="#apps" onclick="closeMenu()">Apps</a>
+        <a href="#about" onclick="closeMenu()">About</a>
+        <a href="#tester" onclick="closeMenu()">Become a Tester</a>
+        <a href="#support" onclick="closeMenu()">Support</a>
+      </nav>
+
+    </div>
+  </header>
+
+
+  <!-- Hero -->
+
+  <main>
+
+    <section class="hero" id="home">
+
+      <div class="container">
+
+        <div class="hero-content">
+
+          <div class="badge">
+            Technology • Innovation • Apps
+          </div>
+
+          <h1>
+            We Build <span>Apps</span><br>
+            That Matter.
+          </h1>
+
+          <p>
+            Xtreme AG Apps creates innovative, useful and
+            user-focused applications designed to make everyday
+            digital experiences better.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#apps" class="btn btn-primary">
+              Explore Our Apps
+            </a>
+
+            <a href="#tester" class="btn btn-outline">
+              Become a Tester
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Apps -->
+
+    <section class="apps" id="apps">
+
+      <div class="container">
+
+        <div class="section-heading">
+          <div class="small">Our Products</div>
+          <h2>Our Apps</h2>
+          <p>
+            Discover applications developed by Xtreme AG Apps.
+            More innovative products are coming soon.
+          </p>
+        </div>
+
+        <div class="app-grid">
+
+          <div class="app-card">
+
+            <div class="app-icon">
+              X
+            </div>
+
+            <h3>Coming Soon</h3>
+
+            <p>
+              Our first featured application will appear here.
+              Stay connected for upcoming releases.
+            </p>
+
+            <a href="#" class="app-link">
+              Learn More →
+            </a>
+
+          </div>
+
+
+          <div class="app-card">
+
+            <div class="app-icon">
+              ✦
+            </div>
+
+            <h3>More Apps</h3>
+
+            <p>
+              We are working on new applications focused on
+              useful features and better experiences.
+            </p>
+
+            <a href="#tester" class="app-link">
+              Join Testing →
+            </a>
+
+          </div>
+
+
+          <div class="app-card">
+
+            <div class="app-icon">
+              +
+            </div>
+
+            <h3>What's Next?</h3>
+
+            <p>
+              New ideas are always in development at Xtreme AG Apps.
+              Something exciting may be coming next.
+            </p>
+
+            <a href="#support" class="app-link">
+              Stay Connected →
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- About -->
+
+    <section class="about" id="about">
+
+      <div class="container">
+
+        <div class="about-grid">
+
+          <div>
+
+            <h2>
+              Built with <span>Purpose.</span>
+            </h2>
+
+            <p>
+              Xtreme AG Apps is focused on creating applications
+              that are useful, reliable and enjoyable to use.
+            </p>
+
+            <p>
+              We believe good technology should solve real problems
+              while keeping the experience simple.
+            </p>
+
+          </div>
+
+
+          <div class="feature-list">
+
+            <div class="feature">
+              <strong>User Focused</strong>
+              <span>Designed around real user needs and experiences.</span>
+            </div>
+
+            <div class="feature">
+              <strong>Innovation</strong>
+              <span>Exploring new ideas and modern technologies.</span>
+            </div>
+
+            <div class="feature">
+              <strong>Quality</strong>
+              <span>Focused on performance, reliability and usability.</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Tester -->
+
+    <section class="tester" id="tester">
+
+      <div class="container">
+
+        <div class="tester-box">
+
+          <div class="section-heading" style="margin-bottom: 0;">
+
+            <div class="small">Early Access</div>
+
+            <h2>
+              Become a <span>Tester</span>
+            </h2>
+
+            <p>
+              Help us improve our applications before they reach
+              everyone. Join our testing program and get early access
+              to upcoming apps.
+            </p>
+
+            <a href="#" class="btn btn-primary">
+              Become a Tester
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Support -->
+
+    <section class="support" id="support">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <div class="small">Need Help?</div>
+
+          <h2>Support</h2>
+
+          <p>
+            Have a question, found a problem or want to contact
+            Xtreme AG Apps? Our support section will be available here.
+          </p>
+
+        </div>
+
+        <div class="support-content">
+
+          <a href="mailto:support@xtremeagapps.in" class="btn btn-outline">
+            Contact Support
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- Footer -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+
+          <a href="#home" class="logo">
+            <div class="logo-mark">X</div>
+            <div>Xtreme <span>AG Apps</span></div>
+          </a>
+
+          <p>
+            Building useful, innovative and user-focused applications.
+          </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+          <a href="#home">Home</a>
+          <a href="#apps">Apps</a>
+          <a href="#about">About</a>
+          <a href="#tester">Tester</a>
+          <a href="#support">Support</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+
+        </div>
+
+      </div>
+
+
+      <div class="copyright">
+        © 2026 Xtreme AG Apps. All rights reserved.
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    function toggleMenu() {
+      document.getElementById("navigation").classList.toggle("active");
+    }
+
+    function closeMenu() {
+      document.getElementById("navigation").classList.remove("active");
+    }
+
+  </script>
+
+</body>
+</html>
