@@ -216,9 +216,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // Initialize Supabase
-    const SUPABASE_URL = 'https://your-supabase-url.supabase.co';
-    const SUPABASE_ANON_KEY = 'your-supabase-anon-key';
+    const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
 
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     function showError(message) {
