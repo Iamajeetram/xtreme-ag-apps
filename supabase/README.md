@@ -60,3 +60,4 @@ If you are new to Supabase
 
 Contact
 - If you need changes to the schema or policies, update the files in this folder and open a PR for review.
+- For operational questions or to request schema/policy changes, contact: ajeetram3@gmail.com
