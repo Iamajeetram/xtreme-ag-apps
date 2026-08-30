@@ -153,5 +153,8 @@ Additional notes
 - Rate limits & abuse: consider adding server-side rate limiting for attempt creation to prevent abuse.
 - Sensitive data retention & export: document retention periods and export processes. Ensure compliance with local laws (GDPR/India data protection guidance).
 
+Contact
+- For operational questions or to request schema/policy changes, contact: ajeetram3@gmail.com
+
 Reminder
 - This document is a design proposal only; do not apply the policies to a live database until reviewed and tested on a dev instance.
