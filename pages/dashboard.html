@@ -3,20 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Xtreme AG Apps</title>
-  <meta name="description" content="Your Xtreme AG Apps account dashboard.">
+  <title>Complete Your Profile | Xtreme AG Apps</title>
+  <meta name="description" content="Complete your profile to get started with Xtreme AG Apps.">
   <meta name="robots" content="noindex, nofollow">
 
   <style>
     :root {
       --black: #000000;
       --surface: #070707;
-      --surface-2: #0d0d0d;
       --gold: #d4af37;
       --gold-light: #f5d76e;
       --white: #ffffff;
       --gray: #a5a5a5;
+      --gray-dark: #666666;
       --border: rgba(212, 175, 55, 0.20);
+      --error: #ff6b6b;
+      --error-light: #ffe0e0;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,44 +30,45 @@
       color: var(--white);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
-      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
     }
 
     a { color: inherit; text-decoration: none; }
     button { font-family: inherit; }
 
-    .container { width: min(1120px, 92%); margin: auto; }
-
     :focus { outline: none; }
     a:focus-visible, button:focus-visible { outline: 3px solid rgba(245,215,110,0.22); box-shadow: 0 0 0 4px rgba(245,215,110,0.08); border-radius: 8px; }
 
-    /* HEADER */
-    header {
-      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-      background: rgba(0, 0, 0, 0.90); backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-    }
+    .container { width: min(1120px, 92%); margin: auto; }
 
-    .nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
+    .profile-card {
+      max-width: 520px;
+      width: 100%;
+      padding: 48px 32px;
+      background: #030303;
+      border: 1px solid var(--border);
+      border-radius: 20px;
     }
 
     .logo {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-      font-size: 19px;
+      font-size: 20px;
       font-weight: 800;
       letter-spacing: 0.3px;
+      margin-bottom: 32px;
+      text-align: center;
     }
 
     .logo-mark {
-      width: 38px;
-      height: 38px;
+      width: 44px;
+      height: 44px;
       border: 2px solid var(--gold);
       border-radius: 10px;
       display: grid;
@@ -77,158 +80,107 @@
 
     .logo span { color: var(--gold-light); }
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-
-    nav a {
-      color: #cccccc;
-      font-size: 14px;
-      transition: 0.25s ease;
-    }
-
-    nav a:hover {
-      color: var(--gold-light);
-    }
-
-    /* MAIN */
-    main {
-      padding-top: 100px;
-      min-height: 100vh;
-    }
-
-    section { padding: 80px 0; }
-
-    .section-heading {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .section-heading h1 {
-      font-size: clamp(30px, 5vw, 48px);
-      margin-bottom: 15px;
+    .profile-card h1 {
+      font-size: 28px;
+      margin-bottom: 12px;
       font-weight: 900;
-    }
-
-    .section-heading p {
-      color: var(--gray);
-      font-size: 16px;
-    }
-
-    /* PROFILE SECTION */
-    .profile-section { background: var(--surface); }
-
-    .profile-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-
-    .profile-card {
-      padding: 28px;
-      background: #030303;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-    }
-
-    .profile-card h3 {
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--gray);
-      margin-bottom: 8px;
-    }
-
-    .profile-card .value {
-      font-size: 18px;
-      color: var(--white);
-      font-weight: 600;
-      word-break: break-all;
-    }
-
-    .account-status {
-      padding: 20px;
-      background: rgba(99, 214, 154, 0.07);
-      border: 1px solid rgba(99, 214, 154, 0.25);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .status-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(99, 214, 154, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-
-    .status-content h4 {
-      color: #63d69a;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .status-content p {
-      color: var(--gray);
-      font-size: 12px;
-    }
-
-    /* FEATURES SECTION */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      margin-top: 60px;
-    }
-
-    .feature-card {
-      padding: 32px;
-      background: #030303;
-      border: 1px solid var(--border);
-      border-radius: 16px;
       text-align: center;
-      transition: 0.3s ease;
     }
 
-    .feature-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(212, 175, 55, 0.48);
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
-    }
-
-    .feature-icon {
-      font-size: 40px;
-      margin-bottom: 16px;
-    }
-
-    .feature-card h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    .feature-card p {
+    .profile-card .subtitle {
       color: var(--gray);
-      font-size: 13px;
+      font-size: 14px;
+      margin-bottom: 28px;
+      text-align: center;
       line-height: 1.6;
     }
 
-    /* BUTTONS */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      background: #050505;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--white);
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      transition: 0.25s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+    }
+
+    .form-group input::placeholder {
+      color: var(--gray-dark);
+    }
+
+    .form-group select {
+      appearance: none;
+      padding-right: 40px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23a5a5a5' d='M10 14L5 9h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 20px;
+    }
+
+    .form-group select option {
+      background: #050505;
+      color: var(--white);
+    }
+
+    .error-field {
+      border-color: var(--error) !important;
+    }
+
+    .error-message {
+      color: var(--error);
+      font-size: 12px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .form-error {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      color: var(--error);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .form-error.show {
+      display: block;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      width: 100%;
       min-height: 48px;
       padding: 0 24px;
       border-radius: 10px;
@@ -237,74 +189,65 @@
       transition: 0.25s ease;
       border: none;
       cursor: pointer;
+      margin-top: 8px;
     }
 
-    .btn-outline {
-      border: 1px solid var(--border);
-      color: white;
-      background: rgba(255, 255, 255, 0.02);
+    .btn-submit {
+      background: var(--gold);
+      color: #000000;
+      box-shadow: 0 8px 30px rgba(212, 175, 55, 0.16);
     }
 
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold-light);
+    .btn-submit:hover {
+      background: var(--gold-light);
       transform: translateY(-2px);
     }
 
-    /* LOADING */
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 200px;
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(212, 175, 55, 0.2);
-      border-top: 3px solid var(--gold);
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      border-top: 2px solid #000000;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
     }
 
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
 
-    .error-message {
-      background: rgba(220, 53, 69, 0.1);
-      color: #ff6b6b;
-      border: 1px solid rgba(220, 53, 69, 0.3);
-      padding: 16px 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      text-align: center;
+    .logout-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--gray);
+      margin-top: 16px;
+      padding: 0 24px;
     }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 45px 0 25px;
-      background: #000000;
-      text-align: center;
-      color: #555555;
-      font-size: 12px;
+    .logout-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
     }
 
-    @media (max-width: 800px) {
-      section { padding: 60px 0; }
-      
-      .profile-cards {
-        grid-template-columns: 1fr;
+    @media (max-width: 600px) {
+      .profile-card {
+        padding: 32px 20px;
       }
 
-      nav {
-        gap: 16px;
+      .profile-card h1 {
+        font-size: 24px;
       }
 
-      nav a {
-        font-size: 13px;
+      .logo {
+        margin-bottom: 24px;
       }
     }
   </style>
@@ -312,112 +255,99 @@
 
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="container nav">
-      <a href="../" class="logo" aria-label="Xtreme AG Apps home">
-        <div class="logo-mark">X</div>
-        <div>Xtreme <span>AG Apps</span></div>
-      </a>
-
-      <nav id="navigation">
-        <a href="../">Home</a>
-        <a href="./dashboard.html" aria-current="page">Dashboard</a>
-        <a href="#" id="logoutLink">Logout</a>
-      </nav>
+  <div class="profile-card">
+    <div class="logo">
+      <div class="logo-mark">X</div>
+      <div>Xtreme <span>AG Apps</span></div>
     </div>
-  </header>
 
-  <!-- MAIN -->
-  <main id="mainContent">
-    <section class="profile-section">
-      <div class="container">
-        <div class="section-heading">
-          <h1>Welcome, <span id="userName">User</span></h1>
-          <p>Manage your account and access Xtreme AG Apps services</p>
-        </div>
+    <h1>Complete Your Profile</h1>
+    <p class="subtitle">Loading your saved details. If this is your first time, enter your details below.</p>
 
-        <div id="loadingIndicator" class="loading">
-          <div class="loading-spinner"></div>
-        </div>
+    <div class="form-error" id="formError"></div>
 
-        <div id="profileContent" style="display: none;">
-          <div class="profile-cards">
-            <div class="profile-card">
-              <h3>Full Name</h3>
-              <div class="value" id="profileName">—</div>
-            </div>
-            <div class="profile-card">
-              <h3>Email</h3>
-              <div class="value" id="profileEmail">—</div>
-            </div>
-            <div class="profile-card">
-              <h3>Mobile Number</h3>
-              <div class="value" id="profileMobile">—</div>
-            </div>
-            <div class="profile-card">
-              <h3>State / UT</h3>
-              <div class="value" id="profileState">—</div>
-            </div>
-          </div>
-
-          <div class="account-status">
-            <div class="status-icon">✓</div>
-            <div class="status-content">
-              <h4>Account Active</h4>
-              <p>Your account is active and ready to use.</p>
-            </div>
-          </div>
-
-          <!-- FUTURE SECTIONS -->
-          <div style="margin-top: 80px;">
-            <div class="section-heading">
-              <h2>Upcoming Features</h2>
-              <p>More services coming soon</p>
-            </div>
-
-            <div class="features">
-              <div class="feature-card">
-                <div class="feature-icon">📋</div>
-                <h3>My Test Series</h3>
-                <p>Access and manage your purchased test series and track your progress.</p>
-              </div>
-
-              <div class="feature-card">
-                <div class="feature-icon">💳</div>
-                <h3>My Payments</h3>
-                <p>View your payment history and manage payment methods.</p>
-              </div>
-
-              <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>My Results</h3>
-                <p>View your test results and performance analytics.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="errorContent" style="display: none;">
-          <div class="error-message" id="errorMessage"></div>
-        </div>
+    <form id="profileForm" action="javascript:void(0);" method="post" novalidate onsubmit="return saveProfile(event);">
+      <div class="form-group">
+        <label for="fullName">Full Name *</label>
+        <input
+          type="text"
+          id="fullName"
+          name="fullName"
+          placeholder="Your full name"
+          required
+          autocomplete="name"
+        />
+        <div class="error-message" id="nameError"></div>
       </div>
-    </section>
-  </main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <p>© 2026 Xtreme AG Apps. All rights reserved.</p>
-    </div>
-  </footer>
+      <div class="form-group">
+        <label for="mobileNumber">Mobile Number *</label>
+        <input
+          type="tel"
+          id="mobileNumber"
+          name="mobileNumber"
+          placeholder="10-digit mobile number (e.g., 9876543210)"
+          required
+          pattern="[0-9]{10}"
+          autocomplete="tel"
+        />
+        <div class="error-message" id="mobileError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="state">State / Union Territory *</label>
+        <select id="state" name="state" required>
+          <option value="">Select your state or UT</option>
+          <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+          <option value="Andhra Pradesh">Andhra Pradesh</option>
+          <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+          <option value="Assam">Assam</option>
+          <option value="Bihar">Bihar</option>
+          <option value="Chandigarh">Chandigarh</option>
+          <option value="Chhattisgarh">Chhattisgarh</option>
+          <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Goa">Goa</option>
+          <option value="Gujarat">Gujarat</option>
+          <option value="Haryana">Haryana</option>
+          <option value="Himachal Pradesh">Himachal Pradesh</option>
+          <option value="Jharkhand">Jharkhand</option>
+          <option value="Karnataka">Karnataka</option>
+          <option value="Kerala">Kerala</option>
+          <option value="Ladakh">Ladakh</option>
+          <option value="Lakshadweep">Lakshadweep</option>
+          <option value="Madhya Pradesh">Madhya Pradesh</option>
+          <option value="Maharashtra">Maharashtra</option>
+          <option value="Manipur">Manipur</option>
+          <option value="Meghalaya">Meghalaya</option>
+          <option value="Mizoram">Mizoram</option>
+          <option value="Nagaland">Nagaland</option>
+          <option value="Odisha">Odisha</option>
+          <option value="Puducherry">Puducherry</option>
+          <option value="Punjab">Punjab</option>
+          <option value="Rajasthan">Rajasthan</option>
+          <option value="Sikkim">Sikkim</option>
+          <option value="Tamil Nadu">Tamil Nadu</option>
+          <option value="Telangana">Telangana</option>
+          <option value="Tripura">Tripura</option>
+          <option value="Uttar Pradesh">Uttar Pradesh</option>
+          <option value="Uttarakhand">Uttarakhand</option>
+          <option value="West Bengal">West Bengal</option>
+        </select>
+        <div class="error-message" id="stateError"></div>
+      </div>
+
+      <button type="button" class="btn btn-submit" id="submitBtn" onclick="saveProfile(event)">Complete Profile</button>
+      <button type="button" class="btn logout-btn" id="logoutBtn">Log Out</button>
+    </form>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
 
-    const supabaseClient = window.supabase.createClient(
+    const supabase = window.supabase.createClient(
       SUPABASE_URL,
       SUPABASE_ANON_KEY,
       {
@@ -429,151 +359,298 @@
       }
     );
 
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    const profileContent = document.getElementById('profileContent');
-    const errorContent = document.getElementById('errorContent');
-    const errorMessage = document.getElementById('errorMessage');
-    const logoutLink = document.getElementById('logoutLink');
-
-    function showError(message) {
-      if (loadingIndicator) loadingIndicator.style.display = 'none';
-      if (profileContent) profileContent.style.display = 'none';
-      if (errorContent) errorContent.style.display = 'block';
-      if (errorMessage) errorMessage.textContent = message;
+    function showFormError(message) {
+      const formError = document.getElementById('formError');
+      formError.textContent = message;
+      formError.classList.add('show');
     }
 
-    function showProfile() {
-      if (loadingIndicator) loadingIndicator.style.display = 'none';
-      if (errorContent) errorContent.style.display = 'none';
-      if (profileContent) profileContent.style.display = 'block';
+    function clearErrors() {
+      ['nameError', 'mobileError', 'stateError', 'formError'].forEach(id => {
+        document.getElementById(id).classList.remove('show');
+      });
+
+      ['fullName', 'mobileNumber', 'state'].forEach(id => {
+        document.getElementById(id).classList.remove('error-field');
+      });
     }
 
-    function goToLogin() {
+    function showFieldError(fieldId, errorId, message) {
+      document.getElementById(fieldId).classList.add('error-field');
+      const errorElement = document.getElementById(errorId);
+      errorElement.textContent = message;
+      errorElement.classList.add('show');
+    }
+
+    function validateName(name) {
+      return name.trim().length > 0;
+    }
+
+    function validateMobile(mobile) {
+      return /^[0-9]{10}$/.test(mobile);
+    }
+
+    function validateState(state) {
+      return state.trim().length > 0;
+    }
+
+    function loadOldQueryValues() {
+      const params = new URLSearchParams(window.location.search);
+
+      const fullName = params.get('fullName');
+      const mobile = params.get('mobileNumber');
+      const state = params.get('state');
+
+      if (fullName && !document.getElementById('fullName').value) {
+        document.getElementById('fullName').value = fullName;
+      }
+
+      if (mobile && !document.getElementById('mobileNumber').value) {
+        document.getElementById('mobileNumber').value = mobile;
+      }
+
+      if (state && !document.getElementById('state').value) {
+        document.getElementById('state').value = state;
+      }
+
+      if (window.location.search) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+
+    async function checkAuth() {
+      const submitBtn = document.getElementById('submitBtn');
+
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error) throw error;
+
+        if (!session || !session.user) {
+          window.location.replace('./login.html');
+          return;
+        }
+
+        const metadata = session.user.user_metadata || {};
+        const googleName =
+          metadata.full_name || metadata.name || '';
+
+        if (googleName && !document.getElementById('fullName').value) {
+          document.getElementById('fullName').value = googleName;
+        }
+
+        const { data: profile, error: profileError } =
+          await supabase
+            .from('profiles')
+            .select('display_name, mobile, state')
+            .eq('id', session.user.id)
+            .maybeSingle();
+
+        if (profileError) {
+          console.error('Profile read error:', profileError);
+          showFormError('Could not load your profile: ' + profileError.message);
+          return;
+        }
+
+        if (profile) {
+          if (profile.display_name) {
+            document.getElementById('fullName').value = profile.display_name;
+          }
+
+          if (profile.mobile) {
+            document.getElementById('mobileNumber').value =
+              String(profile.mobile);
+          }
+
+          if (profile.state) {
+            document.getElementById('state').value = profile.state;
+          }
+
+          if (profile.display_name && profile.mobile && profile.state) {
+            window.location.replace('./dashboard.html');
+            return;
+          }
+        }
+
+      } catch (err) {
+        console.error('Auth/profile check error:', err);
+        showFormError(
+          'Unable to load your profile. ' +
+          (err.message || 'Please try again.')
+        );
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Complete Profile';
+      }
+    }
+
+    async function saveProfile(event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      clearErrors();
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const mobileNumber = document.getElementById('mobileNumber').value.trim();
+      const state = document.getElementById('state').value.trim();
+      const submitBtn = document.getElementById('submitBtn');
+
+      let hasError = false;
+
+      if (!validateName(fullName)) {
+        showFieldError('fullName', 'nameError', 'Full name is required');
+        hasError = true;
+      }
+
+      if (!validateMobile(mobileNumber)) {
+        showFieldError(
+          'mobileNumber',
+          'mobileError',
+          'Please enter a valid 10-digit mobile number'
+        );
+        hasError = true;
+      }
+
+      if (!validateState(state)) {
+        showFieldError(
+          'state',
+          'stateError',
+          'Please select your state or UT'
+        );
+        hasError = true;
+      }
+
+      if (hasError) return false;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML =
+        '<span class="loading-spinner"></span>Saving...';
+
+      try {
+        const { data: { session }, error: sessionError } =
+          await supabase.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        if (!session || !session.user) {
+          throw new Error(
+            'Your login session has expired. Please log in again.'
+          );
+        }
+
+        const userId = session.user.id;
+
+        const { data: existingProfile, error: existingError } =
+          await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', userId)
+            .maybeSingle();
+
+        if (existingError) throw existingError;
+
+        const profileData = {
+          id: userId,
+          display_name: fullName,
+          mobile: mobileNumber,
+          state: state
+        };
+
+        if (existingProfile) {
+          profileData.is_admin = existingProfile.is_admin === true;
+        }
+
+        const { error: saveError } =
+          await supabase
+            .from('profiles')
+            .upsert(profileData, { onConflict: 'id' });
+
+        if (saveError) throw saveError;
+
+        const { data: savedProfile, error: verifyError } =
+          await supabase
+            .from('profiles')
+            .select('display_name, mobile, state')
+            .eq('id', userId)
+            .maybeSingle();
+
+        if (verifyError) throw verifyError;
+
+        if (
+          !savedProfile ||
+          savedProfile.display_name !== fullName ||
+          String(savedProfile.mobile) !== mobileNumber ||
+          savedProfile.state !== state
+        ) {
+          throw new Error(
+            'Profile was saved, but could not be verified. Please check your Supabase profiles table policies.'
+          );
+        }
+
+        window.location.replace('./dashboard.html');
+        return false;
+
+      } catch (err) {
+        console.error('Profile save error:', err);
+
+        showFormError(
+          'Failed to save profile: ' +
+          (err.message || 'Unknown error')
+        );
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Complete Profile';
+        return false;
+      }
+    }
+
+    async function handleLogout() {
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      logoutBtn.disabled = true;
+      logoutBtn.textContent = 'Logging out...';
+
+      try {
+        await supabase.auth.signOut({ scope: 'local' });
+      } catch (err) {
+        console.error('Logout error:', err);
+      }
+
+      try {
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith('sb-') && key.includes('-auth-token')) {
+            localStorage.removeItem(key);
+          }
+        });
+      } catch (err) {
+        console.error('Local storage cleanup error:', err);
+      }
+
       window.location.replace('./login.html');
     }
 
-    function withTimeout(promise, ms, message) {
-      return Promise.race([
-        promise,
-        new Promise((_, reject) => {
-          setTimeout(() => reject(new Error(message)), ms);
-        })
-      ]);
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      loadOldQueryValues();
 
-    async function loadProfile() {
-      try {
-        const sessionResult = await withTimeout(
-          supabaseClient.auth.getSession(),
-          10000,
-          'Session check timed out. Please refresh the page.'
-        );
+      document.getElementById('profileForm').addEventListener(
+        'submit',
+        saveProfile
+      );
 
-        const session = sessionResult?.data?.session;
-        const sessionError = sessionResult?.error;
+      document.getElementById('submitBtn').addEventListener(
+        'click',
+        saveProfile
+      );
 
-        if (sessionError || !session) {
-          goToLogin();
-          return;
-        }
+      document.getElementById('logoutBtn').addEventListener(
+        'click',
+        handleLogout
+      );
 
-        const user = session.user;
-        const userEmail = user.email || '';
-
-        const displayName =
-          user.user_metadata?.full_name ||
-          user.user_metadata?.name ||
-          'User';
-
-        const firstName = displayName.trim().split(/\s+/)[0] || 'User';
-        document.getElementById('userName').textContent = firstName;
-
-        const profileResult = await withTimeout(
-          supabaseClient
-            .from('profiles')
-            .select('display_name, mobile, state')
-            .eq('id', user.id)
-            .maybeSingle(),
-          10000,
-          'Profile request timed out. Please check your Supabase Data API settings.'
-        );
-
-        const profile = profileResult?.data;
-        const profileError = profileResult?.error;
-
-        if (profileError) {
-          console.error('Profile load error:', profileError);
-          showError(
-            'Failed to load your profile. ' +
-            (profileError.message || 'Please check your Supabase profiles table access.')
-          );
-          return;
-        }
-
-        if (!profile || !profile.display_name || !profile.mobile || !profile.state) {
-          window.location.replace('./complete-profile.html');
-          return;
-        }
-
-        document.getElementById('profileName').textContent = profile.display_name;
-        document.getElementById('profileEmail').textContent = userEmail || 'Not available';
-        document.getElementById('profileMobile').textContent = profile.mobile;
-        document.getElementById('profileState').textContent = profile.state;
-
-        showProfile();
-
-      } catch (err) {
-        console.error('Dashboard load error:', err);
-        showError(
-          err?.message ||
-          'Unable to load your dashboard. Please refresh and try again.'
-        );
-      }
-    }
-
-    async function handleLogout(event) {
-      if (event) event.preventDefault();
-
-      logoutLink.textContent = 'Logging out...';
-      logoutLink.style.pointerEvents = 'none';
-
-      try {
-        await withTimeout(
-          supabaseClient.auth.signOut({ scope: 'local' }),
-          5000,
-          'Logout request timed out'
-        );
-      } catch (err) {
-        console.error('Logout error:', err);
-
-        // Clear the local Supabase session even if the network request fails.
-        try {
-          const keys = Object.keys(localStorage);
-          keys.forEach((key) => {
-            if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
-              localStorage.removeItem(key);
-            }
-          });
-        } catch (storageError) {
-          console.error('Local session cleanup error:', storageError);
-        }
-      } finally {
-        window.location.replace('./login.html');
-      }
-    }
-
-    logoutLink.addEventListener('click', handleLogout);
-
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_OUT' || !session) {
-        // Do not redirect during the initial page load before getSession finishes.
-        if (event === 'SIGNED_OUT') {
-          window.location.replace('./login.html');
-        }
-      }
+      checkAuth();
     });
-
-    document.addEventListener('DOMContentLoaded', loadProfile);
   </script>
 
 </body>
