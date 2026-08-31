@@ -11,7 +11,10 @@
     content="Login to your Xtreme AG Apps account."
   >
 
-  <meta name="robots" content="noindex, nofollow">
+  <meta
+    name="robots"
+    content="noindex, nofollow"
+  >
 
   <style>
     :root {
@@ -168,6 +171,7 @@
       cursor: pointer;
 
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .btn-google {
@@ -306,7 +310,6 @@
         height: 44px;
       }
     }
-
   </style>
 </head>
 
@@ -321,6 +324,7 @@
       class="logo"
       aria-label="Xtreme AG Apps home"
     >
+
       <div class="logo-mark">
         X
       </div>
@@ -328,6 +332,7 @@
       <div>
         Xtreme <span>AG Apps</span>
       </div>
+
     </a>
 
 
@@ -348,7 +353,6 @@
       class="btn btn-google"
       id="googleSignInBtn"
       type="button"
-      onclick="handleGoogleSignIn()"
     >
 
       <svg
@@ -408,7 +412,6 @@
   <!-- SUPABASE -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
   <script>
 
@@ -486,103 +489,6 @@
 
 
     /* =========================================
-       CHECK PROFILE AND REDIRECT
-       ========================================= */
-
-    async function checkProfileAndRedirect(session) {
-
-      if (!session || !session.user) {
-        return;
-      }
-
-      try {
-
-        showStatus(
-          'Checking your account...',
-          'success'
-        );
-
-
-        const {
-          data: profile,
-          error
-        } = await supabaseClient
-          .from('profiles')
-          .select('display_name, mobile, state')
-          .eq('id', session.user.id)
-          .maybeSingle();
-
-
-        /*
-         * If profile does not exist,
-         * send user to complete profile.
-         */
-
-        if (error) {
-
-          console.error(
-            'Profile query error:',
-            error
-          );
-
-          /*
-           * PGRST116 is not expected with maybeSingle,
-           * but any profile lookup problem is shown clearly.
-           */
-
-          showStatus(
-            'Account found, but profile could not be checked. Please try again.',
-            'error'
-          );
-
-          setLoading(false);
-
-          return;
-        }
-
-
-        if (
-          !profile ||
-          !profile.display_name ||
-          !profile.mobile ||
-          !profile.state
-        ) {
-
-          window.location.replace(
-            './complete-profile.html'
-          );
-
-          return;
-        }
-
-
-        /*
-         * Existing user with complete profile
-         */
-
-        window.location.replace(
-          './dashboard.html'
-        );
-
-      } catch (error) {
-
-        console.error(
-          'Profile check error:',
-          error
-        );
-
-        showStatus(
-          error.message ||
-          'Unable to check your profile.',
-          'error'
-        );
-
-        setLoading(false);
-      }
-    }
-
-
-    /* =========================================
        GOOGLE SIGN IN
        ========================================= */
 
@@ -595,9 +501,11 @@
       try {
 
         /*
-         * OAuth will return to THIS login page.
-         * After SIGNED_IN, we check the profile
-         * and redirect accordingly.
+         * OAuth ke baad user dobara isi login page
+         * par return hoga.
+         *
+         * SIGNED_IN event ke baad hum dashboard
+         * par redirect karenge.
          */
 
         const redirectUrl =
@@ -606,7 +514,7 @@
 
 
         console.log(
-          'OAuth redirect:',
+          'OAuth redirect URL:',
           redirectUrl
         );
 
@@ -614,22 +522,24 @@
         const {
           data,
           error
-        } = await supabaseClient.auth.signInWithOAuth({
+        } =
+          await supabaseClient.auth.signInWithOAuth({
 
-          provider: 'google',
+            provider: 'google',
 
-          options: {
+            options: {
 
-            redirectTo: redirectUrl,
+              redirectTo: redirectUrl,
 
-            queryParams: {
+              queryParams: {
 
-              access_type: 'offline',
+                prompt: 'select_account'
 
-              prompt: 'select_account'
+              }
+
             }
-          }
-        });
+
+          });
 
 
         if (error) {
@@ -652,12 +562,11 @@
 
 
         /*
-         * Normally Supabase redirects the browser
-         * automatically, so no further action is required.
+         * Supabase normally redirects automatically.
          */
 
         console.log(
-          'OAuth started successfully:',
+          'Google OAuth started:',
           data
         );
 
@@ -680,7 +589,19 @@
 
 
     /* =========================================
-       INITIAL AUTH CHECK
+       CONNECT BUTTON
+       ========================================= */
+
+    document
+      .getElementById('googleSignInBtn')
+      .addEventListener(
+        'click',
+        handleGoogleSignIn
+      );
+
+
+    /* =========================================
+       CHECK EXISTING SESSION
        ========================================= */
 
     async function checkExistingSession() {
@@ -690,13 +611,14 @@
         const {
           data,
           error
-        } = await supabaseClient.auth.getSession();
+        } =
+          await supabaseClient.auth.getSession();
 
 
         if (error) {
 
           console.error(
-            'Session error:',
+            'Session check error:',
             error
           );
 
@@ -708,20 +630,33 @@
           data?.session;
 
 
+        /*
+         * IMPORTANT:
+         *
+         * Yahan profiles table ko query nahi karna.
+         *
+         * Isse login page open hote hi
+         * "profile could not be checked"
+         * wala error nahi aayega.
+         */
+
         if (session) {
 
-          await checkProfileAndRedirect(
-            session
+          window.location.replace(
+            './dashboard.html'
           );
+
         }
 
       } catch (error) {
 
         console.error(
-          'Initial auth check error:',
+          'Initial session check error:',
           error
         );
+
       }
+
     }
 
 
@@ -730,7 +665,7 @@
        ========================================= */
 
     supabaseClient.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
 
         console.log(
           'Auth event:',
@@ -738,14 +673,22 @@
         );
 
 
+        /*
+         * Google authentication successful.
+         *
+         * Profile check yahan nahi karenge.
+         * Dashboard apna profile logic handle karega.
+         */
+
         if (
           event === 'SIGNED_IN' &&
           session
         ) {
 
-          await checkProfileAndRedirect(
-            session
+          window.location.replace(
+            './dashboard.html'
           );
+
         }
 
       }
@@ -758,123 +701,13 @@
 
     document.addEventListener(
       'DOMContentLoaded',
-      function () {
+      () => {
 
         checkExistingSession();
 
       }
     );
 
-  </script>
-
-</body>
--message" id="errorMessage"></div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // Initialize Supabase
-    // Initialize Supabase
-const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
-
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-    function showError(message) {
-      const errorDiv = document.getElementById('errorMessage');
-      errorDiv.textContent = message;
-      errorDiv.classList.add('show');
-    }
-
-    function hideError() {
-      const errorDiv = document.getElementById('errorMessage');
-      errorDiv.classList.remove('show');
-    }
-
-    async function handleGoogleSignIn() {
-      try {
-        hideError();
-        const btn = document.getElementById('googleSignInBtn');
-        btn.disabled = true;
-        const btnText = document.getElementById('btnText');
-        const originalText = btnText.textContent;
-        btnText.innerHTML = '<span class="loading-spinner"></span>';
-
-        const { error } = await supabase.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            redirectTo: `${window.location.origin}/pages/dashboard.html`
-          }
-        });
-
-        if (error) {
-          showError(error.message || 'Failed to sign in with Google');
-          btn.disabled = false;
-          btnText.textContent = originalText;
-        }
-      } catch (err) {
-        showError(err.message || 'An error occurred during sign-in');
-        const btn = document.getElementById('googleSignInBtn');
-        btn.disabled = false;
-        document.getElementById('btnText').textContent = 'Continue with Google';
-      }
-    }
-
-    // Check if user is already logged in
-    async function checkAuth() {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (session) {
-          // User is logged in, check profile completeness
-          const { data: profile, error: profileError } = await supabase
-            .from('profiles')
-            .select('display_name, mobile, state')
-            .eq('id', session.user.id)
-            .single();
-
-          if (!profile || !profile.display_name || !profile.mobile || !profile.state) {
-            // Profile is incomplete
-            window.location.href = './complete-profile.html';
-          } else {
-            // Profile is complete
-            window.location.href = './dashboard.html';
-          }
-        }
-      } catch (err) {
-        // No profile found or error - user should stay on login page
-        console.error('Auth check error:', err);
-      }
-    }
-
-    // Check auth on page load
-    document.addEventListener('DOMContentLoaded', checkAuth);
-
-    // Listen for auth state changes (handles redirect from OAuth)
-    supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session) {
-        try {
-          const { data: profile, error: profileError } = await supabase
-            .from('profiles')
-            .select('display_name, mobile, state')
-            .eq('id', session.user.id)
-            .single();
-
-          if (!profile || !profile.display_name || !profile.mobile || !profile.state) {
-            // Profile is incomplete
-            window.location.href = './complete-profile.html';
-          } else {
-            // Profile is complete
-            window.location.href = './dashboard.html';
-          }
-        } catch (err) {
-          // First time login, no profile yet
-          window.location.href = './complete-profile.html';
-        }
-      }
-    });
   </script>
 
 </body>
