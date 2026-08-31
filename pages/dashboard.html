@@ -414,105 +414,224 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Initialize Supabase
     const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
 
-    // Load and display user profile
-    async function loadProfile() {
+    let pageReady = false;
+    let loadingFinished = false;
+
+    function showPageError(message) {
       const loading = document.getElementById('loadingIndicator');
       const content = document.getElementById('profileContent');
       const errorContent = document.getElementById('errorContent');
       const errorMessage = document.getElementById('errorMessage');
 
+      loading.style.display = 'none';
+      content.style.display = 'none';
+      errorContent.style.display = 'block';
+      errorMessage.textContent = message;
+      loadingFinished = true;
+    }
+
+    function showProfile(profile, user) {
+      const loading = document.getElementById('loadingIndicator');
+      const content = document.getElementById('profileContent');
+
+      const displayName =
+        profile.display_name ||
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        'User';
+
+      document.getElementById('userName').textContent =
+        displayName.trim().split(/\s+/)[0] || 'User';
+
+      document.getElementById('profileName').textContent =
+        profile.display_name || '—';
+
+      document.getElementById('profileEmail').textContent =
+        user.email || '—';
+
+      document.getElementById('profileMobile').textContent =
+        profile.mobile || '—';
+
+      document.getElementById('profileState').textContent =
+        profile.state || '—';
+
+      loading.style.display = 'none';
+      content.style.display = 'block';
+      loadingFinished = true;
+    }
+
+    function withTimeout(promise, milliseconds) {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => {
+          setTimeout(() => {
+            reject(new Error(
+              'The profile request timed out. Please refresh the page and try again.'
+            ));
+          }, milliseconds);
+        })
+      ]);
+    }
+
+    async function loadProfile() {
+      if (pageReady) return;
+      pageReady = true;
+
+      const loading = document.getElementById('loadingIndicator');
+      loading.style.display = 'flex';
+
       try {
-        loading.style.display = 'flex';
-        content.style.display = 'none';
-        errorContent.style.display = 'none';
+        const {
+          data: { session },
+          error: sessionError
+        } = await withTimeout(
+          supabase.auth.getSession(),
+          10000
+        );
 
-        const { data: { session }, error: sessionError } =
-          await supabase.auth.getSession();
+        if (sessionError) {
+          console.error('Session error:', sessionError);
+          window.location.replace('./login.html');
+          return;
+        }
 
-        if (sessionError || !session) {
+        if (!session) {
           window.location.replace('./login.html');
           return;
         }
 
         const user = session.user;
-        const userId = user.id;
-        const userEmail = user.email || '';
 
-        // maybeSingle() allows a new Google user to have no profile row yet.
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('display_name, mobile, state')
-          .eq('id', userId)
-          .maybeSingle();
+        const result = await withTimeout(
+          supabase
+            .from('profiles')
+            .select('display_name, mobile, state')
+            .eq('id', user.id)
+            .maybeSingle(),
+          10000
+        );
+
+        const profile = result.data;
+        const profileError = result.error;
 
         if (profileError) {
           console.error('Profile query error:', profileError);
-          throw new Error(profileError.message || 'Unable to check profile');
+
+          /*
+            Do not keep the dashboard loader running forever.
+            If the profiles table is not available through the Data API,
+            show the actual Supabase error instead.
+          */
+          showPageError(
+            'Unable to load your profile. Supabase says: ' +
+            (profileError.message || 'Unknown database error')
+          );
+          return;
         }
 
-        // New or incomplete users go to the profile form.
-        if (!profile || !profile.display_name || !profile.mobile || !profile.state) {
+        /*
+          No profile row means this is a new Google user.
+          Send the user to the basic profile form.
+        */
+        if (!profile) {
           window.location.replace('./complete-profile.html');
           return;
         }
 
-        const displayName =
-          profile.display_name ||
-          user.user_metadata?.full_name ||
-          user.user_metadata?.name ||
-          'User';
+        /*
+          Existing but incomplete profile.
+        */
+        if (
+          !profile.display_name ||
+          !profile.mobile ||
+          !profile.state
+        ) {
+          window.location.replace('./complete-profile.html');
+          return;
+        }
 
-        document.getElementById('userName').textContent =
-          displayName.trim().split(/\s+/)[0] || 'User';
-
-        document.getElementById('profileName').textContent = profile.display_name;
-        document.getElementById('profileEmail').textContent = userEmail || '—';
-        document.getElementById('profileMobile').textContent = profile.mobile;
-        document.getElementById('profileState').textContent = profile.state;
-
-        loading.style.display = 'none';
-        content.style.display = 'block';
+        showProfile(profile, user);
 
       } catch (err) {
-        console.error('Profile load error:', err);
-        loading.style.display = 'none';
-        content.style.display = 'none';
-        errorContent.style.display = 'block';
-        errorMessage.textContent =
-          'Failed to load profile: ' + (err.message || 'Unknown error');
+        console.error('Dashboard load error:', err);
+
+        showPageError(
+          err?.message ||
+          'Unable to load your account. Please refresh and try again.'
+        );
       }
     }
 
-    // Handle logout
     async function handleLogout(event) {
-      event.preventDefault();
+      if (event) event.preventDefault();
+
+      const logoutLink = document.getElementById('logoutLink');
+
+      if (logoutLink) {
+        logoutLink.style.pointerEvents = 'none';
+        logoutLink.textContent = 'Logging out...';
+      }
+
       try {
-        const { error } = await supabase.auth.signOut();
+        const { error } = await withTimeout(
+          supabase.auth.signOut(),
+          10000
+        );
+
         if (error) {
           console.error('Logout error:', error);
         }
-        window.location.replace('./login.html');
       } catch (err) {
-        console.error('Logout error:', err);
+        console.error('Logout exception:', err);
+      } finally {
+        /*
+          Always return to login, even if Supabase signOut
+          has a temporary network problem.
+        */
         window.location.replace('./login.html');
       }
     }
 
-    // Load profile on page load
+    /*
+      Make logout available even if inline HTML handlers are
+      blocked or changed by the browser.
+    */
+    window.handleLogout = handleLogout;
+
     document.addEventListener('DOMContentLoaded', loadProfile);
 
-    // Listen for auth state changes
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange((event) => {
       if (event === 'SIGNED_OUT') {
         window.location.replace('./login.html');
       }
     });
+
+    /*
+      If the page somehow remains on the loader for too long,
+      never leave the user with an endless spinner.
+    */
+    setTimeout(() => {
+      if (!loadingFinished) {
+        showPageError(
+          'The dashboard took too long to load. Please refresh the page.'
+        );
+      }
+    }, 15000);
   </script>
 
 </body>
