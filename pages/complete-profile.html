@@ -266,7 +266,7 @@
 
     <div class="form-error" id="formError"></div>
 
-    <form id="profileForm" action="javascript:void(0);" method="post" novalidate onsubmit="return saveProfile(event);">
+    <form id="profileForm" action="javascript:void(0);" method="post" novalidate>
       <div class="form-group">
         <label for="fullName">Full Name *</label>
         <input
@@ -337,7 +337,7 @@
         <div class="error-message" id="stateError"></div>
       </div>
 
-      <button type="button" class="btn btn-submit" id="submitBtn" onclick="saveProfile(event)">Complete Profile</button>
+      <button type="button" class="btn btn-submit" id="submitBtn">Complete Profile</button>
       <button type="button" class="btn logout-btn" id="logoutBtn">Log Out</button>
     </form>
   </div>
@@ -347,7 +347,7 @@
     const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
 
-    const supabase = window.supabase.createClient(
+    const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
       SUPABASE_ANON_KEY,
       {
@@ -422,7 +422,7 @@
       const submitBtn = document.getElementById('submitBtn');
 
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
 
         if (error) throw error;
 
@@ -440,7 +440,7 @@
         }
 
         const { data: profile, error: profileError } =
-          await supabase
+          await supabaseClient
             .from('profiles')
             .select('display_name, mobile, state')
             .eq('id', session.user.id)
@@ -530,7 +530,7 @@
 
       try {
         const { data: { session }, error: sessionError } =
-          await supabase.auth.getSession();
+          await supabaseClient.auth.getSession();
 
         if (sessionError) throw sessionError;
 
@@ -543,7 +543,7 @@
         const userId = session.user.id;
 
         const { data: existingProfile, error: existingError } =
-          await supabase
+          await supabaseClient
             .from('profiles')
             .select('is_admin')
             .eq('id', userId)
@@ -563,14 +563,14 @@
         }
 
         const { error: saveError } =
-          await supabase
+          await supabaseClient
             .from('profiles')
             .upsert(profileData, { onConflict: 'id' });
 
         if (saveError) throw saveError;
 
         const { data: savedProfile, error: verifyError } =
-          await supabase
+          await supabaseClient
             .from('profiles')
             .select('display_name, mobile, state')
             .eq('id', userId)
@@ -613,7 +613,7 @@
       logoutBtn.textContent = 'Logging out...';
 
       try {
-        await supabase.auth.signOut({ scope: 'local' });
+        await supabaseClient.auth.signOut({ scope: 'local' });
       } catch (err) {
         console.error('Logout error:', err);
       }
