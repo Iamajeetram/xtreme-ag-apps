@@ -211,10 +211,164 @@
       .hero-buttons .btn { width:100%; min-width:0; }
     }
 
+    /* ENTRY CHOICE POPUP */
+    .entry-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(8px);
+    }
+
+    .entry-overlay.hidden {
+      display: none;
+    }
+
+    .entry-modal {
+      width: min(720px, 100%);
+      padding: 34px;
+      background: #050505;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.7);
+      text-align: center;
+    }
+
+    .entry-modal .logo-mark {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 16px;
+      font-size: 22px;
+    }
+
+    .entry-modal h2 {
+      font-size: clamp(28px, 5vw, 40px);
+      margin-bottom: 8px;
+    }
+
+    .entry-modal h2 span {
+      color: var(--gold-light);
+    }
+
+    .entry-modal > p {
+      color: var(--gray);
+      margin-bottom: 26px;
+      font-size: 15px;
+    }
+
+    .entry-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .entry-option {
+      min-height: 170px;
+      padding: 24px 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: #030303;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.25s ease;
+    }
+
+    .entry-option:hover {
+      transform: translateY(-3px);
+      border-color: var(--gold);
+      background: rgba(212,175,55,0.05);
+    }
+
+    .entry-option-icon {
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 14px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--gold-light);
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .entry-option h3 {
+      font-size: 18px;
+      margin-bottom: 7px;
+    }
+
+    .entry-option p {
+      color: var(--gray);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .entry-close {
+      margin-top: 20px;
+      border: 0;
+      background: transparent;
+      color: #777;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .entry-close:hover {
+      color: var(--gold-light);
+    }
+
+    body.entry-locked {
+      overflow: hidden;
+    }
+
+    @media (max-width: 650px) {
+      .entry-modal {
+        padding: 26px 18px;
+      }
+
+      .entry-options {
+        grid-template-columns: 1fr;
+      }
+
+      .entry-option {
+        min-height: 135px;
+      }
+    }
+
   </style>
 </head>
 
 <body>
+
+  <!-- FIRST VISIT / ENTRY CHOICE POPUP -->
+  <div class="entry-overlay" id="entryOverlay" role="dialog" aria-modal="true" aria-labelledby="entryTitle">
+    <div class="entry-modal">
+      <div class="logo-mark" aria-hidden="true">X</div>
+      <h2 id="entryTitle">Welcome to <span>Xtreme AG Apps</span></h2>
+      <p>Choose what you want to explore.</p>
+
+      <div class="entry-options">
+        <button type="button" class="entry-option" id="gamesChoice">
+          <div class="entry-option-icon" aria-hidden="true">G</div>
+          <h3>Games &amp; Apps</h3>
+          <p>Explore our games, applications and early access products.</p>
+        </button>
+
+        <button type="button" class="entry-option" id="studyChoice">
+          <div class="entry-option-icon" aria-hidden="true">S</div>
+          <h3>Study Material &amp; Test Series</h3>
+          <p>Access study resources, test series and preparation content.</p>
+        </button>
+      </div>
+
+      <button type="button" class="entry-close" id="entryClose">Continue to Homepage</button>
+    </div>
+  </div>
+
 
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
@@ -445,6 +599,44 @@
       </div>
     </section>
 
+
+    <!-- STUDY MATERIAL / TEST SERIES -->
+    <section class="apps" id="study">
+      <div class="container">
+        <div class="section-heading">
+          <div class="small">Education</div>
+          <h2>Study Material &amp; Test Series</h2>
+          <p>Study resources and test series from Xtreme AG Apps will be available here.</p>
+        </div>
+
+        <div class="app-grid">
+          <article class="app-card">
+            <div class="app-top">
+              <div class="app-icon" aria-hidden="true">📚</div>
+              <div class="app-info">
+                <h4>Study Material</h4>
+                <div class="package">Learning Resources</div>
+              </div>
+            </div>
+            <span class="status development">COMING SOON</span>
+            <p>Notes, study material and useful preparation resources will be added here.</p>
+          </article>
+
+          <article class="app-card">
+            <div class="app-top">
+              <div class="app-icon" aria-hidden="true">✓</div>
+              <div class="app-info">
+                <h4>Test Series</h4>
+                <div class="package">Practice &amp; Assessment</div>
+              </div>
+            </div>
+            <span class="status development">COMING SOON</span>
+            <p>Online tests, mock tests and performance based practice will be available here.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- Support -->
     <section class="support" id="support">
       <div class="container">
@@ -515,6 +707,56 @@
         });
       });
     });
+
+    // Entry choice popup
+    (function() {
+      var overlay = document.getElementById('entryOverlay');
+      var gamesChoice = document.getElementById('gamesChoice');
+      var studyChoice = document.getElementById('studyChoice');
+      var closeChoice = document.getElementById('entryClose');
+
+      if (!overlay || !gamesChoice || !studyChoice || !closeChoice) return;
+
+      function closeEntryPopup() {
+        overlay.classList.add('hidden');
+        document.body.classList.remove('entry-locked');
+      }
+
+      function goToSection(id) {
+        closeEntryPopup();
+        var section = document.getElementById(id);
+        if (section) {
+          setTimeout(function() {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 20);
+        }
+      }
+
+      document.body.classList.add('entry-locked');
+
+      gamesChoice.addEventListener('click', function() {
+        goToSection('apps');
+      });
+
+      studyChoice.addEventListener('click', function() {
+        goToSection('study');
+      });
+
+      closeChoice.addEventListener('click', closeEntryPopup);
+
+      overlay.addEventListener('click', function(event) {
+        if (event.target === overlay) {
+          closeEntryPopup();
+        }
+      });
+
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && !overlay.classList.contains('hidden')) {
+          closeEntryPopup();
+        }
+      });
+    })();
+
   </script>
 
 </body>
