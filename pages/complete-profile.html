@@ -344,117 +344,35 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Initialize Supabase
     const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // Optional recovery from old query-string URLs.
-    // These values are copied into the form, then the URL is cleaned.
-    function loadOldQueryValues() {
-      const params = new URLSearchParams(window.location.search);
-      const fullName = params.get('fullName');
-      const mobile = params.get('mobileNumber');
-      const state = params.get('state');
-
-      if (fullName) document.getElementById('fullName').value = fullName;
-      if (mobile) document.getElementById('mobileNumber').value = mobile;
-      if (state) document.getElementById('state').value = state;
-
-      if (window.location.search) {
-        window.history.replaceState({}, document.title, window.location.pathname);
+    const supabase = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
       }
-    }
+    );
 
-    document.addEventListener('DOMContentLoaded', loadOldQueryValues);
-
-    // Check authentication and load the existing profile
-    async function checkAuth() {
-      const submitBtn = document.getElementById('submitBtn');
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Loading...';
-
-      try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-        if (sessionError) throw sessionError;
-
-        if (!session) {
-          window.location.replace('./login.html');
-          return;
-        }
-
-        const { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('id, display_name, mobile, state, is_admin')
-          .eq('id', session.user.id)
-          .maybeSingle();
-
-        if (profileError) {
-          console.error('Profile load error:', profileError);
-          showFormError('Could not load your profile: ' + profileError.message);
-        }
-
-        const userName =
-          session.user.user_metadata?.full_name ||
-          session.user.user_metadata?.name ||
-          '';
-
-        if (userName) {
-          document.getElementById('fullName').value = userName;
-        }
-
-        if (profile) {
-          if (profile.display_name) {
-            document.getElementById('fullName').value = profile.display_name;
-          }
-          if (profile.mobile) {
-            document.getElementById('mobileNumber').value = String(profile.mobile);
-          }
-          if (profile.state) {
-            document.getElementById('state').value = profile.state;
-          }
-
-          if (profile.display_name && profile.mobile && profile.state) {
-            window.location.replace('./dashboard.html');
-            return;
-          }
-        }
-      } catch (err) {
-        console.error('Auth/profile check error:', err);
-        showFormError('Unable to load your profile. ' + (err.message || 'Please try again.'));
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Complete Profile';
-      }
-    }
-
-    // Validate full name
-    function validateName(name) {
-      return name && name.trim().length > 0;
-    }
-
-    // Validate Indian mobile number (10 digits)
-    function validateMobile(mobile) {
-      const mobileRegex = /^[0-9]{10}$/;
-      return mobileRegex.test(mobile);
-    }
-
-    // Validate state selection
-    function validateState(state) {
-      return state && state.length > 0;
+    function showFormError(message) {
+      const formError = document.getElementById('formError');
+      formError.textContent = message;
+      formError.classList.add('show');
     }
 
     function clearErrors() {
-      document.getElementById('nameError').classList.remove('show');
-      document.getElementById('mobileError').classList.remove('show');
-      document.getElementById('stateError').classList.remove('show');
-      document.getElementById('formError').classList.remove('show');
+      ['nameError', 'mobileError', 'stateError', 'formError'].forEach(id => {
+        document.getElementById(id).classList.remove('show');
+      });
 
-      document.getElementById('fullName').classList.remove('error-field');
-      document.getElementById('mobileNumber').classList.remove('error-field');
-      document.getElementById('state').classList.remove('error-field');
+      ['fullName', 'mobileNumber', 'state'].forEach(id => {
+        document.getElementById(id).classList.remove('error-field');
+      });
     }
 
     function showFieldError(fieldId, errorId, message) {
@@ -464,13 +382,108 @@
       errorElement.classList.add('show');
     }
 
-    function showFormError(message) {
-      const formError = document.getElementById('formError');
-      formError.textContent = message;
-      formError.classList.add('show');
+    function validateName(name) {
+      return name.trim().length > 0;
     }
 
-    // Save profile
+    function validateMobile(mobile) {
+      return /^[0-9]{10}$/.test(mobile);
+    }
+
+    function validateState(state) {
+      return state.trim().length > 0;
+    }
+
+    function loadOldQueryValues() {
+      const params = new URLSearchParams(window.location.search);
+
+      const fullName = params.get('fullName');
+      const mobile = params.get('mobileNumber');
+      const state = params.get('state');
+
+      if (fullName && !document.getElementById('fullName').value) {
+        document.getElementById('fullName').value = fullName;
+      }
+
+      if (mobile && !document.getElementById('mobileNumber').value) {
+        document.getElementById('mobileNumber').value = mobile;
+      }
+
+      if (state && !document.getElementById('state').value) {
+        document.getElementById('state').value = state;
+      }
+
+      if (window.location.search) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+
+    async function checkAuth() {
+      const submitBtn = document.getElementById('submitBtn');
+
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error) throw error;
+
+        if (!session || !session.user) {
+          window.location.replace('./login.html');
+          return;
+        }
+
+        const metadata = session.user.user_metadata || {};
+        const googleName =
+          metadata.full_name || metadata.name || '';
+
+        if (googleName && !document.getElementById('fullName').value) {
+          document.getElementById('fullName').value = googleName;
+        }
+
+        const { data: profile, error: profileError } =
+          await supabase
+            .from('profiles')
+            .select('display_name, mobile, state')
+            .eq('id', session.user.id)
+            .maybeSingle();
+
+        if (profileError) {
+          console.error('Profile read error:', profileError);
+          showFormError('Could not load your profile: ' + profileError.message);
+          return;
+        }
+
+        if (profile) {
+          if (profile.display_name) {
+            document.getElementById('fullName').value = profile.display_name;
+          }
+
+          if (profile.mobile) {
+            document.getElementById('mobileNumber').value =
+              String(profile.mobile);
+          }
+
+          if (profile.state) {
+            document.getElementById('state').value = profile.state;
+          }
+
+          if (profile.display_name && profile.mobile && profile.state) {
+            window.location.replace('./dashboard.html');
+            return;
+          }
+        }
+
+      } catch (err) {
+        console.error('Auth/profile check error:', err);
+        showFormError(
+          'Unable to load your profile. ' +
+          (err.message || 'Please try again.')
+        );
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Complete Profile';
+      }
+    }
+
     async function saveProfile(event) {
       if (event) {
         event.preventDefault();
@@ -481,7 +494,8 @@
 
       const fullName = document.getElementById('fullName').value.trim();
       const mobileNumber = document.getElementById('mobileNumber').value.trim();
-      const state = document.getElementById('state').value;
+      const state = document.getElementById('state').value.trim();
+      const submitBtn = document.getElementById('submitBtn');
 
       let hasError = false;
 
@@ -491,35 +505,43 @@
       }
 
       if (!validateMobile(mobileNumber)) {
-        showFieldError('mobileNumber', 'mobileError', 'Please enter a valid 10-digit mobile number');
+        showFieldError(
+          'mobileNumber',
+          'mobileError',
+          'Please enter a valid 10-digit mobile number'
+        );
         hasError = true;
       }
 
       if (!validateState(state)) {
-        showFieldError('state', 'stateError', 'Please select your state or UT');
+        showFieldError(
+          'state',
+          'stateError',
+          'Please select your state or UT'
+        );
         hasError = true;
       }
 
       if (hasError) return false;
 
-      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML =
+        '<span class="loading-spinner"></span>Saving...';
 
       try {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="loading-spinner"></span>Saving...';
-
         const { data: { session }, error: sessionError } =
           await supabase.auth.getSession();
 
         if (sessionError) throw sessionError;
 
-        if (!session) {
-          throw new Error('Your login session has expired. Please log in again.');
+        if (!session || !session.user) {
+          throw new Error(
+            'Your login session has expired. Please log in again.'
+          );
         }
 
         const userId = session.user.id;
 
-        // Preserve existing admin status if a profile row already exists.
         const { data: existingProfile, error: existingError } =
           await supabase
             .from('profiles')
@@ -540,14 +562,33 @@
           profileData.is_admin = existingProfile.is_admin === true;
         }
 
-        const { error: saveError } = await supabase
-          .from('profiles')
-          .upsert(profileData, { onConflict: 'id' });
+        const { error: saveError } =
+          await supabase
+            .from('profiles')
+            .upsert(profileData, { onConflict: 'id' });
 
         if (saveError) throw saveError;
 
-        // Do not wait for another database request.
-        // The profile is saved, so go directly to dashboard.
+        const { data: savedProfile, error: verifyError } =
+          await supabase
+            .from('profiles')
+            .select('display_name, mobile, state')
+            .eq('id', userId)
+            .maybeSingle();
+
+        if (verifyError) throw verifyError;
+
+        if (
+          !savedProfile ||
+          savedProfile.display_name !== fullName ||
+          String(savedProfile.mobile) !== mobileNumber ||
+          savedProfile.state !== state
+        ) {
+          throw new Error(
+            'Profile was saved, but could not be verified. Please check your Supabase profiles table policies.'
+          );
+        }
+
         window.location.replace('./dashboard.html');
         return false;
 
@@ -565,22 +606,51 @@
       }
     }
 
-    // Handle logout
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
+    async function handleLogout() {
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      logoutBtn.disabled = true;
+      logoutBtn.textContent = 'Logging out...';
+
       try {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-          console.error('Logout error:', error);
-        }
-        window.location.replace('./login.html');
+        await supabase.auth.signOut({ scope: 'local' });
       } catch (err) {
         console.error('Logout error:', err);
-        window.location.replace('./login.html');
       }
-    });
 
-    // Check auth on page load
-    document.addEventListener('DOMContentLoaded', checkAuth);
+      try {
+        Object.keys(localStorage).forEach((key) => {
+          if (key.startsWith('sb-') && key.includes('-auth-token')) {
+            localStorage.removeItem(key);
+          }
+        });
+      } catch (err) {
+        console.error('Local storage cleanup error:', err);
+      }
+
+      window.location.replace('./login.html');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadOldQueryValues();
+
+      document.getElementById('profileForm').addEventListener(
+        'submit',
+        saveProfile
+      );
+
+      document.getElementById('submitBtn').addEventListener(
+        'click',
+        saveProfile
+      );
+
+      document.getElementById('logoutBtn').addEventListener(
+        'click',
+        handleLogout
+      );
+
+      checkAuth();
+    });
   </script>
 
 </body>
