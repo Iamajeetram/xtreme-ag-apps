@@ -420,6 +420,53 @@
         bottom: 12px;
       }
     }
+
+    /* THEME SYSTEM */
+    body,
+    header,
+    footer,
+    .apps,
+    .tester,
+    .app-card,
+    .tester-card,
+    .feature,
+    .entry-modal,
+    .entry-option {
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .theme-choice:hover,
+    .zoom-btn:hover,
+    .theme-dock-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+      transform: translateY(-1px);
+    }
+
+    html[data-theme="aurora"] .hero {
+      background: radial-gradient(circle at 50% 35%, rgba(98,230,196,0.13), transparent 34%), #04100d;
+    }
+
+    html[data-theme="neo"] .hero {
+      background: radial-gradient(circle at 50% 35%, rgba(255,79,216,0.13), transparent 34%), #07040c;
+    }
+
+    html[data-theme="lavender"] .hero {
+      background: radial-gradient(circle at 50% 35%, rgba(167,139,250,0.13), transparent 34%), #070711;
+    }
+
+    html[data-theme="aurora"] .entry-option:hover {
+      background: rgba(98,230,196,0.07);
+    }
+
+    html[data-theme="neo"] .entry-option:hover {
+      background: rgba(255,79,216,0.07);
+    }
+
+    html[data-theme="lavender"] .entry-option:hover {
+      background: rgba(167,139,250,0.07);
+    }
+
   </style>
 </head>
 
@@ -445,9 +492,35 @@
           <p>Access study resources, test series and preparation content.</p>
         </button>
       </div>
+
     </div>
   </div>
 
+
+  <!-- THEME + TEXT SIZE CONTROLS -->
+  <div class="theme-dock" id="themeDock">
+    <button type="button" class="theme-dock-btn" id="themeToggle"
+      aria-label="Open theme and text size controls">Aa</button>
+
+    <div class="theme-panel" id="themePanel">
+      <div class="theme-panel-title">Text Size</div>
+
+      <div class="theme-row">
+        <button type="button" class="zoom-btn" id="zoomOut" aria-label="Decrease text size">A−</button>
+        <span id="zoomValue">100%</span>
+        <button type="button" class="zoom-btn" id="zoomIn" aria-label="Increase text size">A+</button>
+      </div>
+
+      <div class="theme-panel-title">Choose Theme</div>
+
+      <div class="theme-grid">
+        <button type="button" class="theme-choice" data-theme="obsidian">Obsidian</button>
+        <button type="button" class="theme-choice" data-theme="aurora">Aurora</button>
+        <button type="button" class="theme-choice" data-theme="neo">Neo Pop</button>
+        <button type="button" class="theme-choice" data-theme="lavender">Lavender</button>
+      </div>
+    </div>
+  </div>
 
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
@@ -790,41 +863,90 @@
       var zoomValue = document.getElementById('zoomValue');
       var themeButtons = document.querySelectorAll('.theme-choice');
 
-      if (!dock || !panel) return;
+      if (!dock || !panel || !toggle || !zoomOut || !zoomIn || !zoomValue) return;
 
       var themes = {
-        obsidian: { accent: '#d4af37', accent2: '#f5d76e', surface: '#080808', surface2: '#111111', text: '#ffffff', muted: '#a5a5a5' },
-        aurora: { accent: '#62e6c4', accent2: '#b5fff0', surface: '#07110f', surface2: '#0e1d19', text: '#f5fffd', muted: '#9cb6b0' },
-        neo: { accent: '#ff4fd8', accent2: '#8df7ff', surface: '#0a0710', surface2: '#171020', text: '#ffffff', muted: '#b8afc2' },
-        lavender: { accent: '#a78bfa', accent2: '#d8ccff', surface: '#090812', surface2: '#151327', text: '#ffffff', muted: '#aaa7bb' }
+        obsidian: {
+          accent: '#d4af37',
+          accent2: '#f5d76e',
+          surface: '#070707',
+          surface2: '#0d0d0d',
+          text: '#ffffff',
+          muted: '#a5a5a5',
+          border: 'rgba(212,175,55,0.24)'
+        },
+        aurora: {
+          accent: '#62e6c4',
+          accent2: '#b5fff0',
+          surface: '#07110f',
+          surface2: '#0e1d19',
+          text: '#f5fffd',
+          muted: '#9cb6b0',
+          border: 'rgba(98,230,196,0.26)'
+        },
+        neo: {
+          accent: '#ff4fd8',
+          accent2: '#8df7ff',
+          surface: '#0a0710',
+          surface2: '#171020',
+          text: '#ffffff',
+          muted: '#b8afc2',
+          border: 'rgba(255,79,216,0.28)'
+        },
+        lavender: {
+          accent: '#a78bfa',
+          accent2: '#d8ccff',
+          surface: '#090812',
+          surface2: '#151327',
+          text: '#ffffff',
+          muted: '#aaa7bb',
+          border: 'rgba(167,139,250,0.28)'
+        }
       };
 
       function applyTheme(name) {
         var t = themes[name] || themes.obsidian;
+
         document.documentElement.style.setProperty('--gold', t.accent);
         document.documentElement.style.setProperty('--gold-light', t.accent2);
         document.documentElement.style.setProperty('--surface', t.surface);
         document.documentElement.style.setProperty('--surface-2', t.surface2);
         document.documentElement.style.setProperty('--white', t.text);
         document.documentElement.style.setProperty('--gray', t.muted);
-        document.documentElement.style.setProperty('--border', 'color-mix(in srgb, ' + t.accent + ' 24%, transparent)');
+        document.documentElement.style.setProperty('--border', t.border);
+
         document.documentElement.dataset.theme = name;
         localStorage.setItem('xag-theme', name);
+
         themeButtons.forEach(function(btn) {
           btn.classList.toggle('active', btn.dataset.theme === name);
         });
+
+        var metaTheme = document.querySelector('meta[name="theme-color"]');
+        if (metaTheme) metaTheme.setAttribute('content', t.surface);
       }
 
       function applyZoom(value) {
         value = Math.max(85, Math.min(120, value));
-        document.documentElement.style.setProperty('--xag-zoom', value / 100);
+
+        document.documentElement.style.setProperty('--xag-zoom', String(value / 100));
         document.body.style.fontSize = value + '%';
         zoomValue.textContent = value + '%';
+
         localStorage.setItem('xag-zoom', String(value));
       }
 
-      toggle.addEventListener('click', function() {
+      toggle.addEventListener('click', function(event) {
+        event.stopPropagation();
         panel.classList.toggle('open');
+      });
+
+      panel.addEventListener('click', function(event) {
+        event.stopPropagation();
+      });
+
+      document.addEventListener('click', function() {
+        panel.classList.remove('open');
       });
 
       zoomOut.addEventListener('click', function() {
