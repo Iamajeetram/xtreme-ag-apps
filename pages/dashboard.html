@@ -415,63 +415,77 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // Initialize Supabase
-    const SUPABASE_URL = 'https://your-supabase-url.supabase.co';
-    const SUPABASE_ANON_KEY = 'your-supabase-anon-key';
+    const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Load and display user profile
     async function loadProfile() {
+      const loading = document.getElementById('loadingIndicator');
+      const content = document.getElementById('profileContent');
+      const errorContent = document.getElementById('errorContent');
+      const errorMessage = document.getElementById('errorMessage');
+
       try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        loading.style.display = 'flex';
+        content.style.display = 'none';
+        errorContent.style.display = 'none';
+
+        const { data: { session }, error: sessionError } =
+          await supabase.auth.getSession();
 
         if (sessionError || !session) {
-          window.location.href = './login.html';
+          window.location.replace('./login.html');
           return;
         }
 
-        const userId = session.user.id;
-        const userEmail = session.user.email || '';
+        const user = session.user;
+        const userId = user.id;
+        const userEmail = user.email || '';
 
-        // Update welcome message
-        const displayName = session.user.user_metadata?.full_name || 
-                          session.user.user_metadata?.name || 
-                          'User';
-        document.getElementById('userName').textContent = displayName.split(' ')[0] || 'User';
-
-        // Fetch profile from database
+        // maybeSingle() allows a new Google user to have no profile row yet.
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('display_name, mobile, state')
           .eq('id', userId)
-          .single();
+          .maybeSingle();
 
         if (profileError) {
-          throw new Error('Failed to load profile');
+          console.error('Profile query error:', profileError);
+          throw new Error(profileError.message || 'Unable to check profile');
         }
 
-        // Check if profile is complete
+        // New or incomplete users go to the profile form.
         if (!profile || !profile.display_name || !profile.mobile || !profile.state) {
-          // Profile incomplete, redirect to completion page
-          window.location.href = './complete-profile.html';
+          window.location.replace('./complete-profile.html');
           return;
         }
 
-        // Display profile information
-        document.getElementById('profileName').textContent = profile.display_name || '—';
-        document.getElementById('profileEmail').textContent = userEmail || '—';
-        document.getElementById('profileMobile').textContent = profile.mobile || '—';
-        document.getElementById('profileState').textContent = profile.state || '—';
+        const displayName =
+          profile.display_name ||
+          user.user_metadata?.full_name ||
+          user.user_metadata?.name ||
+          'User';
 
-        // Show profile content
-        document.getElementById('loadingIndicator').style.display = 'none';
-        document.getElementById('profileContent').style.display = 'block';
+        document.getElementById('userName').textContent =
+          displayName.trim().split(/\s+/)[0] || 'User';
+
+        document.getElementById('profileName').textContent = profile.display_name;
+        document.getElementById('profileEmail').textContent = userEmail || '—';
+        document.getElementById('profileMobile').textContent = profile.mobile;
+        document.getElementById('profileState').textContent = profile.state;
+
+        loading.style.display = 'none';
+        content.style.display = 'block';
 
       } catch (err) {
         console.error('Profile load error:', err);
-        document.getElementById('loadingIndicator').style.display = 'none';
-        document.getElementById('errorContent').style.display = 'block';
-        document.getElementById('errorMessage').textContent = 'Failed to load profile: ' + err.message;
+        loading.style.display = 'none';
+        content.style.display = 'none';
+        errorContent.style.display = 'block';
+        errorMessage.textContent =
+          'Failed to load profile: ' + (err.message || 'Unknown error');
       }
     }
 
@@ -483,10 +497,10 @@
         if (error) {
           console.error('Logout error:', error);
         }
-        window.location.href = './login.html';
+        window.location.replace('./login.html');
       } catch (err) {
         console.error('Logout error:', err);
-        window.location.href = './login.html';
+        window.location.replace('./login.html');
       }
     }
 
@@ -496,7 +510,7 @@
     // Listen for auth state changes
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
-        window.location.href = './login.html';
+        window.location.replace('./login.html');
       }
     });
   </script>
