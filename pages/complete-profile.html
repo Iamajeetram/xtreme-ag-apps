@@ -345,8 +345,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // Initialize Supabase
-    const SUPABASE_URL = 'https://your-supabase-url.supabase.co';
-    const SUPABASE_ANON_KEY = 'your-supabase-anon-key';
+    const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
 
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -354,37 +354,38 @@
     async function checkAuth() {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
-        
+
         if (error || !session) {
-          // Not authenticated, redirect to login
-          window.location.href = './login.html';
+          window.location.replace('./login.html');
           return;
         }
 
-        // Check if profile is already complete
-        const { data: profile } = await supabase
+        const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('display_name, mobile, state')
           .eq('id', session.user.id)
-          .single();
+          .maybeSingle();
 
-        if (profile && profile.display_name && profile.mobile && profile.state) {
-          // Profile is complete, redirect to dashboard
-          window.location.href = './dashboard.html';
+        if (profileError) {
+          console.error('Profile check error:', profileError);
+          showFormError('Could not check your profile. Please try again.');
           return;
         }
 
-        // Prefill name from Google metadata if available
-        const userEmail = session.user.email || '';
-        const userName = session.user.user_metadata?.full_name || 
-                        session.user.user_metadata?.name || 
-                        '';
+        if (profile && profile.display_name && profile.mobile && profile.state) {
+          window.location.replace('./dashboard.html');
+          return;
+        }
+
+        const userName =
+          session.user.user_metadata?.full_name ||
+          session.user.user_metadata?.name ||
+          '';
 
         if (userName) {
           document.getElementById('fullName').value = userName;
         }
 
-        // If profile exists but is incomplete, prefill available fields
         if (profile) {
           if (profile.display_name) document.getElementById('fullName').value = profile.display_name;
           if (profile.mobile) document.getElementById('mobileNumber').value = profile.mobile;
@@ -393,7 +394,7 @@
 
       } catch (err) {
         console.error('Auth check error:', err);
-        window.location.href = './login.html';
+        showFormError('Unable to load your profile. Please try again.');
       }
     }
 
@@ -478,7 +479,7 @@
         
         if (sessionError || !session) {
           showFormError('Session expired. Please log in again.');
-          window.location.href = './login.html';
+          window.location.replace('./login.html');
           return;
         }
 
@@ -487,29 +488,43 @@
         // Check if profile exists
         const { data: existingProfile, error: fetchError } = await supabase
           .from('profiles')
-          .select('is_admin')
+          .select('id, is_admin')
           .eq('id', userId)
-          .single();
+          .maybeSingle();
 
         let isAdmin = false;
         if (existingProfile && existingProfile.is_admin) {
           isAdmin = true; // Preserve admin status if exists
         }
 
-        // Upsert profile
-        const { error: upsertError } = await supabase
-          .from('profiles')
-          .upsert(
-            {
+        let upsertError = null;
+
+        if (existingProfile) {
+          const { error } = await supabase
+            .from('profiles')
+            .update({
+              display_name: fullName,
+              mobile: mobileNumber,
+              state: state,
+              updated_at: new Date().toISOString()
+            })
+            .eq('id', userId);
+
+          upsertError = error;
+        } else {
+          const { error } = await supabase
+            .from('profiles')
+            .insert({
               id: userId,
               display_name: fullName,
               mobile: mobileNumber,
               state: state,
               is_admin: isAdmin,
               updated_at: new Date().toISOString()
-            },
-            { onConflict: 'id' }
-          );
+            });
+
+          upsertError = error;
+        }
 
         if (upsertError) {
           showFormError('Failed to save profile: ' + upsertError.message);
@@ -519,7 +534,7 @@
         }
 
         // Profile saved successfully, redirect to dashboard
-        window.location.href = './dashboard.html';
+        window.location.replace('./dashboard.html');
 
       } catch (err) {
         console.error('Profile update error:', err);
@@ -537,10 +552,10 @@
         if (error) {
           console.error('Logout error:', error);
         }
-        window.location.href = './login.html';
+        window.location.replace('./login.html');
       } catch (err) {
         console.error('Logout error:', err);
-        window.location.href = './login.html';
+        window.location.replace('./login.html');
       }
     });
 
