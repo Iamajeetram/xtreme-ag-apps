@@ -1,0 +1,21 @@
+XTREME AG APPS, THEME CONTROLS
+
+1. Replace your current index.html with the included index.html.
+
+2. For dashboard.html, complete-profile.html, login.html and study portal pages:
+   add theme-controls.css in the <head>.
+   add theme-controls.js just before </body>.
+   add the contents of theme-controls-snippet.html immediately after <body>.
+
+3. Keep the same CSS variable names in each page:
+   --black, --surface, --surface-2, --gold, --gold-light,
+   --white, --gray, --border
+
+4. The selected theme and font size are saved in localStorage, so the same
+   choice remains when the user moves between pages on the same site.
+
+Themes:
+Almond Black, Clean Light, Aurora Mint, Neon Pop, Sunset, Ocean, Lavender, Candy.
+
+Font size:
+85% to 120%, in 5% steps.
