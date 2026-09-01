@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Xtreme AG Apps | Innovative Mobile Applications</title>
+
+  <meta name="description" content="Xtreme AG Apps creates innovative, useful and user-focused mobile applications. Explore our apps and join our Google Play closed testing program.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://xtremeagapps.in/">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Xtreme AG Apps | Innovative Mobile Applications">
+  <meta property="og:description" content="Xtreme AG Apps creates innovative, useful and user-focused mobile applications. Explore our apps and join our Google Play closed testing program.">
+  <meta property="og:url" content="https://xtremeagapps.in/">
+  <meta property="og:type" content="website">
+
+  <meta name="theme-color" content="#000000">
+
+  <style>
+
+    :root {
+      --black: #000000;
+      --surface: #070707;
+      --surface-2: #0d0d0d;
+      --gold: #d4af37;
+      --gold-light: #f5d76e;
+      --white: #ffffff;
+      --gray: #a5a5a5;
+      --gray-dark: #666666;
+      --border: rgba(212, 175, 55, 0.20);
+      --green: #63d69a;
+      --blue: #65a8ff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; }
+
+    .container { width: min(1120px, 92%); margin: auto; }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      background: #000;
+      color: var(--gold-light);
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transform: translateY(-120%);
+      transition: transform 0.18s ease;
+      z-index: 1200;
+    }
+    .skip-link:focus { transform: translateY(0); outline: none; }
+
+    /* Focus-visible styles for accessibility */
+    :focus { outline: none; }
+    a:focus-visible, button:focus-visible { outline: 3px solid rgba(245,215,110,0.22); box-shadow: 0 0 0 4px rgba(245,215,110,0.08); border-radius: 8px; }
+
+    /* HEADER */
+    header {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      background: rgba(0,0,0,0.90); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav { min-height: 72px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+
+    .logo { display:flex; align-items:center; gap:10px; font-size:19px; font-weight:800; letter-spacing:0.3px; }
+    .logo-mark { width:38px; height:38px; border:2px solid var(--gold); border-radius:10px; display:grid; place-items:center; color:var(--gold-light); font-weight:900; box-shadow:0 0 20px rgba(212,175,55,0.16); }
+    .logo span { color:var(--gold-light); }
+
+    nav { display:flex; align-items:center; gap:28px; }
+    nav a { color:#cccccc; font-size:14px; transition:0.25s ease; }
+    nav a:hover { color:var(--gold-light); }
+
+    .menu-btn { display:none; background:transparent; border:1px solid var(--border); color:white; padding:8px 11px; border-radius:8px; font-size:20px; cursor:pointer; }
+
+    /* HERO */
+    .hero { min-height:100vh; display:flex; align-items:center; position:relative; padding:130px 0 80px; background: radial-gradient(circle at 50% 35%, rgba(212,175,55,0.12), transparent 34%), #000000; }
+
+    .hero-content { max-width:850px; margin:auto; text-align:center; }
+    .badge { display:inline-block; padding:7px 16px; border:1px solid var(--border); border-radius:50px; color:var(--gold-light); background:rgba(212,175,55,0.05); font-size:13px; margin-bottom:25px; }
+
+    .hero h1 { font-size:clamp(45px,8vw,84px); line-height:1.04; font-weight:900; letter-spacing:-3px; margin-bottom:24px; }
+    .hero h1 span { color:var(--gold-light); text-shadow:0 0 40px rgba(212,175,55,0.22); }
+
+    .hero p { max-width:680px; margin:auto; color:var(--gray); font-size:18px; }
+
+    .hero-buttons { margin-top:36px; display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+
+    .btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 24px; border-radius:10px; font-weight:700; font-size:14px; transition:0.25s ease; }
+    .btn-primary { background:var(--gold); color:#000000; box-shadow:0 8px 30px rgba(212,175,55,0.16); }
+    .btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
+    .btn-outline { border:1px solid var(--border); color:white; background:rgba(255,255,255,0.02); }
+    .btn-outline:hover { border-color:var(--gold); color:var(--gold-light); transform:translateY(-2px); }
+
+    /* GENERAL SECTIONS */
+    section { padding:100px 0; }
+    .section-heading { text-align:center; margin-bottom:55px; }
+    .section-heading .small { color:var(--gold); text-transform:uppercase; font-size:12px; font-weight:800; letter-spacing:2px; margin-bottom:10px; }
+    .section-heading h2 { font-size:clamp(30px,5vw,46px); margin-bottom:12px; }
+    .section-heading p { color:var(--gray); max-width:680px; margin:auto; }
+
+    /* APPS */
+    .apps { background:var(--surface); }
+    .app-group { margin-bottom:60px; }
+    .group-title { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:20px; flex-wrap:wrap; }
+    .group-title h3 { font-size:24px; }
+    .group-title p { color:var(--gray); font-size:13px; }
+
+    .status-title { display:inline-flex; align-items:center; gap:8px; }
+    .status-dot { width:9px; height:9px; border-radius:50%; background:var(--green); box-shadow:0 0 12px rgba(99,214,154,0.55); }
+    .status-dot.dev { background:var(--gold); box-shadow:0 0 12px rgba(212,175,55,0.55); }
+
+    .app-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+
+    .app-card { padding:28px; background:#030303; border:1px solid var(--border); border-radius:20px; transition:0.3s ease; position:relative; overflow:hidden; }
+    .app-card::before { content:""; position:absolute; width:180px; height:180px; top:-100px; right:-100px; background:rgba(212,175,55,0.07); border-radius:50%; filter:blur(25px); }
+    .app-card:hover { transform:translateY(-5px); border-color:rgba(212,175,55,0.48); box-shadow:0 18px 50px rgba(0,0,0,0.55); }
+
+    .app-top { display:flex; align-items:flex-start; gap:17px; margin-bottom:20px; }
+    .app-icon { width:70px; height:70px; min-width:70px; border-radius:17px; border:1px solid var(--border); display:grid; place-items:center; color:var(--gold-light); font-size:28px; font-weight:900; background: linear-gradient(145deg, rgba(212,175,55,0.13), rgba(255,255,255,0.02)); }
+    .app-info { flex:1; }
+    .app-info h4 { font-size:20px; margin-bottom:5px; }
+    .package { color:#777777; font-size:11px; word-break:break-all; }
+
+    .status { display:inline-flex; padding:5px 10px; border-radius:50px; font-size:11px; font-weight:800; margin-bottom:15px; letter-spacing:0.3px; }
+    .status.testing { color:var(--green); border:1px solid rgba(99,214,154,0.25); background:rgba(99,214,154,0.07); }
+    .status.development { color:var(--gold-light); border:1px solid var(--border); background:rgba(212,175,55,0.07); }
+    /* Closed testing badge - gold outlined */
+    .status.closed { color:var(--gold-light); border:1px solid var(--gold); background:rgba(212,175,55,0.03); }
+
+    .app-card p { color:var(--gray); font-size:14px; margin-bottom:22px; }
+    .app-actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .small-btn { min-height:40px; padding:0 16px; border-radius:8px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; }
+    .small-btn.gold { background:var(--gold); color:#000000; }
+    .small-btn.dark { border:1px solid rgba(255,255,255,0.12); color:#dddddd; }
+    .small-btn.dark:hover { border-color:var(--gold); color:var(--gold-light); }
+
+    /* ABOUT */
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+    .about h2 { font-size:clamp(30px,5vw,46px); margin-bottom:20px; }
+    .about h2 span { color:var(--gold-light); }
+    .about p { color:var(--gray); margin-bottom:16px; }
+
+    .feature-list { display:grid; gap:15px; }
+    .feature { padding:19px; border:1px solid var(--border); border-radius:13px; background:var(--surface); }
+    .feature strong { display:block; color:var(--gold-light); margin-bottom:4px; }
+    .feature span { color:var(--gray); font-size:14px; }
+
+    /* TESTER */
+    .tester { background: radial-gradient(circle at 50% 50%, rgba(212,175,55,0.09), transparent 42%), var(--surface); }
+    .tester-box { max-width:1100px; margin:auto; padding:50px; border:1px solid var(--border); border-radius:24px; background:#030303; }
+    .tester-inner { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+    .tester-card { padding:20px; border:1px solid var(--border); border-radius:16px; background:#050505; }
+    .tester-card h3 { margin-bottom:8px; color:var(--gold-light); }
+    .tester-card p { color:var(--gray); font-size:14px; margin-bottom:14px; }
+    .tester-card .btn { min-width:220px; }
+
+    .tester-steps { margin-top:28px; text-align:left; color:var(--gray); }
+    .tester-steps ol { margin-left:18px; }
+    .tester-note { margin-top:12px; color:var(--gray); font-size:13px; }
+
+    /* SUPPORT */
+    .support { text-align:center; }
+    .support-content { max-width:700px; margin:auto; }
+    .support-content p { color:var(--gray); margin-bottom:25px; }
+
+    /* FOOTER */
+    footer { border-top:1px solid var(--border); padding:45px 0 25px; background:#000000; }
+    .footer-top { display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap; margin-bottom:35px; }
+    .footer-brand { max-width:360px; }
+    .footer-brand p { color:var(--gray); font-size:14px; margin-top:12px; }
+    .footer-links { display:flex; gap:22px; flex-wrap:wrap; align-items:center; }
+    .footer-links a { color:#999999; font-size:13px; }
+    .footer-links a:hover { color:var(--gold-light); }
+    .copyright { padding-top:22px; border-top:1px solid rgba(255,255,255,0.06); text-align:center; color:#555555; font-size:12px; }
+
+    /* MOBILE */
+    @media (max-width: 800px) {
+      nav { display:none; position:absolute; top:72px; left:0; width:100%; padding:20px; flex-direction:column; align-items:flex-start; background:#050505; border-bottom:1px solid var(--border); }
+      nav.active { display:flex; }
+      .menu-btn { display:block; }
+      .app-grid { grid-template-columns:1fr; }
+      .about-grid { grid-template-columns:1fr; gap:35px; }
+      section { padding:75px 0; }
+      .hero { padding-top:120px; }
+      .hero p { font-size:16px; }
+      .hero h1 { letter-spacing:-2px; }
+      .footer-top { flex-direction:column; }
+      .group-title { align-items:flex-start; }
+      .app-card { padding:23px; }
+      .tester-box { padding:28px; }
+      .tester-inner { grid-template-columns:1fr; }
+      .hero-buttons { flex-direction:column; gap:12px; }
+      .hero-buttons .btn { width:100%; min-width:0; }
+    }
+
+    /* ENTRY CHOICE POPUP */
+
+    .entry-overlay.hidden {
+      display: none;
+    }
+
+    .entry-modal .logo-mark {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      font-size: 23px;
+    }
+
+    .entry-modal h2 {
+      font-size: clamp(28px, 5vw, 42px);
+      margin-bottom: 8px;
+    }
+
+    .entry-modal h2 span {
+      color: var(--gold-light);
+    }
+
+    .entry-modal > p {
+      color: var(--gray);
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+
+    .entry-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .entry-option {
+      min-height: 190px;
+      padding: 26px 20px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #030303;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.25s ease;
+    }
+
+    .entry-option:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      background: rgba(212,175,55,0.06);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.4);
+    }
+
+    .entry-option-icon {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 15px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--gold-light);
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .entry-option h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+
+    .entry-option p {
+      color: var(--gray);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    body.entry-locked {
+      overflow: hidden;
+    }
+
+
+
+    /* =========================================================
+       XAG REFERENCE STYLE THEME SYSTEM
+       Complete visual identities, not just accent colors.
+       ========================================================= */
+
+    html[data-theme="mughal"] {
+      --black:#24100d; --surface:#4a1712; --surface-2:#65231a;
+      --gold:#d9ad45; --gold-light:#ffe2a0; --white:#fff7e8;
+      --gray:#d7c0a9; --gray-dark:#8d6d58; --border:rgba(230,184,83,.55);
+      --green:#83b86d; --blue:#6e9bc6; --theme-bg:#24100d;
+      --theme-glow:rgba(224,171,62,.28);
+    }
+
+    html[data-theme="madhubani"] {
+      --black:#f1e5cf; --surface:#ead8bb; --surface-2:#f8efdf;
+      --gold:#b52d25; --gold-light:#1f1711; --white:#211711;
+      --gray:#5e4d3c; --gray-dark:#806d58; --border:rgba(31,23,17,.55);
+      --green:#35744c; --blue:#315d8b; --theme-bg:#f1e5cf;
+      --theme-glow:rgba(181,45,37,.13);
+    }
+
+    html[data-theme="sheesh"] {
+      --black:#071b21; --surface:#0d3430; --surface-2:#17483e;
+      --gold:#d7ae4c; --gold-light:#ffe4a0; --white:#f7f4e8;
+      --gray:#b8c9c0; --gray-dark:#6e8b81; --border:rgba(215,174,76,.55);
+      --green:#58c78b; --blue:#6ea8d6; --theme-bg:#071b21;
+      --theme-glow:rgba(37,173,153,.20);
+    }
+
+    html[data-theme="kalamkari"] {
+      --black:#eee0c4; --surface:#e2cfaa; --surface-2:#f7edda;
+      --gold:#bd542b; --gold-light:#7c2c1f; --white:#241710;
+      --gray:#665040; --gray-dark:#8b6d54; --border:rgba(124,44,31,.50);
+      --green:#47724d; --blue:#3b596f; --theme-bg:#eee0c4;
+      --theme-glow:rgba(189,84,43,.15);
+    }
+
+    html[data-theme="cyberpunk"] {
+      --black:#07101b; --surface:#0c1725; --surface-2:#12263a;
+      --gold:#00e5ff; --gold-light:#8df7ff; --white:#eefcff;
+      --gray:#9cb6c4; --gray-dark:#5d7582; --border:rgba(0,229,255,.45);
+      --green:#4dff9a; --blue:#7b61ff; --theme-bg:#07101b;
+      --theme-glow:rgba(0,229,255,.25);
+    }
+
+    html[data-theme="vaporwave"] {
+      --black:#130c2d; --surface:#211044; --surface-2:#30155b;
+      --gold:#ff4fd8; --gold-light:#8df7ff; --white:#fff5ff;
+      --gray:#c3b4d2; --gray-dark:#756486; --border:rgba(255,79,216,.48);
+      --green:#7dffcf; --blue:#6d7bff; --theme-bg:#130c2d;
+      --theme-glow:rgba(255,79,216,.28);
+    }
+
+    html[data-theme="kawaii"] {
+      --black:#fff6ec; --surface:#fff0e6; --surface-2:#eaf7ff;
+      --gold:#f38cae; --gold-light:#8e72d9; --white:#352d3d;
+      --gray:#756d78; --gray-dark:#a69ca9; --border:rgba(142,114,217,.30);
+      --green:#72c9aa; --blue:#76bde9; --theme-bg:#fff6ec;
+      --theme-glow:rgba(243,140,174,.20);
+    }
+
+    html[data-theme="hyperpop"] {
+      --black:#ffffff; --surface:#f6f7fb; --surface-2:#ffffff;
+      --gold:#5b45e8; --gold-light:#e84393; --white:#171521;
+      --gray:#625e6e; --gray-dark:#918b9d; --border:rgba(91,69,232,.28);
+      --green:#00a878; --blue:#e84393; --theme-bg:#ffffff;
+      --theme-glow:rgba(232,67,147,.16);
+    }
+
+    body {
+      background:var(--theme-bg);
+      background-image:
+        radial-gradient(circle at 12% 15%, var(--theme-glow), transparent 24%),
+        radial-gradient(circle at 88% 76%, var(--theme-glow), transparent 27%);
+      color:var(--white);
+    }
+
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:-1;
+      opacity:.32;
+    }
+
+    /* Indian art inspired texture */
+    html[data-theme="mughal"] body::before {
+      opacity:.42;
+      background:
+        radial-gradient(circle at 20% 20%, transparent 0 22px, rgba(217,173,69,.16) 23px 25px, transparent 26px),
+        radial-gradient(circle at 80% 70%, transparent 0 28px, rgba(217,173,69,.11) 29px 31px, transparent 32px);
+      background-size:120px 120px, 170px 170px;
+    }
+
+    html[data-theme="madhubani"] body::before {
+      opacity:.42;
+      background:
+        repeating-linear-gradient(45deg, transparent 0 15px, rgba(181,45,37,.08) 16px 18px),
+        repeating-linear-gradient(-45deg, transparent 0 21px, rgba(53,116,76,.07) 22px 24px);
+    }
+
+    html[data-theme="sheesh"] body::before {
+      opacity:.45;
+      background:
+        radial-gradient(circle, rgba(215,174,76,.22) 0 2px, transparent 3px) 0 0/34px 34px,
+        radial-gradient(circle, rgba(83,219,189,.14) 0 1px, transparent 2px) 17px 17px/34px 34px;
+    }
+
+    html[data-theme="kalamkari"] body::before {
+      opacity:.38;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(124,44,31,.11) 0 8px, transparent 9px),
+        radial-gradient(ellipse at 75% 65%, rgba(71,114,77,.10) 0 10px, transparent 11px);
+      background-size:90px 110px, 130px 150px;
+    }
+
+    /* Futuristic textures */
+    html[data-theme="cyberpunk"] body::before {
+      opacity:.34;
+      background:
+        linear-gradient(rgba(0,229,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.08) 1px, transparent 1px);
+      background-size:32px 32px;
+      mask-image:linear-gradient(to bottom, black, transparent 85%);
+    }
+
+    html[data-theme="vaporwave"] body::before {
+      opacity:.38;
+      background:
+        linear-gradient(rgba(255,79,216,.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(141,247,255,.12) 1px, transparent 1px);
+      background-size:38px 38px;
+      transform:perspective(500px) rotateX(55deg) scale(1.8) translateY(24%);
+      transform-origin:center bottom;
+    }
+
+    html[data-theme="kawaii"] body::before {
+      opacity:.34;
+      background:
+        radial-gradient(circle at 15% 20%, #f7b7ca 0 5px, transparent 6px),
+        radial-gradient(circle at 82% 25%, #a8ddf7 0 5px, transparent 6px),
+        radial-gradient(circle at 45% 78%, #c7b5ef 0 4px, transparent 5px);
+      background-size:110px 130px, 140px 150px, 170px 160px;
+    }
+
+    html[data-theme="hyperpop"] body::before {
+      opacity:.27;
+      background:
+        radial-gradient(circle at 12% 20%, #ff4f9a 0 8px, transparent 9px),
+        radial-gradient(circle at 84% 18%, #4d8dff 0 9px, transparent 10px),
+        radial-gradient(circle at 25% 82%, #ffd34d 0 7px, transparent 8px),
+        radial-gradient(circle at 80% 78%, #6de0c1 0 8px, transparent 9px);
+      background-size:160px 170px, 190px 180px, 170px 160px, 210px 190px;
+    }
+
+    header {
+      background:color-mix(in srgb, var(--theme-bg) 88%, transparent);
+      border-bottom-color:var(--border);
+    }
+
+    nav a { color:color-mix(in srgb, var(--white) 78%, var(--gray)); }
+    nav a:hover { color:var(--gold-light); }
+
+    .hero {
+      background:
+        radial-gradient(circle at 50% 25%, var(--theme-glow), transparent 40%),
+        var(--theme-bg);
+    }
+
+    .hero h1 span, .about h2 span { color:var(--gold-light); }
+    .hero h1 span { text-shadow:0 0 35px var(--theme-glow); }
+
+    .badge {
+      color:var(--gold-light);
+      background:color-mix(in srgb, var(--gold) 10%, transparent);
+      border-color:var(--border);
+    }
+
+    .btn-primary, .small-btn.gold {
+      background:linear-gradient(135deg,var(--gold),var(--gold-light));
+      color:var(--black);
+      box-shadow:0 10px 30px var(--theme-glow);
+    }
+
+    .btn-outline, .small-btn.dark {
+      border-color:var(--border);
+      background:color-mix(in srgb, var(--theme-card, var(--surface)) 65%, transparent);
+      color:var(--white);
+    }
+
+    .apps, .tester { background:var(--surface); }
+
+    .app-card, .tester-box, .tester-card, .feature {
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--surface-2) 92%, transparent), var(--surface)),
+        var(--surface);
+      border-color:var(--border);
+      box-shadow:0 18px 50px color-mix(in srgb, var(--black) 28%, transparent);
+    }
+
+    .app-card::before {
+      background:var(--theme-glow);
+    }
+
+    .app-icon {
+      color:var(--gold-light);
+      border-color:var(--border);
+      background:linear-gradient(145deg, color-mix(in srgb, var(--gold) 20%, transparent), transparent);
+    }
+
+    .tester {
+      background:
+        radial-gradient(circle at 50% 40%, var(--theme-glow), transparent 48%),
+        var(--surface);
+    }
+
+    .entry-overlay {
+      background:color-mix(in srgb, var(--black) 62%, transparent);
+      backdrop-filter:blur(12px);
+    }
+
+    .entry-modal {
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--surface-2) 95%, transparent), var(--surface)),
+        var(--surface);
+      border-color:var(--border);
+      box-shadow:0 30px 100px color-mix(in srgb, var(--black) 55%, transparent);
+    }
+
+    .entry-option {
+      background:color-mix(in srgb, var(--surface) 90%, transparent);
+      border-color:var(--border);
+    }
+
+    .entry-option:hover {
+      background:var(--surface-2);
+      border-color:var(--gold);
+      transform:translateY(-4px);
+      box-shadow:0 16px 40px var(--theme-glow);
+    }
+
+    .entry-option-icon {
+      border-color:var(--border);
+      color:var(--gold-light);
+      background:color-mix(in srgb, var(--gold) 8%, transparent);
+    }
+
+    footer { background:var(--theme-bg); border-top-color:var(--border); }
+
+    /* Art themed cards */
+    html[data-theme="mughal"] .entry-modal,
+    html[data-theme="mughal"] .app-card,
+    html[data-theme="mughal"] .tester-box,
+    html[data-theme="mughal"] .tester-card {
+      border-radius:8px;
+      box-shadow:inset 0 0 0 3px rgba(217,173,69,.08), 0 20px 55px rgba(0,0,0,.35);
+    }
+
+    html[data-theme="madhubani"] .entry-modal,
+    html[data-theme="madhubani"] .app-card,
+    html[data-theme="madhubani"] .tester-box,
+    html[data-theme="madhubani"] .tester-card {
+      border:2px solid #2b2118;
+      border-radius:3px;
+      box-shadow:inset 0 0 0 5px rgba(181,45,37,.08), 0 15px 35px rgba(60,35,15,.12);
+    }
+
+    html[data-theme="sheesh"] .entry-modal,
+    html[data-theme="sheesh"] .app-card,
+    html[data-theme="sheesh"] .tester-box {
+      border-radius:14px;
+      box-shadow:inset 0 0 0 1px rgba(215,174,76,.16), 0 20px 55px rgba(0,0,0,.40);
+    }
+
+    html[data-theme="kalamkari"] .entry-modal,
+    html[data-theme="kalamkari"] .app-card,
+    html[data-theme="kalamkari"] .tester-box {
+      border-radius:4px;
+      box-shadow:inset 0 0 0 4px rgba(124,44,31,.07), 0 15px 35px rgba(60,35,15,.12);
+    }
+
+    /* Gen Z glass / neon */
+    html[data-theme="cyberpunk"] .entry-modal,
+    html[data-theme="cyberpunk"] .app-card,
+    html[data-theme="cyberpunk"] .tester-box,
+    html[data-theme="cyberpunk"] .tester-card {
+      backdrop-filter:blur(18px);
+      background:linear-gradient(135deg,rgba(8,25,40,.86),rgba(8,16,28,.62));
+      border-color:rgba(0,229,255,.45);
+      box-shadow:0 0 35px rgba(0,229,255,.10), inset 0 1px rgba(255,255,255,.10);
+    }
+
+    html[data-theme="vaporwave"] .entry-modal,
+    html[data-theme="vaporwave"] .app-card,
+    html[data-theme="vaporwave"] .tester-box,
+    html[data-theme="vaporwave"] .tester-card {
+      backdrop-filter:blur(18px);
+      background:linear-gradient(135deg,rgba(40,17,72,.78),rgba(15,9,40,.78));
+      border-color:rgba(255,79,216,.48);
+      box-shadow:0 0 45px rgba(255,79,216,.12), inset 0 1px rgba(141,247,255,.18);
+      border-radius:18px;
+    }
+
+    html[data-theme="kawaii"] .entry-modal,
+    html[data-theme="kawaii"] .app-card,
+    html[data-theme="kawaii"] .tester-box,
+    html[data-theme="kawaii"] .tester-card {
+      background:linear-gradient(145deg,#fffaf4,#f5f1ff);
+      border:2px solid rgba(243,140,174,.38);
+      border-radius:24px;
+      box-shadow:0 18px 45px rgba(91,77,112,.12);
+    }
+
+    html[data-theme="hyperpop"] .entry-modal,
+    html[data-theme="hyperpop"] .app-card,
+    html[data-theme="hyperpop"] .tester-box,
+    html[data-theme="hyperpop"] .tester-card {
+      background:#ffffff;
+      border:2px solid #171521;
+      border-radius:18px;
+      box-shadow:8px 8px 0 rgba(232,67,147,.25), 0 18px 35px rgba(30,25,45,.12);
+    }
+
+    /* Light themes need readable controls */
+    html[data-theme="madhubani"] .xag-theme-bar,
+    html[data-theme="kalamkari"] .xag-theme-bar,
+    html[data-theme="kawaii"] .xag-theme-bar,
+    html[data-theme="hyperpop"] .xag-theme-bar {
+      background:rgba(255,255,255,.90);
+      box-shadow:0 10px 35px rgba(50,35,25,.16);
+    }
+
+    /* New theme names on the existing swatches */
+    .xag-theme-swatch.mughal { background:linear-gradient(135deg,#3a120d,#d9ad45); }
+    .xag-theme-swatch.madhubani { background:linear-gradient(135deg,#f4e5c7,#b52d25,#35744c); }
+    .xag-theme-swatch.sheesh { background:linear-gradient(135deg,#061c22,#0d6b58,#d7ae4c); }
+    .xag-theme-swatch.kalamkari { background:linear-gradient(135deg,#f1e2c5,#bd542b,#47724d); }
+    .xag-theme-swatch.cyberpunk { background:linear-gradient(135deg,#07101b,#00e5ff,#7b61ff); }
+    .xag-theme-swatch.vaporwave { background:linear-gradient(135deg,#211044,#ff4fd8,#8df7ff); }
+    .xag-theme-swatch.kawaii { background:linear-gradient(135deg,#fff4e8,#f7b7ca,#a8ddf7); }
+    .xag-theme-swatch.hyperpop { background:linear-gradient(135deg,#ffffff,#e84393,#4d8dff); }
+
+    /* Direct theme and font controls */
+    .xag-theme-bar{position:fixed;top:12px;right:16px;z-index:99999;display:flex;align-items:center;gap:7px;max-width:calc(100vw - 20px);padding:7px 9px;overflow-x:auto;scrollbar-width:none;background:rgba(8,8,8,.94);border:1px solid var(--border);border-radius:999px;backdrop-filter:blur(16px);box-shadow:0 10px 35px rgba(0,0,0,.30)}
+    .xag-theme-bar::-webkit-scrollbar{display:none}
+    .xag-theme-label{color:var(--gray);font-size:10px;font-weight:900;letter-spacing:1px}
+    .xag-theme-swatch{width:31px;height:31px;min-width:31px;padding:0;border:2px solid rgba(255,255,255,.28);border-radius:50%;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+    .xag-theme-swatch:hover{transform:translateY(-2px) scale(1.08)}
+    .xag-theme-swatch.active{border-color:#fff;box-shadow:0 0 0 2px var(--gold)}
+    .obsidian{background:linear-gradient(135deg,#17120a,#d4af37)}
+    .light{background:linear-gradient(135deg,#fff,#cbd5e1)}
+    .aurora{background:linear-gradient(135deg,#0b2f2b,#62e6c4)}
+    .neo{background:linear-gradient(135deg,#ff4fd8,#8df7ff)}
+    .sunset{background:linear-gradient(135deg,#ff6b6b,#ffd166)}
+    .ocean{background:linear-gradient(135deg,#2563eb,#22d3ee)}
+    .lavender{background:linear-gradient(135deg,#7c3aed,#c4b5fd)}
+    .candy{background:linear-gradient(135deg,#fb7185,#f9a8d4)}
+    .xag-font-control{display:flex;align-items:center;gap:5px;margin-left:4px;padding-left:7px;border-left:1px solid rgba(255,255,255,.18)}
+    .xag-font-btn{width:29px;height:29px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--white);font-weight:900;cursor:pointer}
+    #xagFontValue{min-width:38px;color:var(--white);font-size:10px;font-weight:900;text-align:center}
+    html[data-theme="light"] .xag-theme-bar{background:rgba(255,255,255,.94);box-shadow:0 10px 35px rgba(40,50,70,.18)}
+    html[data-theme="light"] .xag-font-btn,html[data-theme="light"] #xagFontValue{color:#171923}
+    html[data-theme="light"] .xag-font-btn{background:#fff}
+    @media(max-width:800px){.xag-theme-bar{left:8px;right:8px;top:7px;border-radius:15px}header{padding-top:48px}}
+
+    /* XAG compact global controls */
+    .xag-control-wrap{position:fixed;top:14px;right:16px;z-index:99999;font-family:inherit}
+    .xag-control-toggle{
+      width:46px;height:46px;border:1px solid var(--border);border-radius:50%;
+      background:var(--surface);color:var(--white);font-size:20px;cursor:pointer;
+      box-shadow:0 10px 30px rgba(0,0,0,.28);backdrop-filter:blur(14px);
+      transition:.2s ease
+    }
+    .xag-control-toggle:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 12px 34px var(--theme-glow)}
+    .xag-control-panel{
+      position:absolute;top:54px;right:0;display:none;align-items:center;gap:7px;
+      max-width:min(620px,calc(100vw - 20px));padding:9px 11px;
+      background:var(--surface-2);border:1px solid var(--border);border-radius:16px;
+      box-shadow:0 20px 55px rgba(0,0,0,.34);backdrop-filter:blur(18px);
+      overflow-x:auto;white-space:nowrap
+    }
+    .xag-control-panel.open{display:flex}
+    .xag-control-label{font-size:10px;font-weight:900;letter-spacing:1px;color:var(--gray)}
+    .xag-theme-swatch{width:28px;height:28px;min-width:28px;border:2px solid rgba(255,255,255,.3);border-radius:50%;cursor:pointer;transition:.15s}
+    .xag-theme-swatch:hover{transform:scale(1.1)}
+    .xag-theme-swatch.active{border-color:#fff;box-shadow:0 0 0 2px var(--gold)}
+    .xag-theme-swatch.mughal{background:linear-gradient(135deg,#3a120d,#d9ad45)}
+    .xag-theme-swatch.madhubani{background:linear-gradient(135deg,#f4e5c7,#b52d25,#35744c)}
+    .xag-theme-swatch.sheesh{background:linear-gradient(135deg,#061c22,#0d6b58,#d7ae4c)}
+    .xag-theme-swatch.kalamkari{background:linear-gradient(135deg,#f1e2c5,#bd542b,#47724d)}
+    .xag-theme-swatch.cyberpunk{background:linear-gradient(135deg,#07101b,#00e5ff,#7b61ff)}
+    .xag-theme-swatch.vaporwave{background:linear-gradient(135deg,#211044,#ff4fd8,#8df7ff)}
+    .xag-theme-swatch.kawaii{background:linear-gradient(135deg,#fff4e8,#f7b7ca,#a8ddf7)}
+    .xag-theme-swatch.hyperpop{background:linear-gradient(135deg,#fff,#e84393,#4d8dff)}
+    .xag-font-control{display:flex;align-items:center;gap:5px;margin-left:4px;padding-left:8px;border-left:1px solid rgba(255,255,255,.18)}
+    .xag-font-btn{width:30px;height:30px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--white);font-weight:900;cursor:pointer}
+    #xagFontValue{min-width:40px;text-align:center;font-size:11px;font-weight:800;color:var(--white)}
+    .xag-whatsapp{
+      position:fixed;right:18px;bottom:18px;z-index:9998;display:flex;align-items:center;gap:8px;
+      padding:11px 15px;border-radius:999px;background:#25D366;color:#fff;font-weight:800;font-size:13px;
+      box-shadow:0 12px 35px rgba(0,0,0,.28);text-decoration:none;transition:.2s ease
+    }
+    .xag-whatsapp:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(37,211,102,.28)}
+    .xag-whatsapp-icon{font-size:18px}
+    @media(max-width:700px){
+      .xag-control-wrap{top:9px;right:10px}
+      .xag-control-panel{right:-2px;max-width:calc(100vw - 20px)}
+      .xag-whatsapp{right:12px;bottom:12px;padding:10px 13px}
+      .xag-whatsapp-text{display:none}
+      .hero{padding-top:76px}
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- FIRST VISIT / ENTRY CHOICE POPUP -->
+  <div class="entry-overlay" id="entryOverlay" role="dialog" aria-modal="true" aria-labelledby="entryTitle">
+    <div class="entry-modal">
+      <div class="logo-mark" aria-hidden="true">X</div>
+      <h2 id="entryTitle">Welcome to <span>Xtreme AG Apps</span></h2>
+      <p>Choose what you want to explore.</p>
+
+      <div class="entry-options">
+        <button type="button" class="entry-option" id="gamesChoice">
+          <div class="entry-option-icon" aria-hidden="true">G</div>
+          <h3>Games &amp; Apps</h3>
+          <p>Explore our games, applications and early access products.</p>
+        </button>
+
+        <button type="button" class="entry-option" id="studyChoice">
+          <div class="entry-option-icon" aria-hidden="true">S</div>
+          <h3>Study Material &amp; Test Series</h3>
+          <p>Access study resources, test series and preparation content.</p>
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div class="xag-theme-bar" aria-label="Theme and font controls">
+    <span class="xag-theme-label">STYLE</span>
+    <button class="xag-theme-swatch mughal" data-theme="mughal" title="Digital Mughal, miniature and paisley" aria-label="Digital Mughal theme"></button>
+    <button class="xag-theme-swatch madhubani" data-theme="madhubani" title="Madhubani Folk Art" aria-label="Madhubani Folk Art theme"></button>
+    <button class="xag-theme-swatch sheesh" data-theme="sheesh" title="Royal Rajasthani Sheesh Mahal" aria-label="Royal Rajasthani Sheesh Mahal theme"></button>
+    <button class="xag-theme-swatch kalamkari" data-theme="kalamkari" title="Kalamkari Temple Painting" aria-label="Kalamkari Temple Painting theme"></button>
+    <button class="xag-theme-swatch cyberpunk" data-theme="cyberpunk" title="Y2K Cyberpunk" aria-label="Y2K Cyberpunk theme"></button>
+    <button class="xag-theme-swatch vaporwave" data-theme="vaporwave" title="Vaporwave Glitch" aria-label="Vaporwave Glitch theme"></button>
+    <button class="xag-theme-swatch kawaii" data-theme="kawaii" title="Pastel Kawaii" aria-label="Pastel Kawaii theme"></button>
+    <button class="xag-theme-swatch hyperpop" data-theme="hyperpop" title="Hyper Pop Doodle" aria-label="Hyper Pop Doodle theme"></button>
+    <div class="xag-font-control">
+      <button class="xag-font-btn" id="xagZoomOut" type="button" aria-label="Decrease text size">A−</button>
+      <span id="xagFontValue">100%</span>
+      <button class="xag-font-btn" id="xagZoomIn" type="button" aria-label="Increase text size">A+</button>
+    </div>
+  </div>
+  </div>
+
+  <div class="xag-control-wrap" id="xagControlWrap">
+    <button type="button" class="xag-control-toggle" id="xagThemeToggle" aria-expanded="false" aria-controls="xagControlPanel">
+      🎨
+    </button>
+    <div class="xag-control-panel" id="xagControlPanel" aria-hidden="true">
+      <span class="xag-control-label">STYLE</span>
+      <button class="xag-theme-swatch mughal" data-theme="mughal" title="Digital Mughal"></button>
+      <button class="xag-theme-swatch madhubani" data-theme="madhubani" title="Madhubani Folk"></button>
+      <button class="xag-theme-swatch sheesh" data-theme="sheesh" title="Royal Sheesh Mahal"></button>
+      <button class="xag-theme-swatch kalamkari" data-theme="kalamkari" title="Kalamkari"></button>
+      <button class="xag-theme-swatch cyberpunk" data-theme="cyberpunk" title="Cyber Slate"></button>
+      <button class="xag-theme-swatch vaporwave" data-theme="vaporwave" title="Vaporwave"></button>
+      <button class="xag-theme-swatch kawaii" data-theme="kawaii" title="Pastel Kawaii"></button>
+      <button class="xag-theme-swatch hyperpop" data-theme="hyperpop" title="Hyper Pop"></button>
+      <div class="xag-font-control">
+        <button type="button" class="xag-font-btn" id="xagZoomOut">A−</button>
+        <span id="xagFontValue">100%</span>
+        <button type="button" class="xag-font-btn" id="xagZoomIn">A+</button>
+      </div>
+    </div>
+  </div>
+
+  <a id="xagWhatsapp" class="xag-whatsapp" href="https://wa.me/919462856389" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Support">
+    <span class="xag-whatsapp-icon">💬</span><span class="xag-whatsapp-text">WhatsApp Support</span>
+  </a>
+
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <a href="#home" class="logo" aria-label="Xtreme AG Apps home">
+        <div class="logo-mark" aria-hidden="true">X</div>
+        <div>Xtreme <span>AG Apps</span></div>
+      </a>
+
+      <button class="menu-btn" id="menuBtn" onclick="toggleMenu()" aria-expanded="false" aria-controls="navigation" aria-label="Open menu">☰</button>
+
+      <nav id="navigation">
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#apps" onclick="closeMenu()">Apps &amp; Games</a>
+  <a href="pages/study-portal.html">Study Portal</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#support" onclick="closeMenu()">Support</a>
+  <a href="pages/login.html">Login / Account</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <main id="main-content">
+    <section class="hero" id="main-content">
+      <div class="container">
+        <div class="badge">📚 Study Material • Notes • Test Series</div>
+        <h1>Prepare. Practice. <span>Perform.</span></h1>
+        <p class="hero-subtitle">
+          Notes, study material, mock tests and test series, all in one focused learning platform.
+        </p>
+        <div class="hero-actions">
+          <a href="pages/login.html" class="btn btn-primary">Start Preparing →</a>
+          <a href="#apps" class="btn btn-outline">Explore Apps &amp; Games</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPS -->
+    <section class="apps" id="apps">
+      <div class="container">
+        <div class="section-heading">
+          <div class="small">Our Products</div>
+          <h2>Our Apps</h2>
+          <p>Explore apps currently being tested and products currently under development at Xtreme AG Apps.</p>
+        </div>
+
+        <!-- CLOSED TESTING -->
+        <div class="app-group">
+          <div class="group-title">
+            <div>
+              <div class="status-title">
+                <span class="status-dot" aria-hidden="true"></span>
+                <h3>Closed Testing</h3>
+              </div>
+            </div>
+            <p>Early access apps currently being tested.</p>
+          </div>
+
+          <div class="app-grid">
+
+            <!-- SWIFT SLIDER Z -->
+            <article class="app-card">
+              <div class="app-top">
+                <div class="app-icon" aria-hidden="true">S</div>
+                <div class="app-info">
+                  <h4>Swift Slider Z</h4>
+                  <div class="package">com.swiftsliderz</div>
+                </div>
+              </div>
+
+              <span class="status closed" role="status" aria-label="Closed testing">CLOSED TESTING</span>
+
+              <p>Swift Slider Z is currently available through our Google Play closed testing program.</p>
+
+              <div class="app-actions">
+                <a class="small-btn gold" href="https://play.google.com/apps/testing/com.swiftsliderz" target="_blank" rel="noopener noreferrer">Join Testing</a>
+                <a class="small-btn dark" href="https://play.google.com/apps/testing/com.swiftsliderz" target="_blank" rel="noopener noreferrer">View on Google Play</a>
+              </div>
+            </article>
+
+            <!-- CHATSTASH -->
+            <article class="app-card">
+              <div class="app-top">
+                <div class="app-icon" aria-hidden="true">C</div>
+                <div class="app-info">
+                  <h4>ChatStash Status Vault</h4>
+                  <div class="package">com.xtremeagapps.statusvault</div>
+                </div>
+              </div>
+
+              <span class="status closed" role="status" aria-label="Closed testing">CLOSED TESTING</span>
+
+              <p>ChatStash Status Vault is currently available through our Google Play closed testing program.</p>
+
+              <div class="app-actions">
+                <a class="small-btn gold" href="https://play.google.com/apps/testing/com.xtremeagapps.statusvault" target="_blank" rel="noopener noreferrer">Join Testing</a>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- DEVELOPMENT -->
+        <div class="app-group">
+          <div class="group-title">
+            <div>
+              <div class="status-title">
+                <span class="status-dot dev" aria-hidden="true"></span>
+                <h3>In Development</h3>
+              </div>
+            </div>
+            <p>Upcoming applications currently being developed.</p>
+          </div>
+
+          <div class="app-grid">
+
+            <article class="app-card">
+              <div class="app-top">
+                <div class="app-icon" aria-hidden="true">A</div>
+                <div class="app-info">
+                  <h4>Arrow Path Master</h4>
+                  <div class="package">com.aggames.arrowpath...</div>
+                </div>
+              </div>
+
+              <span class="status development" aria-label="In development">IN DEVELOPMENT</span>
+
+              <p>An upcoming application currently under active development. More information will be available as development progresses.</p>
+
+              <div class="app-actions">
+                <a href="#support" class="small-btn dark" onclick="closeMenu()">Stay Updated</a>
+              </div>
+            </article>
+
+            <article class="app-card">
+              <div class="app-top">
+                <div class="app-icon" aria-hidden="true">M</div>
+                <div class="app-info">
+                  <h4>Math X</h4>
+                  <div class="package">com.aggames.mathx...</div>
+                </div>
+              </div>
+
+              <span class="status development" aria-label="In development">IN DEVELOPMENT</span>
+
+              <p>An upcoming application currently under active development. More information will be available as development progresses.</p>
+
+              <div class="app-actions">
+                <a href="#support" class="small-btn dark" onclick="closeMenu()">Stay Updated</a>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <h2>Built with <span>Purpose.</span></h2>
+            <p>Xtreme AG Apps is focused on creating applications that are useful, reliable and enjoyable to use.</p>
+            <p>We believe good technology should solve real problems and be accessible to everyone.</p>
+          </div>
+
+          <div>
+            <div class="feature-list">
+              <div class="feature"><strong>Focus on Quality</strong><span>Careful testing and user feedback guide our releases.</span></div>
+              <div class="feature"><strong>User-Centered</strong><span>We design with accessibility and clarity in mind.</span></div>
+              <div class="feature"><strong>Lightweight</strong><span>Small, fast apps that respect device resources.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TESTER SECTION -->
+        <div class="tester" id="tester" style="margin-top:48px;">
+          <div class="tester-box">
+            <div class="section-heading" style="margin-bottom:18px; text-align:center;">
+              <div class="small">Early Access</div>
+              <h2>Become a <span>Tester</span></h2>
+              <p>Join our Google Play closed testing program and help us improve our apps before public release.</p>
+            </div>
+
+            <div class="tester-inner" role="list">
+
+              <div class="tester-card" role="listitem">
+                <h3>Swift Slider Z</h3>
+                <p>Help us test Swift Slider Z and provide feedback before its public release.</p>
+                <a class="btn btn-primary" href="https://play.google.com/apps/testing/com.swiftsliderz" target="_blank" rel="noopener noreferrer">Join Swift Slider Z Testing</a>
+              </div>
+
+              <div class="tester-card" role="listitem">
+                <h3>ChatStash Status Vault</h3>
+                <p>Help us test ChatStash Status Vault and provide feedback before its public release.</p>
+                <a class="btn btn-primary" href="https://play.google.com/apps/testing/com.xtremeagapps.statusvault" target="_blank" rel="noopener noreferrer">Join ChatStash Status Vault Testing</a>
+              </div>
+
+            </div>
+
+            <div class="tester-steps">
+              <h4 style="color:var(--gold-light); margin-top:20px;">How to Join the Test</h4>
+              <ol>
+                <li>Send us your Google account email.</li>
+                <li>Wait until your email is added to the closed testing program.</li>
+                <li>Open the testing link above using the same Google account and tap "Join the test."</li>
+              </ol>
+
+              <p class="tester-note"><strong>Important:</strong> Your Google account email must be added to the tester list before you can join the test. Use the same Google account that was added to the tester list.</p>
+
+              <p class="tester-note">If you see a message that the app is unavailable or you are not eligible to test, make sure your Google account has been added to the tester list.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Support -->
+    <section class="support" id="support">
+      <div class="container">
+        <div class="section-heading">
+          <div class="small">Need Help?</div>
+          <h2>Support</h2>
+          <p>Have a question, found a problem, or need help with one of our apps? Contact Xtreme AG Apps.</p>
+        </div>
+
+        <div class="support-content">
+          <p>For testing related issues, please mention the app name and the Google account email used for testing.</p>
+          <a href="mailto:ajeetram3@gmail.com" class="btn btn-outline">Contact Support</a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#home" class="logo" aria-label="Xtreme AG Apps home">
+            <div class="logo-mark" aria-hidden="true">X</div>
+            <div>Xtreme <span>AG Apps</span></div>
+          </a>
+          <p>Building useful, innovative and user-focused applications.</p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#home">Home</a>
+          <a href="#apps">Apps</a>
+          <a href="#about">About</a>
+          <a href="#tester">Become a Tester</a>
+          <a href="#support">Support</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms</a>
+        </div>
+      </div>
+
+      <div class="copyright">© 2026 Xtreme AG Apps. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      var nav = document.getElementById('navigation');
+      var btn = document.getElementById('menuBtn');
+      nav.classList.toggle('active');
+      var expanded = nav.classList.contains('active');
+      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    }
+
+    function closeMenu() {
+      var nav = document.getElementById('navigation');
+      var btn = document.getElementById('menuBtn');
+      nav.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    // Close mobile menu when clicking a link (in case JS-driven navigation is used)
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('#navigation a').forEach(function(el) {
+        el.addEventListener('click', function() {
+          closeMenu();
+        });
+      });
+    });
+
+    // Entry choice popup
+    (function() {
+      var overlay = document.getElementById('entryOverlay');
+      var gamesChoice = document.getElementById('gamesChoice');
+      var studyChoice = document.getElementById('studyChoice');
+
+      if (!overlay || !gamesChoice || !studyChoice) return;
+
+      function closeEntryPopup() {
+        overlay.classList.add('hidden');
+        document.body.classList.remove('entry-locked');
+      }
+
+      document.body.classList.add('entry-locked');
+
+      gamesChoice.addEventListener('click', function() {
+        closeEntryPopup();
+        var section = document.getElementById('apps');
+        if (section) {
+          setTimeout(function() {
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 20);
+        }
+      });
+
+      studyChoice.addEventListener('click', function() {
+        window.location.href = 'pages/study-portal.html';
+      });
+    })(); 
+    // Direct theme and font controls
+    (function(){
+      var themes={
+        mughal:{a:"#d9ad45",b:"#ffe2a0",s:"#4a1712",s2:"#65231a",t:"#fff7e8",g:"#d7c0a9",bd:"rgba(230,184,83,.55)",k:"#24100d"},
+        madhubani:{a:"#b52d25",b:"#1f1711",s:"#ead8bb",s2:"#f8efdf",t:"#211711",g:"#5e4d3c",bd:"rgba(31,23,17,.55)",k:"#f1e5cf"},
+        sheesh:{a:"#d7ae4c",b:"#ffe4a0",s:"#0d3430",s2:"#17483e",t:"#f7f4e8",g:"#b8c9c0",bd:"rgba(215,174,76,.55)",k:"#071b21"},
+        kalamkari:{a:"#bd542b",b:"#7c2c1f",s:"#e2cfaa",s2:"#f7edda",t:"#241710",g:"#665040",bd:"rgba(124,44,31,.50)",k:"#eee0c4"},
+        cyberpunk:{a:"#00e5ff",b:"#8df7ff",s:"#0c1725",s2:"#12263a",t:"#eefcff",g:"#9cb6c4",bd:"rgba(0,229,255,.45)",k:"#07101b"},
+        vaporwave:{a:"#ff4fd8",b:"#8df7ff",s:"#211044",s2:"#30155b",t:"#fff5ff",g:"#c3b4d2",bd:"rgba(255,79,216,.48)",k:"#130c2d"},
+        kawaii:{a:"#f38cae",b:"#8e72d9",s:"#fff0e6",s2:"#eaf7ff",t:"#352d3d",g:"#756d78",bd:"rgba(142,114,217,.30)",k:"#fff6ec"},
+        hyperpop:{a:"#5b45e8",b:"#e84393",s:"#f6f7fb",s2:"#ffffff",t:"#171521",g:"#625e6e",bd:"rgba(91,69,232,.28)",k:"#ffffff"}
+      };
+      function setTheme(n){
+        var t=themes[n]||themes.mughal,r=document.documentElement;
+        r.style.setProperty("--black",t.k);r.style.setProperty("--surface",t.s);r.style.setProperty("--surface-2",t.s2);
+        r.style.setProperty("--gold",t.a);r.style.setProperty("--gold-light",t.b);r.style.setProperty("--white",t.t);
+        r.style.setProperty("--gray",t.g);r.style.setProperty("--border",t.bd);r.dataset.theme=n;
+        try{localStorage.setItem("xag-theme",n)}catch(e){}
+        document.querySelectorAll(".xag-theme-swatch").forEach(function(x){x.classList.toggle("active",x.dataset.theme===n)});
+      }
+      function prepareFontSizes(){
+        document.querySelectorAll("body *").forEach(function(el){
+          if(el.classList && el.classList.contains("xag-theme-bar")) return;
+          if(!el.dataset.xagBaseFont){
+            var fs=parseFloat(getComputedStyle(el).fontSize);
+            if(isFinite(fs) && fs>0) el.dataset.xagBaseFont=fs;
+          }
+        });
+      }
+      function setZoom(v){
+        v=Math.max(85,Math.min(120,v));
+        prepareFontSizes();
+        var scale=v/100;
+        document.querySelectorAll("body *").forEach(function(el){
+          if(el.classList && el.classList.contains("xag-theme-bar")) return;
+          var base=parseFloat(el.dataset.xagBaseFont);
+          if(isFinite(base) && base>0) el.style.fontSize=(base*scale)+"px";
+        });
+        var x=document.getElementById("xagFontValue");if(x)x.textContent=v+"%";
+        try{localStorage.setItem("xag-zoom",String(v))}catch(e){}
+      }
+      window.setXAGTheme=setTheme;
+      document.addEventListener("DOMContentLoaded",function(){
+        var theme="mughal",zoom=100;
+        try{theme=localStorage.getItem("xag-theme")||theme;zoom=parseInt(localStorage.getItem("xag-zoom")||"100",10)}catch(e){}
+        setTheme(theme);setZoom(zoom);
+        document.querySelectorAll(".xag-theme-swatch").forEach(function(x){x.addEventListener("click",function(){setTheme(x.dataset.theme)})});
+        var o=document.getElementById("xagZoomOut"),i=document.getElementById("xagZoomIn");
+        if(o)o.addEventListener("click",function(){zoom-=5;setZoom(zoom)});
+        if(i)i.addEventListener("click",function(){zoom+=5;setZoom(zoom)});
+      });
+    })();
+    
+    // XAG global theme controls
+    (function(){
+      var themes={
+        mughal:{a:"#d9ad45",b:"#ffe2a0",s:"#4a1712",s2:"#65231a",t:"#fff7e8",g:"#d7c0a9",bd:"rgba(230,184,83,.55)",k:"#24100d"},
+        madhubani:{a:"#b52d25",b:"#1f1711",s:"#ead8bb",s2:"#f8efdf",t:"#211711",g:"#5e4d3c",bd:"rgba(31,23,17,.55)",k:"#f1e5cf"},
+        sheesh:{a:"#d7ae4c",b:"#ffe4a0",s:"#0d3430",s2:"#17483e",t:"#f7f4e8",g:"#b8c9c0",bd:"rgba(215,174,76,.55)",k:"#071b21"},
+        kalamkari:{a:"#bd542b",b:"#7c2c1f",s:"#e2cfaa",s2:"#f7edda",t:"#241710",g:"#665040",bd:"rgba(124,44,31,.50)",k:"#eee0c4"},
+        cyberpunk:{a:"#00e5ff",b:"#8df7ff",s:"#0c1725",s2:"#12263a",t:"#eefcff",g:"#9cb6c4",bd:"rgba(0,229,255,.45)",k:"#07101b"},
+        vaporwave:{a:"#ff4fd8",b:"#8df7ff",s:"#211044",s2:"#30155b",t:"#fff5ff",g:"#c3b4d2",bd:"rgba(255,79,216,.48)",k:"#130c2d"},
+        kawaii:{a:"#f38cae",b:"#8e72d9",s:"#fff0e6",s2:"#eaf7ff",t:"#352d3d",g:"#756d78",bd:"rgba(142,114,217,.30)",k:"#fff6ec"},
+        hyperpop:{a:"#5b45e8",b:"#e84393",s:"#f6f7fb",s2:"#fff",t:"#171521",g:"#625e6e",bd:"rgba(91,69,232,.28)",k:"#fff"}
+      };
+      function setTheme(n){
+        var t=themes[n]||themes.cyberpunk,r=document.documentElement;
+        [["--black",t.k],["--surface",t.s],["--surface-2",t.s2],["--gold",t.a],["--gold-light",t.b],["--white",t.t],["--gray",t.g],["--border",t.bd]].forEach(function(x){r.style.setProperty(x[0],x[1])});
+        r.dataset.theme=n;
+        try{localStorage.setItem("xag-theme",n)}catch(e){}
+        document.querySelectorAll(".xag-theme-swatch").forEach(function(b){b.classList.toggle("active",b.dataset.theme===n)});
+      }
+      function setZoom(v){
+        v=Math.max(85,Math.min(120,v));
+        document.documentElement.style.setProperty("--xag-font-scale",v/100);
+        document.documentElement.style.fontSize=v+"%";
+        var label=document.getElementById("xagFontValue");if(label)label.textContent=v+"%";
+        try{localStorage.setItem("xag-zoom",String(v))}catch(e){}
+      }
+      document.addEventListener("DOMContentLoaded",function(){
+        var theme="cyberpunk",zoom=100;
+        try{theme=localStorage.getItem("xag-theme")||theme;zoom=parseInt(localStorage.getItem("xag-zoom")||"100",10)}catch(e){}
+        setTheme(theme);setZoom(zoom);
+
+        var toggle=document.getElementById("xagThemeToggle"),panel=document.getElementById("xagControlPanel");
+        if(toggle&&panel){
+          toggle.addEventListener("click",function(e){
+            e.stopPropagation();
+            var open=panel.classList.toggle("open");
+            toggle.setAttribute("aria-expanded",open);
+            panel.setAttribute("aria-hidden",!open);
+          });
+          panel.addEventListener("click",function(e){e.stopPropagation()});
+          document.addEventListener("click",function(){
+            panel.classList.remove("open");
+            toggle.setAttribute("aria-expanded","false");
+            panel.setAttribute("aria-hidden","true");
+          });
+        }
+
+        document.querySelectorAll(".xag-theme-swatch").forEach(function(b){b.addEventListener("click",function(){setTheme(b.dataset.theme)})});
+        var current=zoom,o=document.getElementById("xagZoomOut"),i=document.getElementById("xagZoomIn");
+        if(o)o.addEventListener("click",function(){current-=5;setZoom(current)});
+        if(i)i.addEventListener("click",function(){current+=5;setZoom(current)});
+      });
+    })();
+
+</script>
+
+</body>
+</html>
