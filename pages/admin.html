@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | Xtreme AG Apps</title>
+  <meta name="robots" content="noindex, nofollow">
+
+    <script src="../js/theme-init.js"></script>
+<style>
+    :root {
+      --error: #DC3545;
+      --success: #28A745;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: color-mix(in srgb, var(--black) 92%, transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      color: var(--gold);
+      background: var(--surface-2);
+      box-shadow: 0 4px 12px rgba(210, 105, 30, 0.1);
+    }
+
+    .logo span { color: var(--gold); }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--gray);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    main {
+      min-height: calc(100vh - 145px);
+      padding: 80px 0 70px;
+    }
+
+    .heading {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .heading .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      background: rgba(210, 105, 30, 0.08);
+    }
+
+    .heading h1 {
+      font-size: clamp(30px, 6vw, 48px);
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+
+    .heading p {
+      color: var(--gray);
+      font-size: 15px;
+    }
+
+    .status {
+      max-width: 760px;
+      margin: 0 auto 30px;
+      padding: 18px 20px;
+      border: 1px solid rgba(40, 167, 69, 0.3);
+      background: rgba(40, 167, 69, 0.08);
+      border-radius: 14px;
+      color: #2d7a4f;
+      text-align: center;
+    }
+
+    .status strong { color: var(--success); }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--surface-2);
+      border-radius: 16px;
+      padding: 25px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 16px rgba(210, 105, 30, 0.12);
+    }
+
+    .card .icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--white);
+    }
+
+    .card p {
+      color: var(--gray);
+      font-size: 13px;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 10px;
+      border: 1px solid var(--surface-2);
+      background: var(--white);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn:hover {
+      border-color: var(--gold);
+      background: var(--surface-2);
+      color: var(--white);
+    }
+
+    .btn.primary {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(210, 105, 30, 0.2);
+    }
+
+    .btn.primary:hover {
+      background: var(--white);
+      border-color: var(--white);
+      box-shadow: 0 6px 16px rgba(92, 64, 51, 0.25);
+    }
+
+    .card.coming {
+      opacity: 0.85;
+    }
+
+    .card.coming .btn {
+      cursor: default;
+      color: var(--gray);
+      border-color: var(--surface);
+    }
+
+    .card.coming .btn:hover {
+      background: var(--white);
+      border-color: var(--surface);
+      color: var(--gray);
+    }
+
+    .denied {
+      display: none;
+      max-width: 650px;
+      margin: 80px auto;
+      text-align: center;
+      padding: 35px 25px;
+      background: var(--white);
+      border: 1px solid rgba(220, 53, 69, 0.3);
+      border-radius: 16px;
+    }
+
+    .denied h1 {
+      color: var(--error);
+      margin-bottom: 10px;
+    }
+
+    .denied p {
+      color: var(--gray);
+      margin-bottom: 22px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 0;
+      text-align: center;
+      color: var(--gray);
+      font-size: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .nav { padding: 10px 0; }
+      nav { gap: 12px; }
+      .admin-grid { grid-template-columns: 1fr; }
+      main { padding-top: 70px; }
+    }
+  </style>
+
+  <script src="../js/theme-controls.js"></script>
+  <link rel="stylesheet" href="../css/theme-controls.css">
+</head>
+
+<body>
+  <header>
+    <div class="container nav">
+      <a href="../" class="logo">
+        <div class="logo-mark">X</div>
+        <div>Xtreme <span>AG Apps</span></div>
+      </a>
+
+      <nav>
+        <a href="./dashboard.html">Dashboard</a>
+        <a href="../">Home</a>
+        <a href="#" id="logoutLink">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section id="adminContent" style="display:none;">
+        <div class="heading">
+          <div class="badge">Administrator</div>
+          <h1>Admin Panel</h1>
+          <p>Manage Xtreme AG Apps content and platform settings.</p>
+        </div>
+
+        <div class="status">
+          <strong>Admin access verified.</strong>
+          You are signed in with administrator privileges.
+        </div>
+
+        <div class="admin-grid">
+          <div class="card">
+            <div class="icon">📋</div>
+            <h2>Test Series</h2>
+            <p>Create and manage the test series shown across Xtreme AG Apps.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;"><a href="./admin-test-series-pricing.html" class="btn primary">Manage Test Series</a><a href="./admin-test-import.html" class="btn">Import HTML Test</a></div>
+          </div>
+
+          <div class="card">
+            <div class="icon">💰</div>
+            <h2>Pricing & Offers</h2>
+            <p>Set regular prices, launch prices, and launch offers for test series.</p>
+            <a href="./admin-test-series-pricing.html" class="btn primary">Manage Pricing</a>
+          </div>
+
+          <div class="card coming">
+            <div class="icon">📚</div>
+            <h2>Study Material</h2>
+            <p>Notes and study material management will be connected next.</p>
+            <button class="btn" type="button" disabled>Coming next</button>
+          </div>
+
+          <div class="card coming">
+            <div class="icon">🎯</div>
+            <h2>Homepage</h2>
+            <p>Featured series, banners and dashboard controls will be connected next.</p>
+            <button class="btn" type="button" disabled>Coming next</button>
+          </div>
+
+          <div class="card coming">
+            <div class="icon">👥</div>
+            <h2>Users</h2>
+            <p>User management will be connected next.</p>
+            <button class="btn" type="button" disabled>Coming next</button>
+          </div>
+
+          <div class="card coming">
+            <div class="icon">📊</div>
+            <h2>Payments & Sales</h2>
+            <p>Payment and purchase reporting will be connected after the checkout flow.</p>
+            <button class="btn" type="button" disabled>Coming next</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="denied" class="denied">
+        <h1>Access Denied</h1>
+        <p>This page is available only to an Xtreme AG Apps administrator.</p>
+        <a class="btn primary" href="./dashboard.html">Back to Dashboard</a>
+      </section>
+    </div>
+  </main>
+
+  <a href="https://wa.me/919462856389" target="_blank" rel="noopener"
+     aria-label="WhatsApp Support"
+     style="position:fixed;right:18px;bottom:18px;z-index:20;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#25D366;color:#fff;font-size:27px;box-shadow:0 8px 24px rgba(0,0,0,.15);transition:all .2s;text-decoration:none;">
+    💬
+  </a>
+
+  <footer>
+    <div class="container">© 2026 Xtreme AG Apps. All rights reserved.</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+
+    const adminContent = document.getElementById('adminContent');
+    const denied = document.getElementById('denied');
+    const logoutLink = document.getElementById('logoutLink');
+
+    async function checkAdminAccess() {
+      try {
+        const { data: { session }, error: sessionError } =
+          await supabaseClient.auth.getSession();
+
+        if (sessionError) throw sessionError;
+
+        if (!session || !session.user) {
+          window.location.replace('./login.html');
+          return;
+        }
+
+        const { data: profile, error: profileError } =
+          await supabaseClient
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', session.user.id)
+            .maybeSingle();
+
+        if (profileError) throw profileError;
+
+        if (!profile || profile.is_admin !== true) {
+          console.warn('Admin Status Check: false');
+          denied.style.display = 'block';
+          return;
+        }
+
+        console.log('Admin Status Check: true');
+        adminContent.style.display = 'block';
+      } catch (error) {
+        console.error('Admin access error:', error);
+        denied.style.display = 'block';
+      }
+    }
+
+    logoutLink.addEventListener('click', async (event) => {
+      event.preventDefault();
+      await supabaseClient.auth.signOut({ scope: 'local' });
+      window.location.replace('./login.html');
+    });
+
+    document.addEventListener('DOMContentLoaded', checkAdminAccess);
+  </script>
+</body>
+</html>

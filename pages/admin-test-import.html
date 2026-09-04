@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Import HTML Test | Xtreme AG Apps</title>
+  <meta name="robots" content="noindex,nofollow">
+  <script src="../js/theme-init.js"></script>
+  <link rel="stylesheet" href="../css/theme-controls.css">
+  <style>
+    :root{
+      --bg:#FAF5EF;--surface:#FFFBF7;--surface2:#F7EBE1;--text:#2C1A1D;
+      --muted:#7A6666;--accent:#D9531E;--accent2:#F2815B;--border:#E6D8CC;
+      --danger:#B42318;--success:#16794C;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif;line-height:1.55}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:10;background:rgba(255,251,247,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+    .nav,.container{width:min(1120px,92%);margin:auto}
+    .nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo{font-weight:800}.logo span{color:var(--accent)}
+    nav{display:flex;gap:18px;font-size:14px;color:var(--muted)}
+    main{padding:42px 0 70px}
+    h1{margin:0 0 8px;font-size:32px}.lead{color:var(--muted);margin:0 0 26px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:0 10px 30px rgba(44,26,29,.06);margin-bottom:18px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    label{display:block;font-weight:700;font-size:13px}
+    input,select,textarea{width:100%;margin-top:7px;padding:12px 13px;border:1px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);font:inherit}
+    textarea{min-height:90px;resize:vertical}
+    .full{grid-column:1/-1}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    button,.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer;font:inherit}
+    .primary{background:var(--accent);color:#fff}.secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .status{padding:13px 15px;border-radius:12px;background:var(--surface2);border:1px solid var(--border);margin-top:16px;white-space:pre-wrap}
+    .status.success{border-color:rgba(22,121,76,.3);color:var(--success)}
+    .status.error{border-color:rgba(180,35,24,.3);color:var(--danger)}
+    .progress{height:10px;background:var(--surface2);border-radius:999px;overflow:hidden;margin-top:14px}
+    .bar{height:100%;width:0;background:var(--accent);transition:width .2s}
+    .preview{max-height:360px;overflow:auto;border:1px solid var(--border);border-radius:12px;margin-top:14px}
+    .q{padding:14px;border-bottom:1px solid var(--border)}.q:last-child{border-bottom:0}
+    .q small{color:var(--muted)}.opts{margin:7px 0 0 20px}
+    .note{font-size:12px;color:var(--muted);margin-top:8px}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}.full{grid-column:auto}h1{font-size:27px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <a class="logo" href="./admin.html">Xtreme <span>AG Apps</span></a>
+    <nav>
+      <a href="./admin.html">Admin</a>
+      <a href="./admin-test-series-pricing.html">Test Series</a>
+      <a href="../">Home</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h1>Import HTML Test</h1>
+    <p class="lead">Import a trusted HTML test into the existing tests → questions → options structure.</p>
+
+    <div id="access" class="card">Checking administrator access...</div>
+
+    <section id="app" style="display:none">
+      <div class="card">
+        <div class="grid">
+          <label>
+            Test Series *
+            <select id="series"><option value="">Loading...</option></select>
+          </label>
+          <label>
+            Test Title *
+            <input id="title" maxlength="200" placeholder="RAS Prelims Test 1">
+          </label>
+          <label>
+            Duration (minutes) *
+            <input id="duration" type="number" min="1" max="1440" value="180">
+          </label>
+          <label>
+            Sort Order
+            <input id="sortOrder" type="number" min="0" step="1" value="0">
+          </label>
+          <label class="full">
+            Description
+            <textarea id="description" placeholder="Optional description"></textarea>
+          </label>
+          <label class="full">
+            HTML Test File *
+            <input id="file" type="file" accept=".html,text/html">
+            <div class="note">The importer reads the questions array from the file. It does not execute the uploaded HTML page.</div>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="secondary" id="previewBtn" type="button">Preview Test</button>
+          <button class="primary" id="importBtn" type="button" disabled>Import to Supabase</button>
+        </div>
+        <div id="status" class="status">Choose a test file to begin.</div>
+        <div class="progress"><div id="bar" class="bar"></div></div>
+      </div>
+
+      <div id="previewCard" class="card" style="display:none">
+        <h2 style="margin-top:0">Preview</h2>
+        <div id="summary"></div>
+        <div id="preview" class="preview"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+});
+
+const $ = id => document.getElementById(id);
+let parsedQuestions = null;
+
+function setStatus(msg, type='') {
+  $('status').textContent = msg;
+  $('status').className = 'status ' + type;
+}
+function setProgress(n){ $('bar').style.width = Math.max(0,Math.min(100,n))+'%'; }
+
+async function requireAdmin(){
+  const {data:{session}, error:sessionError}=await supabaseClient.auth.getSession();
+  if(sessionError) throw sessionError;
+  if(!session) throw new Error('Please sign in as an administrator.');
+  const {data:profile,error}=await supabaseClient.from('profiles').select('is_admin').eq('id',session.user.id).maybeSingle();
+  if(error) throw error;
+  if(!profile || profile.is_admin !== true) throw new Error('Administrator access required.');
+  $('access').style.display='none';
+  $('app').style.display='block';
+  await loadSeries();
+}
+
+async function loadSeries(){
+  const {data,error}=await supabaseClient.from('test_series')
+    .select('id,title,slug,is_published')
+    .order('title',{ascending:true});
+  if(error) throw error;
+  $('series').innerHTML = '<option value="">Select Test Series</option>' +
+    (data||[]).map(s=>`<option value="${s.id}">${escapeHtml(s.title)}${s.is_published?'':' (Draft)'}</option>`).join('');
+}
+
+function escapeHtml(s){
+  return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/*
+  Safe parser for the existing test format.
+  Supported JS subset:
+  - arrays
+  - objects
+  - quoted strings
+  - numbers
+  - true/false/null
+  - string/number concatenation with +
+  - // and /* *\/ comments
+  It intentionally does NOT execute arbitrary JavaScript.
+*/
+class LiteralParser{
+  constructor(src){this.s=src;this.i=0;this.len=src.length}
+  err(m){throw new Error(m+' near character '+this.i)}
+  ws(){
+    while(this.i<this.len){
+      if(/\s/.test(this.s[this.i])){this.i++;continue}
+      if(this.s.startsWith('//',this.i)){this.i=this.s.indexOf('\n',this.i+2);if(this.i<0)this.i=this.len;continue}
+      if(this.s.startsWith('/*',this.i)){const j=this.s.indexOf('*/',this.i+2);if(j<0)this.err('Unclosed comment');this.i=j+2;continue}
+      break
+    }
+  }
+  peek(){this.ws();return this.s[this.i]}
+  eat(c){this.ws();if(this.s[this.i]!==c)this.err('Expected '+c);this.i++}
+  parse(){
+    const v=this.expr();
+    this.ws();
+    if(this.i!==this.len)this.err('Unexpected token');
+    return v;
+  }
+  expr(){
+    let v=this.primary();
+    while(true){
+      this.ws();
+      if(this.s[this.i]!=='+') break;
+      this.i++;
+      const r=this.primary();
+      if(typeof v==='number' && typeof r==='number') v+=r;
+      else v=String(v)+String(r);
+    }
+    return v;
+  }
+  primary(){
+    this.ws();
+    const c=this.s[this.i];
+    if(c==='"' || c==="'") return this.string();
+    if(c==='[') return this.array();
+    if(c==='{') return this.object();
+    if(/[0-9.-]/.test(c)) return this.number();
+    const m=this.s.slice(this.i).match(/^(true|false|null)\b/);
+    if(m){this.i+=m[0].length;return m[1]==='true'?true:m[1]==='false'?false:null}
+    this.err('Unsupported value');
+  }
+  string(){
+    const quote=this.s[this.i++]; let out='';
+    while(this.i<this.len){
+      const c=this.s[this.i++];
+      if(c===quote) return out;
+      if(c!=='\\'){out+=c;continue}
+      if(this.i>=this.len)this.err('Unclosed string');
+      const e=this.s[this.i++];
+      const map={n:'\n',r:'\r',t:'\t',b:'\b',f:'\f',v:'\v',0:'\0'};
+      if(map[e]!==undefined){out+=map[e];continue}
+      if(e==='u'){
+        const hex=this.s.slice(this.i,this.i+4);
+        if(!/^[0-9a-fA-F]{4}$/.test(hex))this.err('Invalid unicode escape');
+        out+=String.fromCharCode(parseInt(hex,16));this.i+=4;continue
+      }
+      if(e==='x'){
+        const hex=this.s.slice(this.i,this.i+2);
+        if(!/^[0-9a-fA-F]{2}$/.test(hex))this.err('Invalid hex escape');
+        out+=String.fromCharCode(parseInt(hex,16));this.i+=2;continue
+      }
+      out+=e;
+    }
+    this.err('Unclosed string');
+  }
+  number(){
+    const m=this.s.slice(this.i).match(/^-?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?/);
+    if(!m)this.err('Invalid number');
+    this.i+=m[0].length;return Number(m[0]);
+  }
+  array(){
+    this.eat('[');const a=[];this.ws();
+    if(this.s[this.i]===']'){this.i++;return a}
+    while(true){
+      a.push(this.expr());this.ws();
+      if(this.s[this.i]===','){this.i++;this.ws();if(this.s[this.i]===']'){this.i++;return a}continue}
+      if(this.s[this.i]===']'){this.i++;return a}
+      this.err('Expected comma or ]');
+    }
+  }
+  key(){
+    this.ws();const c=this.s[this.i];
+    if(c==='"'||c==="'")return this.string();
+    const m=this.s.slice(this.i).match(/^[A-Za-z_$][\w$]*/);
+    if(!m)this.err('Invalid object key');
+    this.i+=m[0].length;return m[0];
+  }
+  object(){
+    this.eat('{');const o={};this.ws();
+    if(this.s[this.i]==='}'){this.i++;return o}
+    while(true){
+      const k=this.key();this.eat(':');o[k]=this.expr();this.ws();
+      if(this.s[this.i]===','){this.i++;this.ws();if(this.s[this.i]==='}'){this.i++;return o}continue}
+      if(this.s[this.i]==='}'){this.i++;return o}
+      this.err('Expected comma or }');
+    }
+  }
+}
+
+function findQuestionsArray(html){
+  const m=/\b(?:const|let|var)\s+questions\s*=\s*\[/m.exec(html);
+  if(!m) throw new Error('Could not find "const questions = [" in this HTML file.');
+  const start=m.index+m[0].lastIndexOf('[');
+  let depth=0, quote=null, esc=false, line=false, block=false;
+  for(let i=start;i<html.length;i++){
+    const c=html[i],n=html[i+1];
+    if(line){if(c==='\n')line=false;continue}
+    if(block){if(c==='*'&&n==='/'){block=false;i++}continue}
+    if(quote){
+      if(esc){esc=false;continue}
+      if(c==='\\'){esc=true;continue}
+      if(c===quote)quote=null;
+      continue
+    }
+    if(c==='/'&&n==='/'){line=true;i++;continue}
+    if(c==='/'&&n==='*'){block=true;i++;continue}
+    if(c==='"'||c==="'"){quote=c;continue}
+    if(c==='[')depth++;
+    if(c===']'){depth--;if(depth===0)return html.slice(start,i+1)}
+  }
+  throw new Error('Questions array is incomplete or has unmatched brackets.');
+}
+
+function parseTestHtml(html){
+  const arrSrc=findQuestionsArray(html);
+  const questions=new LiteralParser(arrSrc).parse();
+  if(!Array.isArray(questions))throw new Error('Questions data is not an array.');
+  if(!questions.length)throw new Error('No questions found.');
+  questions.forEach((q,i)=>{
+    if(!q || typeof q!=='object')throw new Error(`Question ${i+1} is not an object.`);
+    if(typeof q.q!=='string' || !q.q.trim())throw new Error(`Question ${i+1} has no q text.`);
+    if(!Array.isArray(q.opt) || q.opt.length<2)throw new Error(`Question ${i+1} has invalid options.`);
+    if(!Number.isInteger(q.ans) || q.ans<0 || q.ans>=q.opt.length)throw new Error(`Question ${i+1} has invalid ans index.`);
+    if(typeof q.exp!=='string')q.exp='';
+    q.opt=q.opt.map((x,j)=>{
+      if(typeof x!=='string')throw new Error(`Question ${i+1}, option ${j+1} is not text.`);
+      return x;
+    });
+  });
+  return questions;
+}
+
+async function readFile(){
+  const f=$('file').files[0];
+  if(!f) throw new Error('Select an HTML file first.');
+  return await f.text();
+}
+
+function showPreview(qs){
+  $('summary').textContent=`${qs.length} questions detected. Correct-answer indexes are converted from the HTML's zero-based ans field.`;
+  $('preview').innerHTML=qs.slice(0,10).map((q,i)=>`
+    <div class="q">
+      <strong>Q${i+1}</strong> <small>Correct option: ${q.ans+1}</small>
+      <div style="margin-top:6px">${q.q}</div>
+      <ol class="opts">${q.opt.map((o,j)=>`<li>${o}${j===q.ans?' <strong>✓</strong>':''}</li>`).join('')}</ol>
+    </div>`).join('') +
+    (qs.length>10?`<div class="q"><small>Showing first 10 questions only. All ${qs.length} will be imported.</small></div>`:'');
+  $('previewCard').style.display='block';
+}
+
+$('previewBtn').addEventListener('click',async()=>{
+  try{
+    setProgress(0);setStatus('Reading and validating HTML...');
+    parsedQuestions=parseTestHtml(await readFile());
+    showPreview(parsedQuestions);
+    $('importBtn').disabled=false;
+    setStatus(`Valid test detected: ${parsedQuestions.length} questions. Review the preview, then import.`, 'success');
+  }catch(e){
+    parsedQuestions=null;$('importBtn').disabled=true;setProgress(0);setStatus(e.message||String(e),'error');
+  }
+});
+
+async function insertInBatches(table, rows, batch=25){
+  for(let i=0;i<rows.length;i+=batch){
+    const part=rows.slice(i,i+batch);
+    const {error}=await supabaseClient.from(table).insert(part);
+    if(error)throw error;
+    setProgress(10 + Math.round(((i+part.length)/rows.length)*80));
+  }
+}
+
+$('importBtn').addEventListener('click',async()=>{
+  if(!parsedQuestions) return;
+  const seriesId=$('series').value;
+  const title=$('title').value.trim();
+  const duration=Number($('duration').value);
+  const sortOrder=Number($('sortOrder').value||0);
+  const description=$('description').value.trim()||null;
+  if(!seriesId)return setStatus('Select a Test Series.','error');
+  if(!title)return setStatus('Enter a Test Title.','error');
+  if(!Number.isInteger(duration)||duration<1)return setStatus('Duration must be at least 1 minute.','error');
+
+  const btn=$('importBtn');btn.disabled=true;$('previewBtn').disabled=true;setProgress(5);
+  try{
+    const {data:{session},error:se}=await supabaseClient.auth.getSession();
+    if(se)throw se;
+    if(!session)throw new Error('Session expired. Please sign in again.');
+
+    setStatus('Creating test...');
+    const {data:test,error:testError}=await supabaseClient.from('tests').insert({
+      test_series_id:seriesId,title,description,time_limit_minutes:duration,
+      is_published:false,sort_order:sortOrder
+    }).select('id').single();
+    if(testError)throw testError;
+
+    const questionRows=parsedQuestions.map((q,i)=>({
+      test_id:test.id,
+      question_text:q.q,
+      question_type:'single',
+      points:1,
+      sort_order:i
+    }));
+    setStatus(`Creating ${questionRows.length} questions...`);
+    const {data:createdQuestions,error:qError}=await supabaseClient.from('questions')
+      .insert(questionRows).select('id,sort_order');
+    if(qError)throw qError;
+    if(!createdQuestions || createdQuestions.length!==questionRows.length){
+      throw new Error('Question insert did not return all created rows.');
+    }
+    const byOrder=new Map(createdQuestions.map(q=>[q.sort_order,q.id]));
+    const optionRows=[];
+    parsedQuestions.forEach((q,i)=>{
+      const qid=byOrder.get(i);
+      if(!qid)throw new Error(`Could not map imported question ${i+1}.`);
+      q.opt.forEach((text,j)=>optionRows.push({
+        question_id:qid,option_text:text,is_correct:j===q.ans,sort_order:j
+      }));
+    });
+    setStatus(`Creating ${optionRows.length} options...`);
+    await insertInBatches('options',optionRows,50);
+
+    setProgress(100);
+    setStatus(
+      `Import complete.\nTest created as DRAFT with ${parsedQuestions.length} questions.\n`+
+      `Publish it only after checking the imported content and answers.`,
+      'success'
+    );
+    $('previewBtn').disabled=true;
+    $('importBtn').textContent='Imported';
+  }catch(e){
+    console.error(e);
+    setProgress(0);
+    setStatus(
+      `Import failed: ${e.message||e}\n\nIMPORTANT: The importer does not automatically delete a partially created test. `+
+      `If a failure happened after test creation, check the Admin/Test list before retrying.`,
+      'error'
+    );
+    btn.disabled=false;$('previewBtn').disabled=false;
+  }
+});
+
+requireAdmin().catch(e=>{
+  $('access').className='card status error';
+  $('access').textContent=e.message||'Unable to verify administrator access.';
+});
+</script>
+</body>
+</html>
