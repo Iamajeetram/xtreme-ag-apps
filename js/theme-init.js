@@ -1,14 +1,12 @@
 /**
  * theme-init.js
  * Early theme initialization — load BEFORE DOM renders to prevent FOUC
- * Place this script in <head> tag, before </head>
- * This runs synchronously before DOMContentLoaded
+ * Place in <head>, BEFORE any other scripts
  */
 
 (function() {
   'use strict';
 
-  // All available themes and their CSS variable values
   const themes = {
     obsidian: {
       black: '#000000',
@@ -102,72 +100,31 @@
     }
   };
 
-  /**
-   * Apply theme by setting CSS variables on document root
-   * @param {string} themeName - Name of theme to apply
-   */
   function applyTheme(themeName) {
-    // Validate theme exists, fallback to obsidian
-    if (!themes[themeName]) {
-      themeName = 'obsidian';
-    }
-
-    const themeVars = themes[themeName];
-    const root = document.documentElement;
-
-    // Set all CSS variables
-    root.style.setProperty('--black', themeVars.black);
-    root.style.setProperty('--surface', themeVars.surface);
-    root.style.setProperty('--surface-2', themeVars.surface2);
-    root.style.setProperty('--gold', themeVars.gold);
-    root.style.setProperty('--gold-light', themeVars.goldLight);
-    root.style.setProperty('--white', themeVars.white);
-    root.style.setProperty('--gray', themeVars.gray);
-    root.style.setProperty('--border', themeVars.border);
-
-    // Store theme name in data attribute for JS queries
-    root.setAttribute('data-theme', themeName);
-
-    // Persist in localStorage
-    try {
-      localStorage.setItem('xag-theme', themeName);
-    } catch (e) {
-      console.warn('localStorage unavailable:', e);
-    }
+    if (!themes[themeName]) themeName = 'obsidian';
+    const t = themes[themeName];
+    const r = document.documentElement;
+    r.style.setProperty('--black', t.black);
+    r.style.setProperty('--surface', t.surface);
+    r.style.setProperty('--surface-2', t.surface2);
+    r.style.setProperty('--gold', t.gold);
+    r.style.setProperty('--gold-light', t.goldLight);
+    r.style.setProperty('--white', t.white);
+    r.style.setProperty('--gray', t.gray);
+    r.style.setProperty('--border', t.border);
+    r.setAttribute('data-theme', themeName);
+    try { localStorage.setItem('xag-theme', themeName); } catch (e) {}
   }
 
-  /**
-   * Determine default theme based on:
-   * 1. Saved in localStorage
-   * 2. Current page path (if admin, use warmCream)
-   * 3. System preference (prefers-color-scheme)
-   */
   function getDefaultTheme() {
-    // Check localStorage first
     try {
       const saved = localStorage.getItem('xag-theme');
-      if (saved && themes[saved]) {
-        return saved;
-      }
-    } catch (e) {
-      console.warn('localStorage unavailable:', e);
-    }
-
-    // If admin page, default to warmCream
+      if (saved && themes[saved]) return saved;
+    } catch (e) {}
     const path = window.location.pathname;
-    if (path.includes('/pages/admin')) {
-      return 'warmCream';
-    }
-
-    // Check system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'obsidian';
-    }
-
-    return 'obsidian'; // Fallback
+    if (path.includes('/pages/admin')) return 'warmCream';
+    return 'obsidian';
   }
 
-  // Apply theme immediately (before DOM renders)
-  const defaultTheme = getDefaultTheme();
-  applyTheme(defaultTheme);
+  applyTheme(getDefaultTheme());
 })();

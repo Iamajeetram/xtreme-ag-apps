@@ -7,6 +7,10 @@
   <meta name="description" content="Your Xtreme AG Apps account dashboard.">
   <meta name="robots" content="noindex, nofollow">
 
+  <!-- EARLY THEME INIT - PREVENTS FOUC -->
+  <script src="../js/theme-init.js"></script>
+  <link rel="stylesheet" href="../css/theme-controls.css">
+
   <style>
     :root {
       --black: #000000;
@@ -20,9 +24,7 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
-
     body {
       background: var(--black);
       color: var(--white);
@@ -30,16 +32,16 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
-
     a { color: inherit; text-decoration: none; }
     button { font-family: inherit; }
-
     .container { width: min(1120px, 92%); margin: auto; }
-
     :focus { outline: none; }
-    a:focus-visible, button:focus-visible { outline: 3px solid rgba(245,215,110,0.22); box-shadow: 0 0 0 4px rgba(245,215,110,0.08); border-radius: 8px; }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid rgba(245,215,110,0.22);
+      box-shadow: 0 0 0 4px rgba(245,215,110,0.08);
+      border-radius: 8px;
+    }
 
-    /* HEADER */
     header {
       position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
       background: rgba(0, 0, 0, 0.90); backdrop-filter: blur(14px);
@@ -76,50 +78,17 @@
     }
 
     .logo span { color: var(--gold-light); }
+    nav { display: flex; align-items: center; gap: 28px; }
+    nav a { color: #cccccc; font-size: 14px; transition: 0.25s ease; }
+    nav a:hover { color: var(--gold-light); }
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-
-    nav a {
-      color: #cccccc;
-      font-size: 14px;
-      transition: 0.25s ease;
-    }
-
-    nav a:hover {
-      color: var(--gold-light);
-    }
-
-    /* MAIN */
-    main {
-      padding-top: 100px;
-      min-height: 100vh;
-    }
-
+    main { padding-top: 100px; min-height: 100vh; }
     section { padding: 80px 0; }
+    .section-heading { text-align: center; margin-bottom: 50px; }
+    .section-heading h1 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 15px; font-weight: 900; }
+    .section-heading p { color: var(--gray); font-size: 16px; }
 
-    .section-heading {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-
-    .section-heading h1 {
-      font-size: clamp(30px, 5vw, 48px);
-      margin-bottom: 15px;
-      font-weight: 900;
-    }
-
-    .section-heading p {
-      color: var(--gray);
-      font-size: 16px;
-    }
-
-    /* PROFILE SECTION */
     .profile-section { background: var(--surface); }
-
     .profile-cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -134,21 +103,8 @@
       border-radius: 16px;
     }
 
-    .profile-card h3 {
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--gray);
-      margin-bottom: 8px;
-    }
-
-    .profile-card .value {
-      font-size: 18px;
-      color: var(--white);
-      font-weight: 600;
-      word-break: break-all;
-    }
+    .profile-card h3 { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-bottom: 8px; }
+    .profile-card .value { font-size: 18px; color: var(--white); font-weight: 600; word-break: break-all; }
 
     .account-status {
       padding: 20px;
@@ -172,19 +128,9 @@
       flex-shrink: 0;
     }
 
-    .status-content h4 {
-      color: #63d69a;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
+    .status-content h4 { color: #63d69a; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .status-content p { color: var(--gray); font-size: 12px; }
 
-    .status-content p {
-      color: var(--gray);
-      font-size: 12px;
-    }
-
-    /* FEATURES SECTION */
     .features {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -207,58 +153,15 @@
       box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
     }
 
-    .feature-icon {
-      font-size: 40px;
-      margin-bottom: 16px;
-    }
+    .feature-icon { font-size: 40px; margin-bottom: 16px; }
+    .feature-card h3 { font-size: 16px; margin-bottom: 10px; font-weight: 700; }
+    .feature-card p { color: var(--gray); font-size: 13px; line-height: 1.6; }
 
-    .feature-card h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px; border-radius: 10px; font-weight: 700; font-size: 14px; transition: 0.25s ease; border: none; cursor: pointer; }
+    .btn-outline { border: 1px solid var(--border); color: white; background: rgba(255, 255, 255, 0.02); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
 
-    .feature-card p {
-      color: var(--gray);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    /* BUTTONS */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0 24px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 14px;
-      transition: 0.25s ease;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-outline {
-      border: 1px solid var(--border);
-      color: white;
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold-light);
-      transform: translateY(-2px);
-    }
-
-    /* LOADING */
-    .loading {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 200px;
-    }
-
+    .loading { display: flex; align-items: center; justify-content: center; min-height: 200px; }
     .loading-spinner {
       width: 40px;
       height: 40px;
@@ -267,59 +170,28 @@
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    .error-message { background: rgba(220, 53, 69, 0.1); color: #ff6b6b; border: 1px solid rgba(220, 53, 69, 0.3); padding: 16px 20px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
 
-    .error-message {
-      background: rgba(220, 53, 69, 0.1);
-      color: #ff6b6b;
-      border: 1px solid rgba(220, 53, 69, 0.3);
-      padding: 16px 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 45px 0 25px;
-      background: #000000;
-      text-align: center;
-      color: #555555;
-      font-size: 12px;
-    }
+    footer { border-top: 1px solid var(--border); padding: 45px 0 25px; background: #000000; text-align: center; color: #555555; font-size: 12px; }
 
     @media (max-width: 800px) {
       section { padding: 60px 0; }
-      
-      .profile-cards {
-        grid-template-columns: 1fr;
-      }
-
-      nav {
-        gap: 16px;
-      }
-
-      nav a {
-        font-size: 13px;
-      }
+      .profile-cards { grid-template-columns: 1fr; }
+      nav { gap: 16px; }
+      nav a { font-size: 13px; }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- HEADER -->
   <header>
     <div class="container nav">
       <a href="../" class="logo" aria-label="Xtreme AG Apps home">
         <div class="logo-mark">X</div>
         <div>Xtreme <span>AG Apps</span></div>
       </a>
-
       <nav id="navigation">
         <a href="../">Home</a>
         <a href="./dashboard.html" aria-current="page">Dashboard</a>
@@ -329,7 +201,6 @@
     </div>
   </header>
 
-  <!-- MAIN -->
   <main id="mainContent">
     <section class="profile-section">
       <div class="container">
@@ -370,26 +241,22 @@
             </div>
           </div>
 
-          <!-- FUTURE SECTIONS -->
           <div style="margin-top: 80px;">
             <div class="section-heading">
               <h2>Upcoming Features</h2>
               <p>More services coming soon</p>
             </div>
-
             <div class="features">
               <div class="feature-card">
                 <div class="feature-icon">📋</div>
                 <h3>My Test Series</h3>
                 <p>Access and manage your purchased test series and track your progress.</p>
               </div>
-
               <div class="feature-card">
                 <div class="feature-icon">💳</div>
                 <h3>My Payments</h3>
                 <p>View your payment history and manage payment methods.</p>
               </div>
-
               <div class="feature-card">
                 <div class="feature-icon">📊</div>
                 <h3>My Results</h3>
@@ -406,7 +273,6 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container">
       <p>© 2026 Xtreme AG Apps. All rights reserved.</p>
@@ -414,21 +280,14 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/theme-controls.js"></script>
+
   <script>
     const SUPABASE_URL = 'https://vbfjafblxnrfminbdlbb.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
-
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY,
-      {
-        auth: {
-          persistSession: true,
-          autoRefreshToken: true,
-          detectSessionInUrl: true
-        }
-      }
-    );
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+    });
 
     const loadingIndicator = document.getElementById('loadingIndicator');
     const profileContent = document.getElementById('profileContent');
@@ -455,37 +314,24 @@
       errorContent.style.display = 'none';
 
       try {
-        const { data: { session }, error: sessionError } =
-          await supabaseClient.auth.getSession();
-
+        const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
         if (sessionError) throw sessionError;
-
-        if (!session || !session.user) {
-          window.location.replace('./login.html');
-          return;
-        }
+        if (!session || !session.user) { window.location.replace('./login.html'); return; }
 
         const user = session.user;
         const metadata = user.user_metadata || {};
-        const displayName =
-          metadata.full_name || metadata.name || 'User';
+        const displayName = metadata.full_name || metadata.name || 'User';
+        document.getElementById('userName').textContent = displayName.trim().split(/\s+/)[0] || 'User';
 
-        document.getElementById('userName').textContent =
-          displayName.trim().split(/\s+/)[0] || 'User';
-
-        const { data: profile, error: profileError } =
-          await supabaseClient
-            .from('profiles')
-            .select('display_name, mobile, state, is_admin')
-            .eq('id', user.id)
-            .maybeSingle();
+        const { data: profile, error: profileError } = await supabaseClient
+          .from('profiles')
+          .select('display_name, mobile, state, is_admin')
+          .eq('id', user.id)
+          .maybeSingle();
 
         if (profileError) {
           console.error('Profile load error:', profileError);
-          showError(
-            'Unable to load your profile. ' +
-            (profileError.message || 'Please check your Supabase policies.')
-          );
+          showError('Unable to load your profile. ' + (profileError.message || 'Please check your Supabase policies.'));
           return;
         }
 
@@ -494,7 +340,6 @@
           return;
         }
 
-        // Show Admin Panel only for an authenticated admin account.
         const adminLink = document.getElementById('adminLink');
         if (profile.is_admin === true) {
           adminLink.style.display = 'inline';
@@ -507,48 +352,29 @@
         document.getElementById('profileEmail').textContent = user.email || 'Not available';
         document.getElementById('profileMobile').textContent = profile.mobile;
         document.getElementById('profileState').textContent = profile.state;
-
         showProfile();
 
       } catch (err) {
         console.error('Dashboard error:', err);
-        showError(
-          err && err.message
-            ? err.message
-            : 'Unable to load your dashboard. Please refresh and try again.'
-        );
+        showError(err && err.message ? err.message : 'Unable to load your dashboard. Please refresh and try again.');
       }
     }
 
     async function handleLogout(event) {
       event.preventDefault();
-
       logoutLink.textContent = 'Logging out...';
       logoutLink.style.pointerEvents = 'none';
-
-      try {
-        await supabaseClient.auth.signOut({ scope: 'local' });
-      } catch (err) {
-        console.error('Supabase logout error:', err);
-      }
-
+      try { await supabaseClient.auth.signOut({ scope: 'local' }); } catch (err) { console.error('Supabase logout error:', err); }
       try {
         Object.keys(localStorage).forEach((key) => {
-          if (key.startsWith('sb-') && key.includes('-auth-token')) {
-            localStorage.removeItem(key);
-          }
+          if (key.startsWith('sb-') && key.includes('-auth-token')) { localStorage.removeItem(key); }
         });
-      } catch (err) {
-        console.error('Local storage cleanup error:', err);
-      }
-
+      } catch (err) { console.error('Local storage cleanup error:', err); }
       window.location.replace('./login.html');
     }
 
     logoutLink.addEventListener('click', handleLogout);
-
     document.addEventListener('DOMContentLoaded', loadProfile);
   </script>
-
 </body>
 </html>
