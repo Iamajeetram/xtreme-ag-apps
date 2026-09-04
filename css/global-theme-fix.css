@@ -1,0 +1,7 @@
+/* XAG global visual compatibility layer.
+   Keeps legacy pages on the same global theme variables. */
+:root {
+  --xag-page-bg: var(--black);
+  --xag-card-bg: var(--surface);
+  --xag-input-bg: var(--surface-2);
+}
