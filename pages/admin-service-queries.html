@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Service Queries | Xtreme AG Apps</title>
+<meta name="robots" content="noindex,nofollow">
+<script src="../js/theme-init.js"></script>
+<style>
+:root{--error:#DC3545;--success:#28A745}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--black);color:var(--white);font-family:'Segoe UI',Tahoma,sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}.container{width:min(1120px,92%);margin:auto}
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--black) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;color:var(--white)}
+.logo-mark{width:38px;height:38px;display:grid;place-items:center;border:2px solid var(--gold);border-radius:10px;color:var(--gold);background:var(--surface-2)}
+.logo span{color:var(--gold)}nav{display:flex;gap:20px;flex-wrap:wrap}nav a{color:var(--gray);font-size:14px}nav a:hover{color:var(--gold)}
+main{padding:55px 0 70px}.heading{text-align:center;margin-bottom:28px}.heading .badge{display:inline-block;padding:6px 12px;border:1px solid var(--gold);border-radius:999px;color:var(--gold);font-size:12px;font-weight:800;text-transform:uppercase;margin-bottom:12px}.heading h1{font-size:clamp(28px,5vw,44px);font-weight:900}.heading p{color:var(--gray);font-size:14px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}.toolbar input,.toolbar select{min-height:42px;padding:0 12px;border:1px solid var(--surface-2);border-radius:9px;background:var(--white);color:var(--black);outline:none}.toolbar input{flex:1;min-width:220px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 15px;border-radius:9px;border:1px solid var(--surface-2);background:var(--white);color:var(--gold);font-weight:700;font-size:13px;cursor:pointer}.btn.primary{background:var(--gold);border-color:var(--gold);color:var(--white)}
+.list{display:grid;gap:14px}.item{background:var(--white);border:1px solid var(--surface-2);border-radius:15px;padding:18px}.top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.title{font-size:17px;font-weight:850;color:var(--black)}.meta{color:var(--gray);font-size:12px;margin-top:4px}.detail{margin:13px 0;color:var(--black);white-space:pre-wrap;font-size:14px}.extra{color:var(--gray);font-size:12px;line-height:1.8}.badge-status{padding:4px 9px;border:1px solid var(--gold);border-radius:999px;color:var(--gold);font-size:10px;font-weight:800;height:max-content}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.empty{text-align:center;color:var(--gray);padding:30px}.error{padding:14px;border:1px solid rgba(220,53,69,.3);border-radius:10px;color:var(--error)}
+</style>
+<link rel="stylesheet" href="../css/theme-controls.css">
+<script src="../js/theme-controls.js"></script>
+</head>
+<body>
+<header><div class="container nav">
+<a href="../" class="logo"><div class="logo-mark">X</div><div>Xtreme <span>AG Apps</span></div></a>
+<nav><a href="./admin.html">Admin</a><a href="./dashboard.html">Dashboard</a><a href="../">Home</a><a href="#" id="logout">Logout</a></nav>
+</div></header>
+<main><div class="container">
+<div class="heading"><div class="badge">Administrator</div><h1>Service Queries</h1><p>Services page se aayi detailed user queries aur recommendations.</p></div>
+<div class="toolbar"><input id="search" type="search" placeholder="Search name, mobile, title, category…"><select id="status"><option value="">All Status</option><option value="new">New</option><option value="contacted">Contacted</option><option value="resolved">Resolved</option></select><button class="btn" id="refresh">↻ Refresh</button></div>
+<div id="list" class="list"><div class="empty">Checking admin access…</div></div>
+</div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://vbfjafblxnrfminbdlbb.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const list=document.getElementById('list'), search=document.getElementById('search'), status=document.getElementById('status');
+let rows=[];
+const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+function render(){
+ const term=search.value.trim().toLowerCase(), st=status.value;
+ const filtered=rows.filter(q=>{
+   const hay=[q.name,q.full_name,q.mobile,q.phone,q.email,q.query_title,q.title,q.category,q.recommendation_type,q.detailed_requirement,q.requirement].join(' ').toLowerCase();
+   return (!term||hay.includes(term))&&(!st||(q.status||'new')===st);
+ });
+ if(!filtered.length){list.innerHTML='<div class="empty">No service queries found.</div>';return;}
+ list.innerHTML=filtered.map(q=>{
+   const name=q.name||q.full_name||'Unknown user', title=q.query_title||q.title||'Service Query';
+   const mobile=q.mobile||q.phone||'', email=q.email||'—', cat=q.category||q.recommendation_type||'Other';
+   const detail=q.detailed_requirement||q.requirement||q.recommendation||'—';
+   const benefit=q.expected_benefit||q.benefit||'', ref=q.reference_example||q.reference||'';
+   const contact=q.contact_preference||q.preferred_contact||'', st=q.status||'new';
+   const date=q.created_at?new Date(q.created_at).toLocaleString('en-IN'):'—';
+   const digits=String(mobile).replace(/[^0-9]/g,'');
+   return `<article class="item"><div class="top"><div><div class="title">${esc(title)}</div><div class="meta">👤 ${esc(name)} · 📱 ${esc(mobile||'—')} · 📧 ${esc(email)}<br>📂 ${esc(cat)} · 📅 ${esc(date)}</div></div><span class="badge-status">${esc(st.toUpperCase())}</span></div><div class="detail">${esc(detail)}</div>${benefit?`<div class="extra"><b>Expected benefit:</b> ${esc(benefit)}</div>`:''}${ref?`<div class="extra"><b>Reference:</b> ${esc(ref)}</div>`:''}${contact?`<div class="extra"><b>Contact preference:</b> ${esc(contact)}</div>`:''}<div class="actions">${mobile?`<a class="btn primary" href="tel:${esc(mobile)}">📞 Call</a><a class="btn" target="_blank" rel="noopener" href="https://wa.me/${digits}">💬 WhatsApp</a>`:''}<button class="btn" data-id="${esc(q.id)}" data-st="contacted">Mark Contacted</button><button class="btn" data-id="${esc(q.id)}" data-st="resolved">Mark Resolved</button></div></article>`;
+ }).join('');
+ document.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>updateStatus(b.dataset.id,b.dataset.st));
+}
+async function load(){
+ list.innerHTML='<div class="empty">Loading queries…</div>';
+ const {data,error}=await sb.from('service_recommendations').select('*').order('created_at',{ascending:false});
+ if(error){console.error(error);list.innerHTML='<div class="error">Service queries load nahi ho pa rahi. Supabase table/RLS check karo.</div>';return;}
+ rows=data||[];render();
+}
+async function updateStatus(id,st){
+ const {error}=await sb.from('service_recommendations').update({status:st}).eq('id',id);
+ if(error){alert(error.message);return} await load();
+}
+async function init(){
+ const {data:{session}}=await sb.auth.getSession();
+ if(!session){location.replace('./login.html');return}
+ const {data:p,error}=await sb.from('profiles').select('is_admin').eq('id',session.user.id).maybeSingle();
+ if(error||!p?.is_admin){list.innerHTML='<div class="error">Access denied.</div>';return}
+ load();
+}
+search.oninput=render;status.onchange=render;document.getElementById('refresh').onclick=load;
+document.getElementById('logout').onclick=async e=>{e.preventDefault();await sb.auth.signOut({scope:'local'});location.replace('./login.html')};
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body></html>
