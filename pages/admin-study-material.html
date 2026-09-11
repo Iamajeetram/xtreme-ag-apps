@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notes / Study Material - Xtreme AG Apps</title>
+<style>
+:root{--bg:#FAF5EF;--surface:#FFFBF7;--primary:#D9531E;--text:#2C1A1D;--muted:#7A6666;--border:#E6D8CC;--ok:#16733b;--danger:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+.container{max-width:1100px;margin:auto;padding:20px}.nav{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.logo{font-weight:800;color:var(--primary);text-decoration:none;font-size:20px}.nav a{margin-left:16px;color:var(--text);text-decoration:none}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px;margin:18px 0;box-shadow:0 6px 20px rgba(44,26,29,.05)}
+h1{margin:25px 0 6px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.full{grid-column:1/-1}label{display:block;font-weight:700}input,textarea,select{width:100%;padding:11px;border:1px solid var(--border);border-radius:10px;margin-top:6px;background:#fff;color:var(--text)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:10px;padding:11px 16px;background:#eee;color:var(--text);cursor:pointer;text-decoration:none;display:inline-block}
+.primary{background:var(--primary);color:#fff}.danger{background:var(--danger);color:#fff}.success{background:#dff5e5;color:var(--ok)}
+.item{border-top:1px solid var(--border);padding:16px 0;display:flex;justify-content:space-between;gap:15px;align-items:flex-start}
+.badge{font-size:12px;padding:5px 9px;border-radius:999px;background:#eee;display:inline-block}.free{background:#dff5e5;color:var(--ok)}.paid{background:#fff0d8;color:#8a4b00}
+.note-meta{font-size:12px;color:var(--muted);margin-top:5px}.hint{font-size:12px;color:var(--muted);margin-top:6px}
+#msg{min-height:20px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.item{flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="container nav">
+<a class="logo" href="../admin.html">Xtreme AG Apps</a>
+<nav><a href="../admin.html">Admin</a><a href="../dashboard.html">Dashboard</a></nav>
+</div></header>
+
+<main class="container">
+<h1>📚 Notes / Study Material</h1>
+<p class="muted">Manage PDF notes as products. PDFs are hosted on Google Drive, not Supabase Storage.</p>
+
+<section class="card">
+<form id="form">
+<div class="grid">
+<label>Title *
+<input id="title" required placeholder="RAS History Complete Notes"></label>
+
+<label>Slug *
+<input id="slug" required placeholder="ras-history-complete-notes"></label>
+
+<label>Exam Name
+<input id="exam_name" placeholder="RAS"></label>
+
+<label>Category
+<input id="category" placeholder="History"></label>
+
+<label>Price (₹) *
+<input id="price" type="number" min="0" step="0.01" value="0" required></label>
+
+<label>Product Type
+<select id="is_free">
+<option value="true">Free Sample</option>
+<option value="false" selected>Paid Note</option>
+</select>
+</label>
+
+<label>Display Order
+<input id="display_order" type="number" value="0"></label>
+
+<label>Thumbnail URL
+<input id="thumbnail_url" placeholder="Optional image URL"></label>
+
+<label class="full">Description
+<textarea id="description" rows="3"></textarea></label>
+
+<label class="full">Google Drive PDF Sharing URL *
+<input id="drive_url" type="url" required placeholder="https://drive.google.com/file/d/.../view">
+<div class="hint">Set the PDF sharing permission appropriately. The Android app will only receive this URL for free notes or users with active access.</div>
+</label>
+
+<label><input id="published" type="checkbox" style="width:auto"> Published</label>
+</div>
+
+<div class="actions" style="margin-top:15px">
+<button class="btn primary" type="submit" id="submitBtn">Add Note</button>
+<button class="btn" type="button" id="cancelBtn" style="display:none">Cancel Edit</button>
+<a class="btn" href="../admin.html">Back</a>
+</div>
+<p id="msg" class="muted"></p>
+</form>
+</section>
+
+<section class="card">
+<h2>Existing Notes</h2>
+<p class="hint">Only one published note can be Free Sample. Paid notes must have a price greater than ₹0.</p>
+<div id="list" class="muted">Loading...</div>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=window.supabase.createClient(
+'https://vbfjafblxnrfminbdlbb.supabase.co',
+'sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9',
+{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}
+);
+
+const $=id=>document.getElementById(id);
+let editingId=null;
+
+function esc(v){
+ return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+
+async function admin(){
+ const {data:{session},error:se}=await sb.auth.getSession();
+ if(se||!session){location.href='./login.html';return false}
+ const {data:p,error}=await sb.from('profiles').select('is_admin').eq('id',session.user.id).maybeSingle();
+ if(error||!p?.is_admin){document.body.innerHTML='<div class="container"><h1>Access Denied</h1></div>';return false}
+ return true;
+}
+
+function resetForm(){
+ editingId=null;
+ $('form').reset();
+ $('price').value='0';
+ $('is_free').value='false';
+ $('published').checked=false;
+ $('submitBtn').textContent='Add Note';
+ $('cancelBtn').style.display='none';
+ $('msg').textContent='';
+}
+
+function fillForm(x){
+ editingId=x.id;
+ $('title').value=x.title||'';
+ $('slug').value=x.slug||'';
+ $('exam_name').value=x.exam_name||'';
+ $('category').value=x.category||'';
+ $('price').value=x.price??0;
+ $('is_free').value=String(!!x.is_free);
+ $('display_order').value=x.display_order??0;
+ $('thumbnail_url').value=x.thumbnail_url||'';
+ $('description').value=x.description||'';
+ $('drive_url').value=x.drive_url||'';
+ $('published').checked=!!x.is_published;
+ $('submitBtn').textContent='Update Note';
+ $('cancelBtn').style.display='inline-block';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+async function load(){
+ const {data,error}=await sb.from('notes').select('*').order('display_order',{ascending:true}).order('created_at',{ascending:false});
+ if(error){$('list').textContent=error.message;return}
+ if(!data?.length){$('list').textContent='No notes added yet.';return}
+
+ $('list').innerHTML=data.map(x=>{
+   const badge=x.is_free?'<span class="badge free">FREE SAMPLE</span>':'<span class="badge paid">PAID ₹'+Number(x.price||0).toFixed(2)+'</span>';
+   const pub=x.is_published?'<span class="badge success">Published</span>':'<span class="badge">Draft</span>';
+   return `<div class="item">
+     <div>
+       <b>${esc(x.title)}</b>
+       <div style="margin-top:7px">${badge} ${pub}</div>
+       <div class="note-meta">${esc([x.exam_name,x.category].filter(Boolean).join(' • '))}</div>
+       <div class="note-meta">Slug: ${esc(x.slug)}</div>
+     </div>
+     <div class="actions">
+       <a class="btn" href="${esc(x.drive_url||'#')}" target="_blank" rel="noopener">Open PDF</a>
+       <button class="btn" onclick='editNote(${JSON.stringify(x)})'>Edit</button>
+       <button class="btn danger" onclick="removeNote('${x.id}')">Delete</button>
+     </div>
+   </div>`;
+ }).join('');
+}
+
+window.editNote=fillForm;
+
+async function removeNote(id){
+ if(!confirm('Delete this note product? Existing access records may also be removed because note access references notes.'))return;
+ const {error}=await sb.from('notes').delete().eq('id',id);
+ if(error){alert(error.message);return}
+ if(editingId===id)resetForm();
+ load();
+}
+
+$('cancelBtn').addEventListener('click',resetForm);
+
+$('form').addEventListener('submit',async e=>{
+ e.preventDefault();
+ $('msg').textContent='Saving...';
+
+ const isFree=$('is_free').value==='true';
+ const price=Number($('price').value||0);
+ const drive=$('drive_url').value.trim();
+
+ if(isFree && price!==0){$('msg').textContent='Free Sample price must be ₹0.';return}
+ if(!isFree && price<=0){$('msg').textContent='Paid Note price must be greater than ₹0.';return}
+ if(!drive){$('msg').textContent='Google Drive PDF URL is required.';return}
+
+ const row={
+   title:$('title').value.trim(),
+   slug:$('slug').value.trim(),
+   description:$('description').value.trim()||null,
+   exam_name:$('exam_name').value.trim()||null,
+   category:$('category').value.trim()||null,
+   thumbnail_url:$('thumbnail_url').value.trim()||null,
+   price,
+   is_free:isFree,
+   is_published:$('published').checked,
+   display_order:Number($('display_order').value)||0,
+   drive_url:drive,
+   updated_at:new Date().toISOString()
+ };
+
+ let result;
+ if(editingId){
+   result=await sb.from('notes').update(row).eq('id',editingId);
+ }else{
+   result=await sb.from('notes').insert(row);
+ }
+
+ if(result.error){
+   $('msg').textContent=result.error.message;
+   return;
+ }
+
+ $('msg').textContent=editingId?'Updated successfully.':'Added successfully.';
+ resetForm();
+ load();
+});
+
+(async()=>{if(await admin())load()})();
+</script>
+</body>
+</html>
