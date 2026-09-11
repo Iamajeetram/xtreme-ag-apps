@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notes Management | Admin | Xtreme ExamX</title>
+<script src="../js/theme-init.js"></script><link rel="stylesheet" href="../css/theme-controls.css">
+<style>
+*{box-sizing:border-box}body{margin:0;background:var(--bg,#FAF5EF);color:var(--text,#2C1A1D);font-family:Inter,system-ui,sans-serif}
+.wrap{width:min(1100px,94%);margin:auto}header{position:sticky;top:0;z-index:5;background:var(--surface,#FFFBF7);border-bottom:1px solid var(--border)}
+.nav{min-height:68px;display:flex;justify-content:space-between;align-items:center;gap:15px}.nav a{color:inherit;text-decoration:none}
+main{padding:32px 0 70px}.card{background:var(--surface,#FFFBF7);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:18px}
+h1{margin:0 0 6px}.muted{color:var(--muted,#7A6666);font-size:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{font-size:12px;font-weight:800}input,select,textarea{width:100%;margin-top:6px;padding:11px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:inherit;font:inherit}textarea{min-height:90px;resize:vertical}.full{grid-column:1/-1}
+.check{display:flex;align-items:center;gap:8px;margin-top:25px}.check input{width:auto;margin:0}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+button,.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center}.primary{background:var(--primary,#D9531E);color:white}.secondary{background:var(--surface-2,#F7EBE1);color:inherit;border:1px solid var(--border)}.danger{background:#a63a3a;color:#fff}
+.msg{padding:11px 13px;border-radius:10px;margin-bottom:14px;display:none}.msg.ok{display:block;background:#e8f4e5;color:#316b31}.msg.err{display:block;background:#f8e4e4;color:#9b3030}
+.note-item{border-top:1px solid var(--border);padding:17px 0}.top{display:flex;justify-content:space-between;gap:12px}.title{font-weight:950;font-size:18px}.badges{display:flex;gap:6px;flex-wrap:wrap}.badge{padding:4px 8px;border:1px solid var(--border);border-radius:999px;font-size:9px;font-weight:900}.free{color:#287a45}.paid{color:#9b5b16}.live{color:#287a45}.meta{font-size:11px;color:var(--muted);margin-top:6px}.row-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.hidden{display:none}@media(max-width:700px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.top{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><a href="./admin.html"><strong>← Xtreme AG Apps Admin</strong></a><a href="./admin-payments.html">Payments</a></div></header>
+<main class="wrap">
+<h1>Notes Management</h1><p class="muted">Add Notes as products. PDFs stay on Google Drive. The first published free sample is free, every other Note is paid.</p>
+<div id="msg" class="msg"></div>
+<section id="app" class="hidden">
+<div class="card">
+<h2 id="formTitle">Add Note</h2>
+<form id="form"><input type="hidden" id="noteId">
+<div class="grid">
+<label>Title *<input id="title" maxlength="200" required></label>
+<label>Slug *<input id="slug" maxlength="200" required></label>
+<label>Exam Name<input id="exam"></label>
+<label>Category<input id="category"></label>
+<label>Price (₹) *<input id="price" type="number" min="0" step="0.01" value="0" required></label>
+<label>Display Order<input id="displayOrder" type="number" min="0" step="1" value="0"></label>
+<label>Thumbnail URL<input id="thumbnail" type="url" placeholder="https://..."></label>
+<label>Google Drive PDF Sharing URL *<input id="drive" type="url" placeholder="https://drive.google.com/..." required></label>
+<label class="full">Description<textarea id="description"></textarea></label>
+<label class="check"><input id="isFree" type="checkbox"> Free Sample</label>
+<label class="check"><input id="published" type="checkbox"> Published</label>
+</div>
+<p class="muted">Free Sample must have price ₹0. Paid Notes must have a price above ₹0. Only one published Note can be free.</p>
+<div class="actions"><button class="primary" id="save" type="submit">Save Note</button><button class="secondary" id="cancel" type="button">Cancel / New</button></div>
+</form>
+</div>
+<div class="card"><div class="top"><h2>All Notes</h2><button class="secondary" id="refresh" type="button">Refresh</button></div><div id="list" class="muted">Loading...</div></div>
+</section>
+<div id="denied" class="card hidden">Admin access required.</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb=window.supabase.createClient('https://vbfjafblxnrfminbdlbb.supabase.co','sb_publishable_B1zX6LJONSD6icwsbHVmYg_z8qpprk9',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const $=id=>document.getElementById(id), esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+function msg(text,ok=true){$('msg').textContent=text;$('msg').className='msg '+(ok?'ok':'err')}
+function slugify(s){return String(s||'').toLowerCase().trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'')}
+function reset(){ $('noteId').value='';$('formTitle').textContent='Add Note';$('form').reset();$('price').value='0';$('displayOrder').value='0';}
+function fill(n){$('noteId').value=n.id;$('formTitle').textContent='Edit / Rename Note';$('title').value=n.title||'';$('slug').value=n.slug||'';$('exam').value=n.exam_name||'';$('category').value=n.category||'';$('price').value=n.price??0;$('displayOrder').value=n.display_order??0;$('thumbnail').value=n.thumbnail_url||'';$('drive').value=n.drive_url||'';$('description').value=n.description||'';$('isFree').checked=!!n.is_free;$('published').checked=!!n.is_published;window.scrollTo({top:0,behavior:'smooth'})}
+async function load(){
+ const {data,error}=await sb.from('notes').select('id,title,slug,description,exam_name,category,thumbnail_url,price,is_free,is_published,display_order,drive_url,created_at,updated_at').order('display_order',{ascending:true}).order('created_at',{ascending:true});
+ if(error){$('list').textContent=error.message;return}
+ $('list').innerHTML=data?.length?data.map(n=>`<article class="note-item"><div class="top"><div><div class="title">${esc(n.title)}</div><div class="meta">${esc(n.exam_name||'')} ${n.category?'• '+esc(n.category):''}</div></div><div class="badges"><span class="badge ${n.is_free?'free':'paid'}">${n.is_free?'FREE SAMPLE':'PAID ₹'+Number(n.price||0).toFixed(0)}</span><span class="badge ${n.is_published?'live':''}">${n.is_published?'PUBLISHED':'DRAFT'}</span></div></div><div class="meta">${esc(n.description||'')}<br>Drive PDF configured: ${n.drive_url?'YES':'NO'} • Order: ${n.display_order}</div><div class="row-actions"><button class="secondary" onclick="editNote('${n.id}')">Edit / Rename</button><button class="secondary" onclick="togglePublish('${n.id}',${!!n.is_published})">${n.is_published?'Unpublish':'Publish'}</button><button class="danger" onclick="deleteNote('${n.id}',${JSON.stringify(n.title).replace(/</g,'\\u003c')})">Delete</button></div></article>`).join(''):'<div class="muted">No Notes yet.</div>';
+ window.notes=data||[];
+}
+async function editNote(id){const n=(window.notes||[]).find(x=>x.id===id);if(n)fill(n)}
+async function togglePublish(id,current){const {error}=await sb.from('notes').update({is_published:!current,updated_at:new Date().toISOString()}).eq('id',id);if(error){msg(error.message,false);return}msg(!current?'Note published.':'Note unpublished.');load()}
+async function deleteNote(id,title){if(!confirm('Delete “'+title+'”?'))return;const {error}=await sb.from('notes').delete().eq('id',id);if(error){msg(error.message,false);return}msg('Note deleted.');reset();load()}
+$('title').addEventListener('input',()=>{if(!$('noteId').value&&!$('slug').dataset.edited)$('slug').value=slugify($('title').value)})
+$('slug').addEventListener('input',()=>{$('slug').dataset.edited='1'})
+$('form').addEventListener('submit',async e=>{e.preventDefault();const id=$('noteId').value.trim(),title=$('title').value.trim(),slug=$('slug').value.trim(),price=Number($('price').value),free=$('isFree').checked,drive=$('drive').value.trim();if(!title||!slug||!drive){msg('Title, slug and Google Drive PDF URL are required.',false);return}if(free&&price!==0){msg('Free Sample must have price ₹0.',false);return}if(!free&&!(price>0)){msg('Paid Note must have price above ₹0.',false);return}if(!/^https?:\\/\\/(drive\\.google\\.com|docs\\.google\\.com)\\//i.test(drive)){msg('Use a Google Drive sharing URL.',false);return}
+ const payload={title,slug,description:$('description').value.trim()||null,exam_name:$('exam').value.trim()||null,category:$('category').value.trim()||null,thumbnail_url:$('thumbnail').value.trim()||null,price,is_free:free,is_published:$('published').checked,display_order:Number($('displayOrder').value)||0,drive_url:drive,updated_at:new Date().toISOString()};
+ const {error}=id?await sb.from('notes').update(payload).eq('id',id):await sb.from('notes').insert(payload);if(error){msg(error.message,false);return}msg(id?'Note updated / renamed.':'Note created.');reset();load()})
+$('cancel').onclick=reset;$('refresh').onclick=load;
+async function init(){const {data:{session}}=await sb.auth.getSession();if(!session){location.replace('login.html');return}const {data:p,error}=await sb.from('profiles').select('is_admin').eq('id',session.user.id).maybeSingle();if(error||p?.is_admin!==true){$('denied').classList.remove('hidden');return}$('app').classList.remove('hidden');load()}
+init();
+</script>
+</body></html>
