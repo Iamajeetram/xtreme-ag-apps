@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS public.owner_credentials (
 
 -- Owner ID supplied by the owner. Password is represented only by a bcrypt hash.
 INSERT INTO public.owner_credentials(username,password_hash,is_active)
-VALUES ('787886908432', '$2y$12$9QeO4UY2IJ3to89MIoJPr.FxiFcGNzkGbSFO/hrTBNaHUtW7e/pL.', true)
+VALUES ('787886908432', '$2y$12$x16SH2sZz/YTDiLwJ4sc/efokzZsPVqkB3YqAaM6h7LyymL1DXodq', true)
 ON CONFLICT (username) DO UPDATE SET password_hash=EXCLUDED.password_hash,is_active=true,updated_at=now();
 
 CREATE TABLE IF NOT EXISTS public.owner_sessions (
