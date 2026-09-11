@@ -158,6 +158,7 @@ async function load(){
      </div>
      <div class="actions">
        <a class="btn" href="${esc(x.drive_url||'#')}" target="_blank" rel="noopener">Open PDF</a>
+       <button class="btn" onclick='renameNote(${JSON.stringify(x.id)}, ${JSON.stringify(x.title||'')})'>Rename</button>
        <button class="btn" onclick='editNote(${JSON.stringify(x)})'>Edit</button>
        <button class="btn danger" onclick="removeNote('${x.id}')">Delete</button>
      </div>
@@ -166,6 +167,17 @@ async function load(){
 }
 
 window.editNote=fillForm;
+
+async function renameNote(id,currentTitle){
+ const next=prompt('Enter new Note title:', currentTitle||'');
+ if(next===null)return;
+ const title=next.trim();
+ if(!title){alert('Title cannot be empty.');return}
+ const {error}=await sb.from('notes').update({title,updated_at:new Date().toISOString()}).eq('id',id);
+ if(error){alert(error.message);return}
+ load();
+}
+window.renameNote=renameNote;
 
 async function removeNote(id){
  if(!confirm('Delete this note product? Existing access records may also be removed because note access references notes.'))return;
